@@ -1,11 +1,22 @@
 import React from 'react';
-import {ActivityIndicator, Pressable, StyleSheet, Text} from 'react-native';
+import {
+  ActivityIndicator,
+  Pressable,
+  StyleProp,
+  StyleSheet,
+  Text,
+  TextStyle,
+  ViewStyle,
+} from 'react-native';
+import {fonts} from '../theme/fonts';
 
 interface CustomButtonProps {
   title: string;
   onPress: () => void;
   loading?: boolean;
   disabled?: boolean;
+  buttonStyle?: StyleProp<ViewStyle>;
+  textStyle?: StyleProp<TextStyle>;
 }
 
 function CustomButton({
@@ -13,6 +24,8 @@ function CustomButton({
   onPress,
   loading = false,
   disabled = false,
+  buttonStyle,
+  textStyle,
 }: CustomButtonProps): React.JSX.Element {
   const isDisabled = loading || disabled;
 
@@ -20,6 +33,7 @@ function CustomButton({
     <Pressable
       style={({pressed}) => [
         styles.button,
+        buttonStyle,
         isDisabled ? styles.buttonDisabled : null,
         pressed && !isDisabled ? styles.buttonPressed : null,
       ]}
@@ -28,7 +42,7 @@ function CustomButton({
       {loading ? (
         <ActivityIndicator color="#FFFFFF" />
       ) : (
-        <Text style={styles.buttonText}>{title}</Text>
+        <Text style={[styles.buttonText, textStyle]}>{title}</Text>
       )}
     </Pressable>
   );
@@ -38,31 +52,31 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#2563EB',
-    borderRadius: 16,
-    minHeight: 54,
+    backgroundColor: '#2F6494',
+    borderRadius: 14,
+    minHeight: 56,
     paddingHorizontal: 20,
-    shadowColor: '#2563EB',
+    shadowColor: '#2F6494',
     shadowOffset: {
       width: 0,
-      height: 10,
+      height: 8,
     },
-    shadowOpacity: 0.18,
-    shadowRadius: 16,
+    shadowOpacity: 0.14,
+    shadowRadius: 12,
     elevation: 4,
   },
   buttonDisabled: {
-    backgroundColor: '#93C5FD',
+    backgroundColor: '#90ACC8',
     shadowOpacity: 0,
     elevation: 0,
   },
   buttonPressed: {
-    opacity: 0.92,
+    opacity: 0.9,
   },
   buttonText: {
     color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: '700',
+    fontSize: 17,
+    fontFamily: fonts.semiBold,
   },
 });
 

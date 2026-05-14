@@ -7,6 +7,7 @@ import {useAuth} from '../context/AuthContext';
 import HomeScreen from '../screens/HomeScreen';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
+import {fonts} from '../theme/fonts';
 import type {RootStackParamList} from '../types/authTypes';
 
 enableScreens();
@@ -39,7 +40,7 @@ function AppNavigator(): React.JSX.Element {
           },
           headerTintColor: '#0F172A',
           headerTitleStyle: {
-            fontWeight: '700',
+            fontFamily: fonts.bold,
           },
           contentStyle: {
             backgroundColor: '#F3F7FF',
@@ -50,8 +51,7 @@ function AppNavigator(): React.JSX.Element {
             name="Home"
             component={HomeScreen}
             options={{
-              title: 'Log4Life',
-              headerBackVisible: false,
+              headerShown: false,
             }}
           />
         ) : (

@@ -2,7 +2,11 @@ export interface User {
   id: string;
   name: string;
   email: string;
-  phoneNumber?: string;
+  phoneNumber: string | null;
+  profileImage: string | null;
+  fcmToken: string | null;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface LoginPayload {
@@ -17,12 +21,31 @@ export interface RegisterPayload {
   phoneNumber?: string;
 }
 
+export interface ApiFieldError {
+  field: string;
+  message: string;
+}
+
+export interface ApiErrorResponse {
+  success: false;
+  message: string;
+  errors: ApiFieldError[];
+}
+
 export interface AuthApiResponse {
   success: boolean;
   message: string;
   data: {
     user: User;
     token: string;
+  };
+}
+
+export interface UserApiResponse {
+  success: boolean;
+  message: string;
+  data: {
+    user: User;
   };
 }
 
@@ -39,5 +62,6 @@ export interface AuthContextValue {
   login: (payload: LoginPayload) => Promise<void>;
   register: (payload: RegisterPayload) => Promise<void>;
   logout: () => Promise<void>;
-  loadStoredAuth: () => Promise<void>;
+  refreshProfile: () => Promise<void>;
+  updateFcmToken: (fcmToken: string) => Promise<void>;
 }

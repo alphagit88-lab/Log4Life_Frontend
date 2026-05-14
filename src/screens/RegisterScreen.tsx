@@ -7,39 +7,53 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  useWindowDimensions,
   View,
 } from 'react-native';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 import CustomButton from '../components/CustomButton';
 import CustomInput from '../components/CustomInput';
 import {useAuth} from '../context/AuthContext';
+import {fonts} from '../theme/fonts';
+import ContainerIcon from '../images/Container.svg';
 import type {RootStackParamList} from '../types/authTypes';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Register'>;
 
 function RegisterScreen({navigation}: Props): React.JSX.Element {
+  const {height, width} = useWindowDimensions();
   const {register} = useAuth();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isConfirmPasswordVisible] = useState(false);
   const [nameError, setNameError] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [confirmPasswordError, setConfirmPasswordError] = useState('');
+  const [termsError, setTermsError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const isCompactScreen = height < 760;
+  const cardWidth = Math.min(width - 32, 390);
+  const passwordToggleIcon = <ContainerIcon width={22} height={24} />;
 
   const handleRegister = async () => {
     const trimmedName = name.trim();
     const trimmedEmail = email.trim().toLowerCase();
-    const trimmedPhoneNumber = phoneNumber.trim();
     let hasError = false;
 
     setNameError('');
     setEmailError('');
     setPasswordError('');
+    setConfirmPasswordError('');
+    setTermsError('');
 
     if (!trimmedName) {
-      setNameError('Name is required.');
+      setNameError('Full name is required.');
       hasError = true;
     }
 
@@ -56,6 +70,19 @@ function RegisterScreen({navigation}: Props): React.JSX.Element {
       hasError = true;
     }
 
+    if (!confirmPassword) {
+      setConfirmPasswordError('Confirm your password.');
+      hasError = true;
+    } else if (password !== confirmPassword) {
+      setConfirmPasswordError('Passwords do not match.');
+      hasError = true;
+    }
+
+    if (!acceptedTerms) {
+      setTermsError('You need to accept the terms to continue.');
+      hasError = true;
+    }
+
     if (hasError) {
       return;
     }
@@ -66,7 +93,6 @@ function RegisterScreen({navigation}: Props): React.JSX.Element {
         name: trimmedName,
         email: trimmedEmail,
         password,
-        phoneNumber: trimmedPhoneNumber || undefined,
       });
     } catch (error) {
       const message =
@@ -81,52 +107,46 @@ function RegisterScreen({navigation}: Props): React.JSX.Element {
 
   return (
     <KeyboardAvoidingView
-      style={styles.flex}
+      style={styles.screen}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       <ScrollView
-        contentContainerStyle={styles.scrollContent}
+        contentContainerStyle={[
+          styles.scrollContent,
+          isCompactScreen ? styles.scrollContentCompact : null,
+        ]}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}>
-        <View style={styles.backgroundOrbPrimary} />
-        <View style={styles.backgroundOrbSecondary} />
-
-        <View style={styles.heroSection}>
+        <View style={[styles.card, {width: cardWidth}]}>
           <Text style={styles.brand}>Log4Life</Text>
-          <Text style={styles.subtitle}>
-            Create your account to start storing daily moments and reminders.
-          </Text>
-        </View>
-
-        <View style={styles.card}>
-          <Text style={styles.cardTitle}>Create account</Text>
-          <Text style={styles.cardDescription}>
-            Register once, and your authentication will stay saved on the device.
-          </Text>
+          <Text style={styles.subtitle}>Create your secure vault today</Text>
 
           <CustomInput
-            label="Name"
-            placeholder="Enter your name"
+            label="Full name"
+            placeholder="John Doe"
             value={name}
             onChangeText={setName}
+            autoCapitalize="words"
+            autoComplete="name"
+            textContentType="name"
+            returnKeyType="next"
             error={nameError}
+            labelStyle={styles.fieldLabel}
+            inputContainerStyle={styles.inputContainer}
           />
 
           <CustomInput
             label="Email"
-            placeholder="Enter your email"
+            placeholder="name@company.com"
             value={email}
             onChangeText={setEmail}
             keyboardType="email-address"
             autoCapitalize="none"
+            autoComplete="email"
+            textContentType="emailAddress"
+            returnKeyType="next"
             error={emailError}
-          />
-
-          <CustomInput
-            label="Phone Number (Optional)"
-            placeholder="Enter your phone number"
-            value={phoneNumber}
-            onChangeText={setPhoneNumber}
-            keyboardType="phone-pad"
+            labelStyle={styles.fieldLabel}
+            inputContainerStyle={styles.inputContainer}
           />
 
           <CustomInput
@@ -134,21 +154,64 @@ function RegisterScreen({navigation}: Props): React.JSX.Element {
             placeholder="Create a password"
             value={password}
             onChangeText={setPassword}
-            secureTextEntry
+            secureTextEntry={!isPasswordVisible}
             autoCapitalize="none"
+            autoComplete="password"
+            textContentType="newPassword"
+            rightActionLabel="toggle password visibility"
+            onPressRightAction={() => setIsPasswordVisible(current => !current)}
+            rightActionContent={passwordToggleIcon}
+            returnKeyType="next"
             error={passwordError}
+            labelStyle={styles.fieldLabel}
+            inputContainerStyle={styles.inputContainer}
+            rightActionButtonStyle={styles.passwordIconButton}
           />
+
+          <CustomInput
+            label="Confirm password"
+            placeholder="Repeat your password"
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
+            secureTextEntry={!isConfirmPasswordVisible}
+            autoCapitalize="none"
+            autoComplete="password"
+            textContentType="password"
+            error={confirmPasswordError}
+            labelStyle={styles.fieldLabel}
+            inputContainerStyle={styles.inputContainer}
+          />
+
+          <Pressable
+            style={styles.termsRow}
+            onPress={() => {
+              setAcceptedTerms(current => !current);
+              setTermsError('');
+            }}>
+            <View style={[styles.checkbox, acceptedTerms ? styles.checkboxChecked : null]}>
+              {acceptedTerms ? <View style={styles.checkboxInner} /> : null}
+            </View>
+
+            <Text style={styles.termsText}>
+              I agree to the <Text style={styles.termsLink}>Terms of Service</Text>{' '}
+              and <Text style={styles.termsLink}>Privacy Policy</Text>.
+            </Text>
+          </Pressable>
+
+          {termsError ? <Text style={styles.termsError}>{termsError}</Text> : null}
 
           <CustomButton
             title="Create Account"
             onPress={handleRegister}
             loading={isSubmitting}
+            buttonStyle={styles.createAccountButton}
+            textStyle={styles.createAccountButtonText}
           />
 
           <View style={styles.footerRow}>
-            <Text style={styles.footerText}>Already have an account?</Text>
+            <Text style={styles.footerText}>Already have an account? </Text>
             <Pressable onPress={() => navigation.navigate('Login')}>
-              <Text style={styles.footerLink}>Sign in</Text>
+              <Text style={styles.footerLink}>Sign In</Text>
             </Pressable>
           </View>
         </View>
@@ -158,89 +221,151 @@ function RegisterScreen({navigation}: Props): React.JSX.Element {
 }
 
 const styles = StyleSheet.create({
-  flex: {
+  screen: {
     flex: 1,
-    backgroundColor: '#F3F7FF',
+    backgroundColor: '#F8FAFC',
   },
   scrollContent: {
     flexGrow: 1,
     justifyContent: 'center',
-    paddingHorizontal: 24,
+    paddingHorizontal: 16,
     paddingVertical: 32,
   },
-  backgroundOrbPrimary: {
-    position: 'absolute',
-    top: -40,
-    right: -40,
-    width: 180,
-    height: 180,
-    borderRadius: 90,
-    backgroundColor: '#DBEAFE',
-  },
-  backgroundOrbSecondary: {
-    position: 'absolute',
-    top: 210,
-    left: -50,
-    width: 110,
-    height: 110,
-    borderRadius: 55,
-    backgroundColor: '#BFDBFE',
-  },
-  heroSection: {
-    marginBottom: 24,
-  },
-  brand: {
-    color: '#0F172A',
-    fontSize: 34,
-    fontWeight: '800',
-    letterSpacing: 0.3,
-  },
-  subtitle: {
-    marginTop: 8,
-    color: '#475569',
-    fontSize: 16,
-    lineHeight: 22,
+  scrollContentCompact: {
+    justifyContent: 'flex-start',
+    paddingTop: 24,
+    paddingBottom: 24,
   },
   card: {
-    borderRadius: 28,
+    alignSelf: 'center',
+    borderRadius: 24,
     backgroundColor: '#FFFFFF',
-    padding: 24,
-    shadowColor: '#0F172A',
+    paddingHorizontal: 24,
+    paddingVertical: 28,
+    shadowColor: '#1F3550',
     shadowOffset: {
       width: 0,
-      height: 12,
+      height: 10,
     },
     shadowOpacity: 0.08,
-    shadowRadius: 24,
-    elevation: 4,
+    shadowRadius: 22,
+    elevation: 5,
   },
-  cardTitle: {
-    color: '#0F172A',
-    fontSize: 24,
-    fontWeight: '700',
+  brand: {
+    color: '#094771',
+    fontSize: 28,
+    fontFamily: fonts.bold,
+    lineHeight: 36,
+    letterSpacing: -0.56,
+    textAlign: 'center',
   },
-  cardDescription: {
-    marginTop: 8,
-    marginBottom: 24,
-    color: '#64748B',
+  subtitle: {
+    marginTop: 10,
+    marginBottom: 28,
+    color: '#42474E',
     fontSize: 15,
+    fontFamily: fonts.regular,
     lineHeight: 22,
+    textAlign: 'center',
+  },
+  fieldLabel: {
+    color: '#42474E',
+    fontSize: 13,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+  },
+  inputContainer: {
+    borderRadius: 8,
+  },
+  passwordIconButton: {
+    marginLeft: 10,
+    paddingVertical: 0,
+    paddingHorizontal: 0,
+  },
+  termsRow: {
+    marginTop: 4,
+    marginBottom: 8,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+  },
+  checkbox: {
+    width: 22,
+    height: 22,
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: '#D5DCE5',
+    backgroundColor: '#FFFFFF',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 1,
+    marginRight: 10,
+  },
+  checkboxChecked: {
+    borderColor: '#2C5F8A',
+    backgroundColor: '#2C5F8A',
+  },
+  checkboxInner: {
+    width: 12,
+    height: 12,
+    borderRadius: 3,
+    backgroundColor: '#2C5F8A',
+  },
+  termsText: {
+    flex: 1,
+    color: '#42474E',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+  },
+  termsLink: {
+    color: '#094771',
+    fontSize: 12,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+  },
+  termsError: {
+    marginBottom: 14,
+    color: '#D14343',
+    fontSize: 13,
+    fontFamily: fonts.regular,
+  },
+  createAccountButton: {
+    width: 292,
+    minHeight: 48,
+    alignSelf: 'center',
+    borderRadius: 8,
+    backgroundColor: '#2C5F8A',
+    paddingHorizontal: 16,
+    paddingVertical: 0,
+    shadowOpacity: 0,
+    shadowRadius: 0,
+    elevation: 0,
+  },
+  createAccountButtonText: {
+    fontSize: 18,
+    fontFamily: fonts.semiBold,
+    lineHeight: 24,
   },
   footerRow: {
+    marginTop: 26,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 22,
+    flexWrap: 'wrap',
   },
   footerText: {
-    color: '#64748B',
-    fontSize: 14,
+    color: '#42474E',
+    fontSize: 15,
+    fontFamily: fonts.regular,
+    lineHeight: 22,
   },
   footerLink: {
-    marginLeft: 6,
-    color: '#2563EB',
-    fontSize: 14,
-    fontWeight: '700',
+    color: '#094771',
+    fontSize: 15,
+    fontFamily: fonts.regular,
+    lineHeight: 22,
   },
 });
 

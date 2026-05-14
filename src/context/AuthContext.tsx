@@ -1,8 +1,20 @@
-import React, {createContext, useContext, useEffect, useState} from 'react';
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-import apiClient from '../api/apiClient';
+import {
+  fetchCurrentUser,
+  loginRequest,
+  registerRequest,
+  updateFcmTokenRequest,
+} from '../api/authApi';
 import type {
+  ApiErrorResponse,
   AuthApiResponse,
   AuthContextValue,
   LoginPayload,
@@ -28,10 +40,15 @@ async function getStoredAuth(): Promise<{token: string | null; user: User | null
 
 function getApiErrorMessage(error: unknown): string {
   if (axios.isAxiosError(error)) {
-    const serverMessage = (error.response?.data as {message?: string} | undefined)
-      ?.message;
+    const responseData = error.response?.data as ApiErrorResponse | undefined;
+    const validationMessage = responseData?.errors?.[0]?.message;
 
-    return serverMessage ?? error.message ?? 'Something went wrong. Please try again.';
+    return (
+      validationMessage ??
+      responseData?.message ??
+      error.message ??
+      'Something went wrong. Please try again.'
+    );
   }
 
   if (error instanceof Error) {
@@ -39,6 +56,10 @@ function getApiErrorMessage(error: unknown): string {
   }
 
   return 'Something went wrong. Please try again.';
+}
+
+function isUnauthorizedError(error: unknown): boolean {
+  return axios.isAxiosError(error) && error.response?.status === 401;
 }
 
 export function AuthProvider({
@@ -50,6 +71,26 @@ export function AuthProvider({
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  const storeUser = useCallback(async (nextUser: User) => {
+    await AsyncStorage.setItem(AUTH_USER_KEY, JSON.stringify(nextUser));
+    setUser(nextUser);
+  }, []);
+
+  const syncCurrentUser = useCallback(async (sessionToken: string) => {
+    const response = await fetchCurrentUser();
+    await storeUser(response.data.user);
+    setToken(sessionToken);
+  }, [storeUser]);
+
+  const clearAuth = useCallback(async () => {
+    try {
+      await AsyncStorage.multiRemove([AUTH_TOKEN_KEY, AUTH_USER_KEY]);
+    } finally {
+      setUser(null);
+      setToken(null);
+    }
+  }, []);
+
   useEffect(() => {
     const bootstrapAuth = async () => {
       try {
@@ -58,18 +99,27 @@ export function AuthProvider({
         if (storedAuth.token && storedAuth.user) {
           setToken(storedAuth.token);
           setUser(storedAuth.user);
+
+          try {
+            await syncCurrentUser(storedAuth.token);
+          } catch (error) {
+            console.warn('Unable to sync stored auth session.', error);
+
+            if (isUnauthorizedError(error)) {
+              await clearAuth();
+            }
+          }
         }
       } catch (error) {
         console.warn('Unable to load stored auth data.', error);
-        setToken(null);
-        setUser(null);
+        await clearAuth();
       } finally {
         setIsLoading(false);
       }
     };
 
     bootstrapAuth();
-  }, []);
+  }, [clearAuth, syncCurrentUser]);
 
   const persistAuth = async (nextUser: User, nextToken: string) => {
     await AsyncStorage.multiSet([
@@ -81,44 +131,13 @@ export function AuthProvider({
     setToken(nextToken);
   };
 
-  const clearAuth = async () => {
-    try {
-      await AsyncStorage.multiRemove([AUTH_TOKEN_KEY, AUTH_USER_KEY]);
-    } finally {
-      setUser(null);
-      setToken(null);
-    }
-  };
-
-  const loadStoredAuth = async () => {
-    try {
-      setIsLoading(true);
-
-      const storedAuth = await getStoredAuth();
-
-      if (storedAuth.token && storedAuth.user) {
-        setToken(storedAuth.token);
-        setUser(storedAuth.user);
-        return;
-      }
-
-      setToken(null);
-      setUser(null);
-    } catch (error) {
-      console.warn('Unable to refresh stored auth data.', error);
-      await clearAuth();
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   const login = async (payload: LoginPayload) => {
     try {
-      const response = await apiClient.post<AuthApiResponse>('/auth/login', payload);
-      const authData = response.data.data;
+      const response: AuthApiResponse = await loginRequest(payload);
+      const authData = response.data;
 
       if (!authData?.user || !authData?.token) {
-        throw new Error(response.data.message || 'Login failed.');
+        throw new Error(response.message || 'Login failed.');
       }
 
       await persistAuth(authData.user, authData.token);
@@ -129,18 +148,52 @@ export function AuthProvider({
 
   const register = async (payload: RegisterPayload) => {
     try {
-      const response = await apiClient.post<AuthApiResponse>(
-        '/auth/register',
-        payload,
-      );
-      const authData = response.data.data;
+      const response: AuthApiResponse = await registerRequest(payload);
+      const authData = response.data;
 
       if (!authData?.user || !authData?.token) {
-        throw new Error(response.data.message || 'Registration failed.');
+        throw new Error(response.message || 'Registration failed.');
       }
 
       await persistAuth(authData.user, authData.token);
     } catch (error) {
+      throw new Error(getApiErrorMessage(error));
+    }
+  };
+
+  const refreshProfile = async () => {
+    const activeToken = token ?? (await AsyncStorage.getItem(AUTH_TOKEN_KEY));
+
+    if (!activeToken) {
+      throw new Error('No active session found.');
+    }
+
+    try {
+      await syncCurrentUser(activeToken);
+    } catch (error) {
+      if (isUnauthorizedError(error)) {
+        await clearAuth();
+      }
+
+      throw new Error(getApiErrorMessage(error));
+    }
+  };
+
+  const updateFcmToken = async (fcmToken: string) => {
+    const trimmedToken = fcmToken.trim();
+
+    if (!trimmedToken) {
+      throw new Error('FCM token is required.');
+    }
+
+    try {
+      const response = await updateFcmTokenRequest(trimmedToken);
+      await storeUser(response.data.user);
+    } catch (error) {
+      if (isUnauthorizedError(error)) {
+        await clearAuth();
+      }
+
       throw new Error(getApiErrorMessage(error));
     }
   };
@@ -158,7 +211,8 @@ export function AuthProvider({
         login,
         register,
         logout,
-        loadStoredAuth,
+        refreshProfile,
+        updateFcmToken,
       }}>
       {children}
     </AuthContext.Provider>
