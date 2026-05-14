@@ -5,6 +5,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   useWindowDimensions,
   View,
 } from 'react-native';
@@ -23,6 +24,7 @@ import CollectionSvg from '../images/collection.svg';
 import DateSvg from '../images/date.svg';
 import DatesSvg from '../images/dates.svg';
 import DefenceSvg from '../images/defence.svg';
+import DocSvg from '../images/doc.svg';
 import DotSvg from '../images/dot.svg';
 import EditSvg from '../images/edit.svg';
 import EncryptedSvg from '../images/encrypted.svg';
@@ -40,6 +42,7 @@ import LocationSvg from '../images/location.svg';
 import MaintainceSvg from '../images/maintaince.svg';
 import NotificationSvg from '../images/notification.svg';
 import NotificationDefaultSvg from '../images/notification_def.svg';
+import NotesSvg from '../images/notes.svg';
 import PersonalSvg from '../images/personal.svg';
 import PetsSvg from '../images/pets.svg';
 import PhotoSvg from '../images/photo.svg';
@@ -48,6 +51,7 @@ import PlannerSvg from '../images/planner.svg';
 import PlusSvg from '../images/plus.svg';
 import ProfileSvg from '../images/profile.svg';
 import ProfileCardSvg from '../images/profile_1.svg';
+import ProfileCardPrimarySvg from '../images/profile_1_primary.svg';
 import RecurringSvg from '../images/recurring.svg';
 import RecordsSvg from '../images/records.svg';
 import RecordsNonSvg from '../images/records_non.svg';
@@ -58,13 +62,17 @@ import SavingsSvg from '../images/savings.svg';
 import SearchGraySvg from '../images/search_gray.svg';
 import SearchSvg from '../images/search.svg';
 import StatementSvg from '../images/statement.svg';
+import TrashSvg from '../images/trash.svg';
+import TrashCompactSvg from '../images/trash_2.svg';
+import UploadSvg from '../images/upload.svg';
+import UploadDocumentSvg from '../images/upload_2.svg';
 import VehicleSvg from '../images/vehicle.svg';
 import WarningSvg from '../images/warning.svg';
 import WalletSvg from '../images/wallert.svg';
 import {fonts} from '../theme/fonts';
 
 type BottomTabKey = 'home' | 'records' | 'reminders' | 'planner' | 'profile';
-type RecordsView = 'browser' | 'personal-identity';
+type RecordsView = 'browser' | 'personal-identity' | 'personal-identity-add';
 
 interface StatCardData {
   title: string;
@@ -329,6 +337,17 @@ function HomeScreen(): React.JSX.Element {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [activeTab, setActiveTab] = useState<BottomTabKey>('home');
   const [recordsView, setRecordsView] = useState<RecordsView>('browser');
+  const [identityDraftFullName, setIdentityDraftFullName] = useState(
+    () => user?.name?.trim() || 'Sarah Johnson',
+  );
+  const [identityDraftDateOfBirth, setIdentityDraftDateOfBirth] = useState('');
+  const [identityDraftNiNumber, setIdentityDraftNiNumber] =
+    useState('QQ 12 34 56 C');
+  const [identityDraftNotes, setIdentityDraftNotes] = useState('');
+  const [identityDraftRenewalReminder, setIdentityDraftRenewalReminder] =
+    useState(true);
+  const [hasUploadedIdentityDocument, setHasUploadedIdentityDocument] =
+    useState(true);
 
   const contentWidth = Math.min(width - 32, 402);
   const dueCardWidth = Math.min(Math.max(width * 0.72, 252), 284);
@@ -340,6 +359,9 @@ function HomeScreen(): React.JSX.Element {
   const isRecordsTab = activeTab === 'records';
   const isPersonalIdentityView =
     isRecordsTab && recordsView === 'personal-identity';
+  const isPersonalIdentityAddView =
+    isRecordsTab && recordsView === 'personal-identity-add';
+  const isPersonalDetailsView = isRecordsTab && recordsView !== 'browser';
 
   const statCards: StatCardData[] = [
     {
@@ -564,6 +586,15 @@ function HomeScreen(): React.JSX.Element {
     );
   };
 
+  const resetIdentityDraft = () => {
+    setIdentityDraftFullName(user?.name?.trim() || 'Sarah Johnson');
+    setIdentityDraftDateOfBirth('');
+    setIdentityDraftNiNumber('QQ 12 34 56 C');
+    setIdentityDraftNotes('');
+    setIdentityDraftRenewalReminder(true);
+    setHasUploadedIdentityDocument(true);
+  };
+
   const handleRecordCategoryPress = (category: RecordCategoryData) => {
     if (category.id === 'personal-identity') {
       setRecordsView('personal-identity');
@@ -573,7 +604,46 @@ function HomeScreen(): React.JSX.Element {
     openRecordCategory(category.title, category.count);
   };
 
+  const openAddIdentityRecord = () => {
+    resetIdentityDraft();
+    setRecordsView('personal-identity-add');
+  };
+
+  const handleBrowseIdentityDocument = () => {
+    setHasUploadedIdentityDocument(true);
+  };
+
+  const handleDeleteIdentityDocument = () => {
+    setHasUploadedIdentityDocument(false);
+  };
+
+  const handleDeleteIdentityEntry = () => {
+    Alert.alert(
+      'Delete This Entry',
+      'Remove this draft personal detail entry?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: () => {
+            resetIdentityDraft();
+            setRecordsView('personal-identity');
+          },
+        },
+      ],
+    );
+  };
+
   const handleRecordsBack = () => {
+    if (recordsView === 'personal-identity-add') {
+      setRecordsView('personal-identity');
+      return;
+    }
+
     if (recordsView === 'personal-identity') {
       setRecordsView('browser');
       return;
@@ -917,6 +987,175 @@ function HomeScreen(): React.JSX.Element {
     </>
   );
 
+  const personalIdentityAddContent = (
+    <>
+      <View style={styles.personalFormSectionCard}>
+        <View style={styles.personalFormSectionHeader}>
+          <ProfileCardPrimarySvg width={20} height={20} />
+          <Text style={styles.personalFormSectionTitle}>Personal Identity</Text>
+        </View>
+
+        <View style={styles.personalFormFieldsGroup}>
+          <View style={styles.personalFormField}>
+            <Text style={styles.personalFormFieldLabel}>Full Name</Text>
+            <View style={styles.personalFormInputShell}>
+              <TextInput
+                style={styles.personalFormInput}
+                value={identityDraftFullName}
+                onChangeText={setIdentityDraftFullName}
+                placeholder="Enter full name"
+                placeholderTextColor="#98A2B3"
+                autoCapitalize="words"
+                autoCorrect={false}
+                selectionColor="#0A5688"
+              />
+            </View>
+          </View>
+
+          <View style={styles.personalFormField}>
+            <Text style={styles.personalFormFieldLabel}>Date of Birth</Text>
+            <View style={styles.personalFormInputShell}>
+              <TextInput
+                style={styles.personalFormInput}
+                value={identityDraftDateOfBirth}
+                onChangeText={setIdentityDraftDateOfBirth}
+                placeholder="mm/dd/yyyy"
+                placeholderTextColor="#98A2B3"
+                autoCapitalize="none"
+                autoCorrect={false}
+                selectionColor="#0A5688"
+              />
+            </View>
+          </View>
+
+          <View style={styles.personalFormField}>
+            <Text style={styles.personalFormFieldLabel}>NI Number</Text>
+            <View style={styles.personalFormInputShell}>
+              <TextInput
+                style={styles.personalFormInput}
+                value={identityDraftNiNumber}
+                onChangeText={setIdentityDraftNiNumber}
+                placeholder="QQ 12 34 56 C"
+                placeholderTextColor="#98A2B3"
+                autoCapitalize="characters"
+                autoCorrect={false}
+                selectionColor="#0A5688"
+              />
+            </View>
+          </View>
+
+          <Pressable
+            style={({pressed}) => [
+              styles.personalReminderCard,
+              pressed ? styles.pressed : null,
+            ]}
+            onPress={() =>
+              setIdentityDraftRenewalReminder(currentValue => !currentValue)
+            }>
+            <View style={styles.personalReminderTextBlock}>
+              <Text style={styles.personalReminderTitle}>Renewal Reminder</Text>
+              <Text style={styles.personalReminderSubtitle}>
+                Notify before expiration
+              </Text>
+            </View>
+
+            <View
+              style={[
+                styles.personalReminderToggle,
+                identityDraftRenewalReminder
+                  ? styles.personalReminderToggleActive
+                  : null,
+              ]}>
+              <View style={styles.personalReminderToggleThumb} />
+            </View>
+          </Pressable>
+        </View>
+      </View>
+
+      <View style={styles.personalFormSectionCard}>
+        <View style={styles.personalFormSectionHeader}>
+          <UploadDocumentSvg width={16} height={20} />
+          <Text style={styles.personalFormSectionTitle}>Document Upload</Text>
+        </View>
+
+        <View style={styles.personalUploadArea}>
+          <UploadSvg width={44} height={40} />
+          <Text style={styles.personalUploadTitle}>
+            Drag and drop files here
+          </Text>
+          <Text style={styles.personalUploadSubtitle}>
+            PDF, JPG, or PNG (Max 10MB)
+          </Text>
+
+          <Pressable
+            style={({pressed}) => [
+              styles.personalUploadButton,
+              pressed ? styles.pressed : null,
+            ]}
+            onPress={handleBrowseIdentityDocument}>
+            <Text style={styles.personalUploadButtonText}>Browse Files</Text>
+          </Pressable>
+        </View>
+
+        {hasUploadedIdentityDocument ? (
+          <View style={styles.personalUploadFileCard}>
+            <View style={styles.personalUploadFileInfo}>
+              <DocSvg width={16} height={20} />
+              <View style={styles.personalUploadFileTextWrap}>
+                <Text style={styles.personalUploadFileName}>
+                  Passport_Copy_2024.pdf
+                </Text>
+                <Text style={styles.personalUploadFileMeta}>2.4 MB</Text>
+              </View>
+            </View>
+
+            <Pressable
+              style={({pressed}) => [
+                styles.personalUploadTrashButton,
+                pressed ? styles.pressed : null,
+              ]}
+              onPress={handleDeleteIdentityDocument}>
+              <TrashSvg width={32} height={34} />
+            </Pressable>
+          </View>
+        ) : null}
+      </View>
+
+      <View style={styles.personalFormSectionCard}>
+        <View style={styles.personalFormSectionHeader}>
+          <NotesSvg width={18} height={12} />
+          <Text style={styles.personalFormSectionTitle}>Notes</Text>
+        </View>
+
+        <View style={styles.personalNotesInputShell}>
+          <TextInput
+            style={styles.personalNotesInput}
+            value={identityDraftNotes}
+            onChangeText={setIdentityDraftNotes}
+            placeholder="Add any additional details or secure notes here..."
+            placeholderTextColor="#6B7280"
+            multiline
+            textAlignVertical="top"
+            autoCorrect={false}
+            selectionColor="#0A5688"
+          />
+        </View>
+      </View>
+
+      <Pressable
+        style={({pressed}) => [
+          styles.personalDeleteEntryButton,
+          pressed ? styles.pressed : null,
+        ]}
+        onPress={handleDeleteIdentityEntry}>
+        <TrashCompactSvg width={16} height={18} />
+        <Text style={styles.personalDeleteEntryButtonText}>
+          Delete This Entry
+        </Text>
+      </Pressable>
+    </>
+  );
+
   return (
     <SafeAreaView style={styles.safeArea} edges={['top', 'bottom']}>
       <View style={styles.screen}>
@@ -925,7 +1164,7 @@ function HomeScreen(): React.JSX.Element {
           showsVerticalScrollIndicator={false}>
           <View style={styles.headerSurface}>
             <View style={styles.topBar}>
-              {isPersonalIdentityView ? (
+              {isPersonalDetailsView ? (
                 <>
                   <View style={styles.recordsDetailTitleRow}>
                     <Pressable
@@ -942,15 +1181,17 @@ function HomeScreen(): React.JSX.Element {
                   </View>
 
                   <View style={styles.recordsDetailActionsRow}>
-                    <Pressable
-                      style={({pressed}) => [
-                        styles.recordsAddButton,
-                        pressed ? styles.pressed : null,
-                      ]}
-                      onPress={() => openPlaceholder('Add identity record')}>
-                      <PlusSvg width={12} height={12} />
-                      <Text style={styles.recordsAddButtonText}>Add</Text>
-                    </Pressable>
+                    {isPersonalIdentityView ? (
+                      <Pressable
+                        style={({pressed}) => [
+                          styles.recordsAddButton,
+                          pressed ? styles.pressed : null,
+                        ]}
+                        onPress={openAddIdentityRecord}>
+                        <PlusSvg width={12} height={12} />
+                        <Text style={styles.recordsAddButtonText}>Add</Text>
+                      </Pressable>
+                    ) : null}
 
                     <HeaderActionButton
                       onPress={() => openPlaceholder('Notifications')}>
@@ -1005,7 +1246,9 @@ function HomeScreen(): React.JSX.Element {
 
           <View style={[styles.contentInner, {width: contentWidth}]}>
             {isRecordsTab
-              ? isPersonalIdentityView
+              ? isPersonalIdentityAddView
+                ? personalIdentityAddContent
+                : isPersonalIdentityView
                 ? personalIdentityContent
                 : recordsContent
               : homeContent}
@@ -1141,10 +1384,10 @@ const styles = StyleSheet.create({
   recordsDetailTitle: {
     marginLeft: 8,
     color: '#094771',
-    fontSize: 18,
-    fontFamily: fonts.bold,
-    lineHeight: 24,
-    letterSpacing: -0.18,
+    fontSize: 22,
+    fontFamily: fonts.semiBold,
+    lineHeight: 23,
+    letterSpacing: -0.22,
     flexShrink: 1,
   },
   recordsDetailActionsRow: {
@@ -1260,10 +1503,10 @@ const styles = StyleSheet.create({
   },
   personalIdentityIntroTitle: {
     color: '#094771',
-    fontSize: 22,
+    fontSize: 18,
     fontFamily: fonts.semiBold,
-    lineHeight: 28,
-    letterSpacing: -0.22,
+    lineHeight: 24,
+    letterSpacing: 0,
   },
   personalIdentityIntroBody: {
     marginTop: 8,
@@ -1298,8 +1541,9 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     color: '#094771',
     fontSize: 13,
-    fontFamily: fonts.medium,
+    fontFamily: fonts.semiBold,
     lineHeight: 16,
+    letterSpacing: 0.26,
   },
   personalIdentityInfoChipTextSecondary: {
     color: '#815500',
@@ -1340,19 +1584,19 @@ const styles = StyleSheet.create({
     letterSpacing: 0.8,
   },
   personalProfileName: {
-    color: '#FFFFFF',
-    fontSize: 28,
+    color: '#B3D8FF',
+    fontSize: 36,
     fontFamily: fonts.regular,
-    lineHeight: 36,
-    letterSpacing: -0.56,
+    lineHeight: 45,
+    letterSpacing: 0,
   },
   personalProfileLabel: {
     marginTop: 4,
-    color: '#D7E9F7',
-    fontSize: 12,
-    fontFamily: fonts.medium,
+    color: '#B3D8FF',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
     lineHeight: 16,
-    letterSpacing: 1.56,
+    letterSpacing: 0.65,
   },
   personalRecordsHeader: {
     marginTop: 28,
@@ -1361,17 +1605,18 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   personalRecordsTitle: {
-    color: '#5C646D',
-    fontSize: 11,
-    fontFamily: fonts.medium,
-    lineHeight: 14,
-    letterSpacing: 1.54,
+    color: '#42474E',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 1.3,
   },
   personalRecordsSyncText: {
-    color: '#7A7F86',
+    color: '#72777F',
     fontSize: 12,
     fontFamily: fonts.regular,
     lineHeight: 16,
+    letterSpacing: 0.12,
   },
   personalRecordsList: {
     marginTop: 14,
@@ -1415,9 +1660,9 @@ const styles = StyleSheet.create({
   },
   personalRecordName: {
     color: '#091E27',
-    fontSize: 17,
+    fontSize: 18,
     fontFamily: fonts.semiBold,
-    lineHeight: 22,
+    lineHeight: 24,
   },
   personalRecordDobRow: {
     marginTop: 3,
@@ -1426,10 +1671,11 @@ const styles = StyleSheet.create({
   },
   personalRecordDobText: {
     marginLeft: 4,
-    color: '#6B7280',
+    color: '#72777F',
     fontSize: 12,
     fontFamily: fonts.regular,
     lineHeight: 16,
+    letterSpacing: 0.12,
   },
   personalRecordBottomRow: {
     marginTop: 16,
@@ -1444,11 +1690,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   personalRecordMetaLabel: {
-    color: '#7A7F86',
-    fontSize: 11,
-    fontFamily: fonts.medium,
-    lineHeight: 14,
-    letterSpacing: 1.2,
+    color: '#72777F',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: -0.6,
   },
   personalRecordMetaColumn: {
     minWidth: 118,
@@ -1539,11 +1785,255 @@ const styles = StyleSheet.create({
   },
   personalVaultBody: {
     marginTop: 8,
-    color: '#E4F3FF',
+    color: '#FFFFFF',
     fontSize: 15,
     fontFamily: fonts.regular,
-    lineHeight: 24,
+    lineHeight: 22,
     maxWidth: 292,
+  },
+  personalFormSectionCard: {
+    width: '100%',
+    marginBottom: 18,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: '#E4EAF0',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 16,
+    paddingTop: 18,
+    paddingBottom: 16,
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.08,
+    shadowRadius: 14,
+    elevation: 2,
+  },
+  personalFormSectionHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  personalFormSectionTitle: {
+    marginLeft: 8,
+    color: '#091E27',
+    fontSize: 18,
+    fontFamily: fonts.semiBold,
+    lineHeight: 24,
+    letterSpacing: 0,
+  },
+  personalFormFieldsGroup: {
+    marginTop: 16,
+  },
+  personalFormField: {
+    marginBottom: 16,
+  },
+  personalFormFieldLabel: {
+    marginBottom: 8,
+    color: '#42474E',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+  },
+  personalFormInputShell: {
+    minHeight: 48,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#D9E1E8',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 14,
+    justifyContent: 'center',
+  },
+  personalFormInput: {
+    paddingVertical: 0,
+    color: '#091E27',
+    fontSize: 16,
+    fontFamily: fonts.regular,
+    lineHeight: 20,
+  },
+  personalReminderCard: {
+    marginTop: 4,
+    borderRadius: 10,
+    backgroundColor: '#EAF6FF',
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  personalReminderTextBlock: {
+    flex: 1,
+    minWidth: 0,
+    paddingRight: 12,
+  },
+  personalReminderTitle: {
+    color: '#091E27',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+  },
+  personalReminderSubtitle: {
+    marginTop: 2,
+    color: '#42474E',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+  },
+  personalReminderToggle: {
+    width: 38,
+    height: 22,
+    borderRadius: 999,
+    backgroundColor: '#ADC9DE',
+    paddingHorizontal: 2,
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+  },
+  personalReminderToggleActive: {
+    backgroundColor: '#0A5688',
+    alignItems: 'flex-end',
+  },
+  personalReminderToggleThumb: {
+    width: 18,
+    height: 18,
+    borderRadius: 9,
+    backgroundColor: '#FFFFFF',
+  },
+  personalUploadArea: {
+    marginTop: 16,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderStyle: 'dashed',
+    borderColor: '#D7E5F0',
+    paddingHorizontal: 18,
+    paddingTop: 22,
+    paddingBottom: 20,
+    alignItems: 'center',
+  },
+  personalUploadTitle: {
+    marginTop: 14,
+    color: '#091E27',
+    fontSize: 15,
+    fontFamily: fonts.regular,
+    lineHeight: 22,
+    letterSpacing: 0,
+    textAlign: 'center',
+  },
+  personalUploadSubtitle: {
+    marginTop: 4,
+    color: '#42474E',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+    textAlign: 'center',
+  },
+  personalUploadButton: {
+    marginTop: 18,
+    width: 129,
+    height: 32,
+    borderRadius: 999,
+    backgroundColor: '#094771',
+    paddingHorizontal: 24,
+    paddingVertical: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  personalUploadButtonText: {
+    color: '#FFFFFF',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+    textAlign: 'center',
+  },
+  personalUploadFileCard: {
+    marginTop: 14,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#D8E4EF',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  personalUploadFileInfo: {
+    flex: 1,
+    minWidth: 0,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  personalUploadFileTextWrap: {
+    flex: 1,
+    minWidth: 0,
+    marginLeft: 10,
+  },
+  personalUploadFileName: {
+    color: '#091E27',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+  },
+  personalUploadFileMeta: {
+    marginTop: 2,
+    color: '#42474E',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+  },
+  personalUploadTrashButton: {
+    marginLeft: 12,
+    width: 32,
+    height: 34,
+    borderRadius: 999,
+    padding: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  personalNotesInputShell: {
+    marginTop: 16,
+    minHeight: 138,
+    borderRadius: 8,
+    backgroundColor: '#EAF6FF',
+    paddingHorizontal: 12,
+    paddingVertical: 12,
+  },
+  personalNotesInput: {
+    flex: 1,
+    paddingTop: 0,
+    paddingBottom: 0,
+    color: '#243449',
+    fontSize: 15,
+    fontFamily: fonts.regular,
+    lineHeight: 22,
+  },
+  personalDeleteEntryButton: {
+    width: '78%',
+    alignSelf: 'center',
+    marginTop: 6,
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: '#F5B1B1',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  personalDeleteEntryButtonText: {
+    marginLeft: 8,
+    color: '#BA1A1A',
+    fontSize: 18,
+    fontFamily: fonts.semiBold,
+    lineHeight: 24,
+    letterSpacing: 0,
   },
   recordCategoryCard: {
     minHeight: 168,
