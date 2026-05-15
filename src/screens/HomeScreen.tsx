@@ -16,6 +16,7 @@ import ArrowSvg from '../images/arrow.svg';
 import BackSvg from '../images/back.svg';
 import BackgroundSvg from '../images/background.svg';
 import VaultBackgroundSvg from '../images/bg_2.svg';
+import BellSvg from '../images/bell.svg';
 import BirthdaySvg from '../images/birthday.svg';
 import ButtonSvg from '../images/Button.svg';
 import BucketSvg from '../images/bucket.svg';
@@ -31,6 +32,8 @@ import EncryptedSvg from '../images/encrypted.svg';
 import EyeSvg from '../images/eye.svg';
 import FitnessSvg from '../images/fitness.svg';
 import FingerSvg from '../images/finger.svg';
+import Glow1Svg from '../images/glow_1.svg';
+import Glow2Svg from '../images/glow_2.svg';
 import HealthSvg from '../images/health.svg';
 import HiSvg from '../images/HI.svg';
 import HomeNonSvg from '../images/home_non.svg';
@@ -40,11 +43,13 @@ import InsuranceSvg from '../images/insurance.svg';
 import JournelSvg from '../images/journel.svg';
 import LocationSvg from '../images/location.svg';
 import MaintainceSvg from '../images/maintaince.svg';
+import MonthlySvg from '../images/monthly.svg';
 import NotificationSvg from '../images/notification.svg';
 import NotificationDefaultSvg from '../images/notification_def.svg';
 import NotesSvg from '../images/notes.svg';
 import PersonalSvg from '../images/personal.svg';
 import PetsSvg from '../images/pets.svg';
+import PigSvg from '../images/pig.svg';
 import PhotoSvg from '../images/photo.svg';
 import PlanSvg from '../images/plan.svg';
 import PlannerSvg from '../images/planner.svg';
@@ -62,17 +67,25 @@ import SavingsSvg from '../images/savings.svg';
 import SearchGraySvg from '../images/search_gray.svg';
 import SearchSvg from '../images/search.svg';
 import StatementSvg from '../images/statement.svg';
+import TapSvg from '../images/tap.svg';
 import TrashSvg from '../images/trash.svg';
 import TrashCompactSvg from '../images/trash_2.svg';
 import UploadSvg from '../images/upload.svg';
 import UploadDocumentSvg from '../images/upload_2.svg';
 import VehicleSvg from '../images/vehicle.svg';
 import WarningSvg from '../images/warning.svg';
+import WarningAlarmSvg from '../images/warning_alarm.svg';
 import WalletSvg from '../images/wallert.svg';
+import WrongSvg from '../images/wrong.svg';
 import {fonts} from '../theme/fonts';
 
 type BottomTabKey = 'home' | 'records' | 'reminders' | 'planner' | 'profile';
-type RecordsView = 'browser' | 'personal-identity' | 'personal-identity-add';
+type RecordsView =
+  | 'browser'
+  | 'personal-identity'
+  | 'personal-identity-add'
+  | 'banking-cards'
+  | 'banking-cards-add';
 
 interface StatCardData {
   title: string;
@@ -112,6 +125,22 @@ interface IdentityRecordData {
   status: string;
 }
 
+interface BankingAccountData {
+  id: string;
+  title: string;
+  accountNumber: string;
+  balance: string;
+  status: 'Active' | 'Growth';
+  icon: React.JSX.Element;
+}
+
+interface BankingReminderData {
+  id: string;
+  title: string;
+  schedule: string;
+  icon: React.JSX.Element;
+}
+
 interface BottomNavItemProps {
   active?: boolean;
   label: string;
@@ -143,6 +172,16 @@ function getCompactProfileName(name: string | null | undefined): string {
   }
 
   return `${parts[0]} ${parts[parts.length - 1][0]}.`;
+}
+
+function getBankDisplayName(name: string): string {
+  const trimmedName = name.trim();
+
+  if (!trimmedName) {
+    return 'Barclays Bank';
+  }
+
+  return /bank$/i.test(trimmedName) ? trimmedName : `${trimmedName} Bank`;
 }
 
 function HeaderActionButton({
@@ -305,6 +344,77 @@ function RecordNumberDots({count}: {count: number}): React.JSX.Element {
   );
 }
 
+function BankingAccountCard({
+  title,
+  accountNumber,
+  balance,
+  status,
+  icon,
+  onPress,
+}: BankingAccountData & {
+  onPress: () => void;
+}): React.JSX.Element {
+  const isGrowth = status === 'Growth';
+
+  return (
+    <Pressable
+      style={({pressed}) => [
+        styles.bankingAccountCard,
+        pressed ? styles.pressed : null,
+      ]}
+      onPress={onPress}>
+      <View style={styles.bankingAccountIconWrap}>{icon}</View>
+      <Text style={styles.bankingAccountTitle}>{title}</Text>
+      <Text style={styles.bankingAccountNumber}>{accountNumber}</Text>
+
+      <View style={styles.bankingAccountFooter}>
+        <Text style={styles.bankingAccountBalance}>{balance}</Text>
+        <View
+          style={[
+            styles.bankingAccountStatusChip,
+            isGrowth ? styles.bankingAccountStatusChipGrowth : null,
+          ]}>
+          <Text
+            style={[
+              styles.bankingAccountStatusText,
+              isGrowth ? styles.bankingAccountStatusTextGrowth : null,
+            ]}>
+            {status}
+          </Text>
+        </View>
+      </View>
+    </Pressable>
+  );
+}
+
+function BankingReminderRow({
+  title,
+  schedule,
+  icon,
+  onPress,
+}: BankingReminderData & {
+  onPress: () => void;
+}): React.JSX.Element {
+  return (
+    <Pressable
+      style={({pressed}) => [
+        styles.bankingReminderRow,
+        pressed ? styles.pressed : null,
+      ]}
+      onPress={onPress}>
+      <View style={styles.bankingReminderRowLeft}>
+        <View style={styles.bankingReminderIconWrap}>{icon}</View>
+        <View style={styles.bankingReminderTextWrap}>
+          <Text style={styles.bankingReminderRowTitle}>{title}</Text>
+          <Text style={styles.bankingReminderRowSchedule}>{schedule}</Text>
+        </View>
+      </View>
+
+      <ArrowSvg width={8} height={12} />
+    </Pressable>
+  );
+}
+
 function BottomNavItem({
   active = false,
   label,
@@ -348,6 +458,22 @@ function HomeScreen(): React.JSX.Element {
     useState(true);
   const [hasUploadedIdentityDocument, setHasUploadedIdentityDocument] =
     useState(true);
+  const [bankingDraftBankName, setBankingDraftBankName] = useState('Barclays');
+  const [bankingDraftAccountType, setBankingDraftAccountType] =
+    useState('Current');
+  const [bankingDraftLast4Digits, setBankingDraftLast4Digits] =
+    useState('4821');
+  const [
+    isBankingAccountTypeDropdownOpen,
+    setIsBankingAccountTypeDropdownOpen,
+  ] = useState(false);
+  const [bankingDraftNotes, setBankingDraftNotes] = useState('');
+  const [
+    bankingDraftInterestReviewReminder,
+    setBankingDraftInterestReviewReminder,
+  ] = useState(true);
+  const [hasUploadedBankingDocument, setHasUploadedBankingDocument] =
+    useState(true);
 
   const contentWidth = Math.min(width - 32, 402);
   const dueCardWidth = Math.min(Math.max(width * 0.72, 252), 284);
@@ -361,7 +487,21 @@ function HomeScreen(): React.JSX.Element {
     isRecordsTab && recordsView === 'personal-identity';
   const isPersonalIdentityAddView =
     isRecordsTab && recordsView === 'personal-identity-add';
-  const isPersonalDetailsView = isRecordsTab && recordsView !== 'browser';
+  const isBankingCardsView = isRecordsTab && recordsView === 'banking-cards';
+  const isBankingCardsAddView =
+    isRecordsTab && recordsView === 'banking-cards-add';
+  const isRecordsDetailView = isRecordsTab && recordsView !== 'browser';
+  const recordsDetailTitle = isBankingCardsView || isBankingCardsAddView
+    ? 'Banking & Cards'
+    : 'Personal Details';
+  const shouldShowRecordsAddButton =
+    isPersonalIdentityView || isBankingCardsView;
+  const bankingDraftDisplayName = getBankDisplayName(bankingDraftBankName);
+  const bankingDraftLastFourDisplay = bankingDraftLast4Digits || '4821';
+  const bankingDraftCardLabel = `${
+    bankingDraftAccountType.trim() || 'Current'
+  } Account`.toUpperCase();
+  const bankingAccountTypeOptions = ['Current', 'Savings', 'Business', 'Joint'];
 
   const statCards: StatCardData[] = [
     {
@@ -533,6 +673,40 @@ function HomeScreen(): React.JSX.Element {
     },
   ];
 
+  const bankingAccounts: BankingAccountData[] = [
+    {
+      id: 'barclays-current',
+      title: 'Barclays Current Account',
+      accountNumber: '**** 4821',
+      balance: '$2,450.00',
+      status: 'Active',
+      icon: <StatementSvg width={48} height={48} />,
+    },
+    {
+      id: 'hsbc-savings',
+      title: 'HSBC Savings',
+      accountNumber: '**** 9034',
+      balance: '$12,100.00',
+      status: 'Growth',
+      icon: <PigSvg width={48} height={48} />,
+    },
+  ];
+
+  const bankingReminders: BankingReminderData[] = [
+    {
+      id: 'barclays-interest',
+      title: 'Review Barclays Interest Rate',
+      schedule: 'Scheduled for: Tomorrow, 09:00 AM',
+      icon: <BellSvg width={20} height={21} />,
+    },
+    {
+      id: 'monthly-transfer',
+      title: 'Monthly Savings Transfer',
+      schedule: 'Scheduled for: 25th Oct, 12:00 PM',
+      icon: <MonthlySvg width={18} height={20} />,
+    },
+  ];
+
   const openQuickActions = () => {
     Alert.alert('Quick Actions', 'Refresh your profile or sign out.', [
       {
@@ -595,9 +769,24 @@ function HomeScreen(): React.JSX.Element {
     setHasUploadedIdentityDocument(true);
   };
 
+  const resetBankingDraft = () => {
+    setBankingDraftBankName('Barclays');
+    setBankingDraftAccountType('Current');
+    setBankingDraftLast4Digits('4821');
+    setIsBankingAccountTypeDropdownOpen(false);
+    setBankingDraftNotes('');
+    setBankingDraftInterestReviewReminder(true);
+    setHasUploadedBankingDocument(true);
+  };
+
   const handleRecordCategoryPress = (category: RecordCategoryData) => {
     if (category.id === 'personal-identity') {
       setRecordsView('personal-identity');
+      return;
+    }
+
+    if (category.id === 'banking-cards') {
+      setRecordsView('banking-cards');
       return;
     }
 
@@ -607,6 +796,22 @@ function HomeScreen(): React.JSX.Element {
   const openAddIdentityRecord = () => {
     resetIdentityDraft();
     setRecordsView('personal-identity-add');
+  };
+
+  const openAddBankingRecord = () => {
+    resetBankingDraft();
+    setRecordsView('banking-cards-add');
+  };
+
+  const handleRecordsAddPress = () => {
+    if (isPersonalIdentityView) {
+      openAddIdentityRecord();
+      return;
+    }
+
+    if (isBankingCardsView) {
+      openAddBankingRecord();
+    }
   };
 
   const handleBrowseIdentityDocument = () => {
@@ -638,13 +843,78 @@ function HomeScreen(): React.JSX.Element {
     );
   };
 
+  const closeBankingAccountTypeDropdown = () => {
+    setIsBankingAccountTypeDropdownOpen(false);
+  };
+
+  const handleBrowseBankingDocument = () => {
+    closeBankingAccountTypeDropdown();
+    setHasUploadedBankingDocument(true);
+  };
+
+  const handleDeleteBankingDocument = () => {
+    closeBankingAccountTypeDropdown();
+    setHasUploadedBankingDocument(false);
+  };
+
+  const handleToggleBankingAccountType = () => {
+    setIsBankingAccountTypeDropdownOpen(currentValue => !currentValue);
+  };
+
+  const handleSelectBankingAccountType = (accountType: string) => {
+    setBankingDraftAccountType(accountType);
+    closeBankingAccountTypeDropdown();
+  };
+
+  const handleBankingLast4DigitsChange = (value: string) => {
+    closeBankingAccountTypeDropdown();
+    setBankingDraftLast4Digits(value.replace(/\D/g, '').slice(0, 4));
+  };
+
+  const handleBankingBankNameChange = (value: string) => {
+    closeBankingAccountTypeDropdown();
+    setBankingDraftBankName(value);
+  };
+
+  const handleBankingNotesChange = (value: string) => {
+    closeBankingAccountTypeDropdown();
+    setBankingDraftNotes(value);
+  };
+
+  const handleToggleBankingInterestReviewReminder = () => {
+    closeBankingAccountTypeDropdown();
+    setBankingDraftInterestReviewReminder(currentValue => !currentValue);
+  };
+
+  const handleDeleteBankingEntry = () => {
+    Alert.alert('Delete This Entry', 'Remove this banking entry draft?', [
+      {
+        text: 'Cancel',
+        style: 'cancel',
+      },
+      {
+        text: 'Delete',
+        style: 'destructive',
+        onPress: () => {
+          resetBankingDraft();
+          setRecordsView('banking-cards');
+        },
+      },
+    ]);
+  };
+
   const handleRecordsBack = () => {
     if (recordsView === 'personal-identity-add') {
       setRecordsView('personal-identity');
       return;
     }
 
-    if (recordsView === 'personal-identity') {
+    if (recordsView === 'banking-cards-add') {
+      setRecordsView('banking-cards');
+      return;
+    }
+
+    if (recordsView !== 'browser') {
       setRecordsView('browser');
       return;
     }
@@ -1156,6 +1426,366 @@ function HomeScreen(): React.JSX.Element {
     </>
   );
 
+  const bankingAddContent = (
+    <>
+      <View style={styles.bankingAddCard}>
+        <View style={styles.bankingAddCardGlowLeft}>
+          <Glow1Svg width={128} height={128} />
+        </View>
+        <View style={styles.bankingAddCardGlowRight}>
+          <Glow2Svg width={128} height={128} />
+        </View>
+
+        <Text style={styles.bankingAddCardBankName}>
+          {bankingDraftDisplayName}
+        </Text>
+
+        <View style={styles.bankingAddCardTapWrap}>
+          <TapSvg width={20} height={20} />
+        </View>
+
+        <View style={styles.bankingAddCardFooter}>
+          <View style={styles.bankingAddCardDigitsRow}>
+            {Array.from({length: 3}).map((_, groupIndex) => (
+              <View
+                key={`card-dots-group-${groupIndex}`}
+                style={styles.bankingAddCardDotsGroup}>
+                {Array.from({length: 4}).map((__, dotIndex) => (
+                  <View
+                    key={`card-dot-${groupIndex}-${dotIndex}`}
+                    style={styles.bankingAddCardDot}
+                  />
+                ))}
+              </View>
+            ))}
+            <Text style={styles.bankingAddCardLastDigits}>
+              {bankingDraftLastFourDisplay}
+            </Text>
+          </View>
+
+          <Text style={styles.bankingAddCardAccountType}>
+            {bankingDraftCardLabel}
+          </Text>
+        </View>
+      </View>
+
+      <View style={styles.bankingAddBalanceCard}>
+        <Text style={styles.bankingAddBalanceLabel}>Active Balance</Text>
+        <Text style={styles.bankingAddBalanceValue}>$12,450.00</Text>
+      </View>
+
+      <View style={styles.bankingAddFieldCard}>
+        <Text style={styles.bankingAddFieldLabel}>Bank Name</Text>
+        <View style={styles.bankingAddInputShell}>
+          <TextInput
+            style={styles.bankingAddInput}
+            value={bankingDraftBankName}
+            onChangeText={handleBankingBankNameChange}
+            onFocus={closeBankingAccountTypeDropdown}
+            placeholder="Enter bank name"
+            placeholderTextColor="#98A2B3"
+            autoCapitalize="words"
+            autoCorrect={false}
+            selectionColor="#0A5688"
+          />
+        </View>
+      </View>
+
+      <View style={styles.bankingAddFieldCard}>
+        <Text style={styles.bankingAddFieldLabel}>Account Type</Text>
+        <Pressable
+          style={({pressed}) => [
+            styles.bankingAddSelectShell,
+            pressed ? styles.pressed : null,
+          ]}
+          onPress={handleToggleBankingAccountType}>
+          <Text style={styles.bankingAddSelectValue}>
+            {bankingDraftAccountType}
+          </Text>
+          <View
+            style={[
+              styles.bankingAddSelectIcon,
+              isBankingAccountTypeDropdownOpen
+                ? styles.bankingAddSelectIconOpen
+                : null,
+            ]}>
+            <ArrowSvg width={8} height={12} />
+          </View>
+        </Pressable>
+
+        {isBankingAccountTypeDropdownOpen ? (
+          <View style={styles.bankingAddSelectDropdown}>
+            {bankingAccountTypeOptions.map(accountType => (
+              <Pressable
+                key={accountType}
+                style={({pressed}) => [
+                  styles.bankingAddSelectOption,
+                  bankingDraftAccountType === accountType
+                    ? styles.bankingAddSelectOptionActive
+                    : null,
+                  pressed ? styles.pressed : null,
+                ]}
+                onPress={() => handleSelectBankingAccountType(accountType)}>
+                <Text
+                  style={[
+                    styles.bankingAddSelectOptionText,
+                    bankingDraftAccountType === accountType
+                      ? styles.bankingAddSelectOptionTextActive
+                      : null,
+                  ]}>
+                  {accountType}
+                </Text>
+              </Pressable>
+            ))}
+          </View>
+        ) : null}
+      </View>
+
+      <View style={styles.bankingAddFieldCard}>
+        <Text style={styles.bankingAddFieldLabel}>Last 4 Digits</Text>
+        <View style={styles.bankingAddInputShell}>
+          <TextInput
+            style={styles.bankingAddInput}
+            value={bankingDraftLast4Digits}
+            onChangeText={handleBankingLast4DigitsChange}
+            onFocus={closeBankingAccountTypeDropdown}
+            placeholder="4821"
+            placeholderTextColor="#98A2B3"
+            autoCapitalize="none"
+            autoCorrect={false}
+            keyboardType="number-pad"
+            maxLength={4}
+            selectionColor="#0A5688"
+          />
+        </View>
+      </View>
+
+      <View style={styles.bankingAddFieldCard}>
+        <Text style={styles.bankingAddFieldLabel}>
+          Document Upload for Statements
+        </Text>
+
+        <View style={styles.bankingAddUploadArea}>
+          <UploadSvg width={44} height={40} />
+          <Text style={styles.bankingAddUploadTitle}>
+            Drag and drop or
+            <Text style={styles.bankingAddUploadTitleHighlight}>
+              {' '}
+              browse files
+            </Text>
+          </Text>
+          <Text style={styles.bankingAddUploadSubtitle}>
+            PDF, JPG or PNG up to 10MB
+          </Text>
+        </View>
+
+        {hasUploadedBankingDocument ? (
+          <View style={styles.bankingAddUploadFileCard}>
+            <View style={styles.bankingAddUploadFileInfo}>
+              <DocSvg width={16} height={20} />
+              <Text style={styles.bankingAddUploadFileName}>
+                statement_june_2023.pdf
+              </Text>
+            </View>
+
+            <Pressable
+              style={({pressed}) => [
+                styles.bankingAddUploadFileDeleteButton,
+                pressed ? styles.pressed : null,
+              ]}
+              onPress={handleDeleteBankingDocument}>
+              <WrongSvg width={14} height={14} />
+            </Pressable>
+          </View>
+        ) : (
+          <Pressable
+            style={({pressed}) => [
+              styles.personalUploadButton,
+              styles.bankingAddUploadButton,
+              pressed ? styles.pressed : null,
+            ]}
+            onPress={handleBrowseBankingDocument}>
+            <Text style={styles.personalUploadButtonText}>Browse Files</Text>
+          </Pressable>
+        )}
+      </View>
+
+      <Pressable
+        style={({pressed}) => [
+          styles.bankingAddReminderCard,
+          pressed ? styles.pressed : null,
+        ]}
+        onPress={handleToggleBankingInterestReviewReminder}>
+        <View style={styles.bankingAddReminderLeft}>
+          <WarningAlarmSvg width={32} height={36} />
+
+          <View style={styles.bankingAddReminderTextBlock}>
+            <Text style={styles.bankingAddReminderTitle}>
+              Interest Review Reminder
+            </Text>
+            <Text style={styles.bankingAddReminderSubtitle}>
+              Set for 12 months after opening
+            </Text>
+          </View>
+        </View>
+
+        <View
+          style={[
+            styles.bankingAddReminderToggle,
+            bankingDraftInterestReviewReminder
+              ? styles.bankingAddReminderToggleActive
+              : null,
+          ]}>
+          <View style={styles.bankingAddReminderToggleThumb} />
+        </View>
+      </Pressable>
+
+      <View style={styles.bankingAddFieldCard}>
+        <Text style={styles.bankingAddFieldLabel}>Notes Area</Text>
+        <View style={styles.bankingAddNotesInputShell}>
+          <TextInput
+            style={styles.bankingAddNotesInput}
+            value={bankingDraftNotes}
+            onChangeText={handleBankingNotesChange}
+            onFocus={closeBankingAccountTypeDropdown}
+            placeholder="Add any additional details or context..."
+            placeholderTextColor="#6B7280"
+            multiline
+            textAlignVertical="top"
+            autoCorrect={false}
+            selectionColor="#0A5688"
+          />
+        </View>
+      </View>
+
+      <Pressable
+        style={({pressed}) => [
+          styles.personalDeleteEntryButton,
+          pressed ? styles.pressed : null,
+        ]}
+        onPress={handleDeleteBankingEntry}>
+        <TrashCompactSvg width={16} height={18} />
+        <Text style={styles.personalDeleteEntryButtonText}>
+          Delete This Entry
+        </Text>
+      </Pressable>
+    </>
+  );
+
+  const bankingContent = (
+    <>
+      <View style={styles.bankingPortfolioHeader}>
+        <Text style={styles.bankingPortfolioEyebrow}>Financial Portfolio</Text>
+        <Text style={styles.bankingLiquidityTitle}>Total Liquidity</Text>
+      </View>
+
+      <View style={styles.bankingSummaryCard}>
+        <Text style={styles.bankingSummaryLabel}>Aggregated Balance</Text>
+        <Text style={styles.bankingSummaryValue}>$14,550.00</Text>
+      </View>
+
+      <View style={styles.bankingAccountsList}>
+        {bankingAccounts.map(account => (
+          <BankingAccountCard
+            key={account.id}
+            {...account}
+            onPress={() => openPlaceholder(account.title)}
+          />
+        ))}
+      </View>
+
+      <View style={styles.bankingAllocationCard}>
+        <Text style={styles.bankingAllocationTitle}>Asset Allocation</Text>
+        <Text style={styles.bankingAllocationBody}>
+          Distribution across your registered accounts and credit lines.
+        </Text>
+
+        <View style={styles.bankingAllocationMetricBlock}>
+          <View style={styles.bankingAllocationMetricRow}>
+            <Text style={styles.bankingAllocationMetricLabel}>Savings</Text>
+            <Text style={styles.bankingAllocationMetricValue}>83%</Text>
+          </View>
+          <View style={styles.bankingAllocationTrack}>
+            <View
+              style={[
+                styles.bankingAllocationFill,
+                styles.bankingAllocationFillSavings,
+                styles.bankingAllocationFillSavingsWidth,
+              ]}
+            />
+          </View>
+        </View>
+
+        <View style={styles.bankingAllocationMetricBlock}>
+          <View style={styles.bankingAllocationMetricRow}>
+            <Text style={styles.bankingAllocationMetricLabel}>Current</Text>
+            <Text style={styles.bankingAllocationMetricValue}>17%</Text>
+          </View>
+          <View style={styles.bankingAllocationTrack}>
+            <View
+              style={[
+                styles.bankingAllocationFill,
+                styles.bankingAllocationFillCurrent,
+                styles.bankingAllocationFillCurrentWidth,
+              ]}
+            />
+          </View>
+        </View>
+
+        <View style={styles.bankingAllocationDivider} />
+
+        <Pressable
+          style={({pressed}) => [
+            styles.bankingAllocationButton,
+            pressed ? styles.pressed : null,
+          ]}
+          onPress={() => openPlaceholder('View Full Report')}>
+          <Text style={styles.bankingAllocationButtonText}>
+            View Full Report
+          </Text>
+        </Pressable>
+      </View>
+
+      <View style={styles.bankingProtectionCard}>
+        <View style={styles.bankingProtectionIconPill}>
+          <ActiveSvg width={16} height={20} />
+        </View>
+
+        <View style={styles.bankingProtectionTextBlock}>
+          <Text style={styles.bankingProtectionTitle}>
+            Encrypted Protection
+          </Text>
+          <Text style={styles.bankingProtectionBody}>
+            {
+              'Your financial data is secured with\nAES-256 encryption. We never\nstore full account numbers or\nsensitive PINs.'
+            }
+          </Text>
+        </View>
+      </View>
+
+      <View style={styles.bankingReminderHeader}>
+        <Text style={styles.bankingReminderTitle}>Recent Reminders</Text>
+        <Pressable onPress={() => openPlaceholder('View Calendar')}>
+          <Text style={styles.bankingReminderLink}>View Calendar</Text>
+        </Pressable>
+      </View>
+
+      <View style={styles.bankingReminderListCard}>
+        {bankingReminders.map((reminder, index) => (
+          <React.Fragment key={reminder.id}>
+            <BankingReminderRow
+              {...reminder}
+              onPress={() => openPlaceholder(reminder.title)}
+            />
+            {index < bankingReminders.length - 1 ? (
+              <View style={styles.bankingReminderDivider} />
+            ) : null}
+          </React.Fragment>
+        ))}
+      </View>
+    </>
+  );
+
   return (
     <SafeAreaView style={styles.safeArea} edges={['top', 'bottom']}>
       <View style={styles.screen}>
@@ -1164,7 +1794,7 @@ function HomeScreen(): React.JSX.Element {
           showsVerticalScrollIndicator={false}>
           <View style={styles.headerSurface}>
             <View style={styles.topBar}>
-              {isPersonalDetailsView ? (
+              {isRecordsDetailView ? (
                 <>
                   <View style={styles.recordsDetailTitleRow}>
                     <Pressable
@@ -1176,18 +1806,18 @@ function HomeScreen(): React.JSX.Element {
                       <BackSvg width={32} height={32} />
                     </Pressable>
                     <Text style={styles.recordsDetailTitle}>
-                      Personal Details
+                      {recordsDetailTitle}
                     </Text>
                   </View>
 
                   <View style={styles.recordsDetailActionsRow}>
-                    {isPersonalIdentityView ? (
+                    {shouldShowRecordsAddButton ? (
                       <Pressable
                         style={({pressed}) => [
                           styles.recordsAddButton,
                           pressed ? styles.pressed : null,
                         ]}
-                        onPress={openAddIdentityRecord}>
+                        onPress={handleRecordsAddPress}>
                         <PlusSvg width={12} height={12} />
                         <Text style={styles.recordsAddButtonText}>Add</Text>
                       </Pressable>
@@ -1248,6 +1878,10 @@ function HomeScreen(): React.JSX.Element {
             {isRecordsTab
               ? isPersonalIdentityAddView
                 ? personalIdentityAddContent
+                : isBankingCardsAddView
+                ? bankingAddContent
+                : isBankingCardsView
+                ? bankingContent
                 : isPersonalIdentityView
                 ? personalIdentityContent
                 : recordsContent
@@ -1399,7 +2033,7 @@ const styles = StyleSheet.create({
     minWidth: 72,
     height: 32,
     borderRadius: 999,
-    backgroundColor: '#0A5688',
+    backgroundColor: '#094771',
     paddingHorizontal: 14,
     flexDirection: 'row',
     alignItems: 'center',
@@ -1412,6 +2046,703 @@ const styles = StyleSheet.create({
     fontFamily: fonts.semiBold,
     lineHeight: 16,
     letterSpacing: 0.26,
+  },
+  bankingPortfolioHeader: {
+    width: '100%',
+  },
+  bankingPortfolioEyebrow: {
+    color: '#42474E',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.6,
+    textTransform: 'uppercase',
+  },
+  bankingLiquidityTitle: {
+    marginTop: 4,
+    color: '#094771',
+    fontSize: 28,
+    fontFamily: fonts.bold,
+    lineHeight: 36,
+    letterSpacing: -0.56,
+  },
+  bankingSummaryCard: {
+    width: '100%',
+    minHeight: 78,
+    marginTop: 16,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#BCD4E4',
+    backgroundColor: '#D6EBF8',
+    paddingHorizontal: 24,
+    paddingVertical: 16,
+    justifyContent: 'center',
+  },
+  bankingSummaryLabel: {
+    color: '#42474E',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+  },
+  bankingSummaryValue: {
+    marginTop: 2,
+    color: '#094771',
+    fontSize: 22,
+    fontFamily: fonts.bold,
+    lineHeight: 28,
+    letterSpacing: -0.22,
+  },
+  bankingAccountsList: {
+    marginTop: 8,
+  },
+  bankingAccountCard: {
+    width: '100%',
+    minHeight: 160,
+    marginTop: 16,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#D6E2EC',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 18,
+    paddingTop: 16,
+    paddingBottom: 18,
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.08,
+    shadowRadius: 14,
+    elevation: 2,
+  },
+  bankingAccountIconWrap: {
+    width: 48,
+    height: 48,
+    borderRadius: 8,
+    backgroundColor: '#DCF1FD',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  bankingAccountTitle: {
+    marginTop: 16,
+    color: '#091E27',
+    fontSize: 18,
+    fontFamily: fonts.semiBold,
+    lineHeight: 24,
+  },
+  bankingAccountNumber: {
+    marginTop: 6,
+    color: '#42474E',
+    fontSize: 15,
+    fontFamily: fonts.regular,
+    lineHeight: 22,
+    letterSpacing: 1.5,
+  },
+  bankingAccountFooter: {
+    marginTop: 28,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  bankingAccountBalance: {
+    color: '#094771',
+    fontSize: 22,
+    fontFamily: fonts.bold,
+    lineHeight: 28,
+    letterSpacing: -0.22,
+  },
+  bankingAccountStatusChip: {
+    minWidth: 70,
+    minHeight: 24,
+    borderRadius: 9999,
+    backgroundColor: '#F0FDF4',
+    paddingHorizontal: 16,
+    paddingVertical: 4,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  bankingAccountStatusChipGrowth: {
+    minWidth: 76,
+    backgroundColor: '#DCF1FD',
+  },
+  bankingAccountStatusText: {
+    color: '#2E7D52',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+  },
+  bankingAccountStatusTextGrowth: {
+    color: '#094771',
+  },
+  bankingAllocationCard: {
+    width: '100%',
+    minHeight: 343,
+    marginTop: 18,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#0D5A8C',
+    backgroundColor: '#094771',
+    padding: 24,
+    shadowColor: '#0D3552',
+    shadowOffset: {
+      width: 0,
+      height: 8,
+    },
+    shadowOpacity: 0.16,
+    shadowRadius: 18,
+    elevation: 3,
+  },
+  bankingAllocationTitle: {
+    color: '#FFFFFF',
+    fontSize: 22,
+    fontFamily: fonts.semiBold,
+    lineHeight: 28,
+    letterSpacing: -0.22,
+  },
+  bankingAllocationBody: {
+    marginTop: 6,
+    maxWidth: 276,
+    color: '#D6EBF8',
+    fontSize: 15,
+    fontFamily: fonts.regular,
+    lineHeight: 22,
+  },
+  bankingAllocationMetricBlock: {
+    marginTop: 28,
+  },
+  bankingAllocationMetricRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  bankingAllocationMetricLabel: {
+    color: '#FFFFFF',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+  },
+  bankingAllocationMetricValue: {
+    color: '#FFFFFF',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+  },
+  bankingAllocationTrack: {
+    width: '100%',
+    height: 8,
+    marginTop: 8,
+    borderRadius: 999,
+    backgroundColor: 'rgba(255, 255, 255, 0.16)',
+    overflow: 'hidden',
+  },
+  bankingAllocationFill: {
+    height: '100%',
+    borderRadius: 999,
+  },
+  bankingAllocationFillSavings: {
+    backgroundColor: '#FEB234',
+  },
+  bankingAllocationFillSavingsWidth: {
+    width: '83%',
+  },
+  bankingAllocationFillCurrent: {
+    backgroundColor: '#F4FAFF',
+  },
+  bankingAllocationFillCurrentWidth: {
+    width: '17%',
+  },
+  bankingAllocationDivider: {
+    width: '100%',
+    height: 1,
+    marginTop: 28,
+    backgroundColor: 'rgba(255, 255, 255, 0.14)',
+  },
+  bankingAllocationButton: {
+    width: '100%',
+    height: 56,
+    marginTop: 24,
+    borderRadius: 8,
+    backgroundColor: '#FFFFFF',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  bankingAllocationButtonText: {
+    color: '#094771',
+    fontSize: 18,
+    fontFamily: fonts.semiBold,
+    lineHeight: 24,
+    textAlign: 'center',
+  },
+  bankingProtectionCard: {
+    width: '100%',
+    minHeight: 162,
+    marginTop: 26,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#BCD4E4',
+    backgroundColor: '#DCF1FD',
+    padding: 24,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  bankingProtectionIconPill: {
+    width: 28,
+    height: 56,
+    borderRadius: 9999,
+    backgroundColor: '#FFFFFF',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  bankingProtectionTextBlock: {
+    flex: 1,
+    marginLeft: 16,
+  },
+  bankingProtectionTitle: {
+    color: '#091E27',
+    fontSize: 18,
+    fontFamily: fonts.semiBold,
+    lineHeight: 24,
+  },
+  bankingProtectionBody: {
+    marginTop: 4,
+    color: '#42474E',
+    fontSize: 15,
+    fontFamily: fonts.regular,
+    lineHeight: 22,
+  },
+  bankingReminderHeader: {
+    width: '100%',
+    marginTop: 18,
+    marginBottom: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  bankingReminderTitle: {
+    color: '#091E27',
+    fontSize: 22,
+    fontFamily: fonts.semiBold,
+    lineHeight: 28,
+    letterSpacing: -0.22,
+  },
+  bankingReminderLink: {
+    color: '#094771',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+    textAlign: 'center',
+  },
+  bankingReminderListCard: {
+    width: '100%',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+    backgroundColor: '#FFFFFF',
+    overflow: 'hidden',
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 14,
+    elevation: 2,
+  },
+  bankingReminderRow: {
+    minHeight: 62,
+    paddingHorizontal: 14,
+    paddingVertical: 14,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  bankingReminderRowLeft: {
+    flex: 1,
+    minWidth: 0,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  bankingReminderIconWrap: {
+    width: 28,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  bankingReminderTextWrap: {
+    flex: 1,
+    minWidth: 0,
+    marginLeft: 12,
+    paddingRight: 10,
+  },
+  bankingReminderRowTitle: {
+    color: '#091E27',
+    fontSize: 15,
+    fontFamily: fonts.semiBold,
+    lineHeight: 22,
+  },
+  bankingReminderRowSchedule: {
+    color: '#42474E',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+  },
+  bankingReminderDivider: {
+    height: 1,
+    backgroundColor: '#E5E7EB',
+    marginLeft: 14,
+  },
+  bankingAddCard: {
+    width: '100%',
+    height: 192,
+    marginBottom: 14,
+    borderRadius: 12,
+    backgroundColor: '#2C5F8A',
+    padding: 24,
+    justifyContent: 'space-between',
+    position: 'relative',
+    overflow: 'hidden',
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.16,
+    shadowRadius: 16,
+    elevation: 3,
+  },
+  bankingAddCardGlowLeft: {
+    position: 'absolute',
+    top: -36,
+    left: -36,
+  },
+  bankingAddCardGlowRight: {
+    position: 'absolute',
+    right: -36,
+    bottom: -36,
+  },
+  bankingAddCardBankName: {
+    color: '#B3D8FF',
+    fontSize: 15,
+    fontFamily: fonts.regular,
+    lineHeight: 20,
+  },
+  bankingAddCardTapWrap: {
+    position: 'absolute',
+    top: 24,
+    right: 24,
+  },
+  bankingAddCardFooter: {
+    width: '100%',
+  },
+  bankingAddCardDigitsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+  },
+  bankingAddCardDotsGroup: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginRight: 8,
+  },
+  bankingAddCardDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    marginRight: 4,
+    backgroundColor: 'rgba(255, 255, 255, 0.82)',
+  },
+  bankingAddCardLastDigits: {
+    color: '#DCEFFD',
+    fontSize: 28,
+    fontFamily: fonts.regular,
+    lineHeight: 36,
+    letterSpacing: 0.26,
+  },
+  bankingAddCardAccountType: {
+    marginTop: 8,
+    color: '#B3D8FF',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+  },
+  bankingAddBalanceCard: {
+    width: '100%',
+    marginBottom: 18,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#E4EAF0',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.06,
+    shadowRadius: 12,
+    elevation: 2,
+  },
+  bankingAddBalanceLabel: {
+    color: '#42474E',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+    textTransform: 'uppercase',
+  },
+  bankingAddBalanceValue: {
+    marginTop: 2,
+    color: '#094771',
+    fontSize: 28,
+    fontFamily: fonts.bold,
+    lineHeight: 36,
+    letterSpacing: -0.56,
+  },
+  bankingAddFieldCard: {
+    width: '100%',
+    marginBottom: 16,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: '#E4EAF0',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 14,
+    paddingTop: 12,
+    paddingBottom: 14,
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.06,
+    shadowRadius: 12,
+    elevation: 2,
+  },
+  bankingAddFieldLabel: {
+    marginBottom: 8,
+    color: '#42474E',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+  },
+  bankingAddInputShell: {
+    minHeight: 48,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#CBD6DE',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 14,
+    justifyContent: 'center',
+  },
+  bankingAddInput: {
+    paddingVertical: 0,
+    color: '#091E27',
+    fontSize: 16,
+    fontFamily: fonts.regular,
+    lineHeight: 20,
+  },
+  bankingAddSelectShell: {
+    minHeight: 48,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#CBD6DE',
+    backgroundColor: '#FFFFFF',
+    paddingLeft: 14,
+    paddingRight: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  bankingAddSelectValue: {
+    color: '#091E27',
+    fontSize: 16,
+    fontFamily: fonts.regular,
+    lineHeight: 20,
+  },
+  bankingAddSelectIcon: {
+    transform: [{rotate: '90deg'}],
+  },
+  bankingAddSelectIconOpen: {
+    transform: [{rotate: '-90deg'}],
+  },
+  bankingAddSelectDropdown: {
+    marginTop: 8,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#D9E1E8',
+    backgroundColor: '#FFFFFF',
+    overflow: 'hidden',
+  },
+  bankingAddSelectOption: {
+    minHeight: 44,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+    justifyContent: 'center',
+  },
+  bankingAddSelectOptionActive: {
+    backgroundColor: '#EAF6FF',
+  },
+  bankingAddSelectOptionText: {
+    color: '#091E27',
+    fontSize: 15,
+    fontFamily: fonts.regular,
+    lineHeight: 22,
+  },
+  bankingAddSelectOptionTextActive: {
+    color: '#094771',
+    fontFamily: fonts.semiBold,
+  },
+  bankingAddUploadArea: {
+    marginTop: 6,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderStyle: 'dashed',
+    borderColor: '#D7E5F0',
+    backgroundColor: '#F7FBFF',
+    paddingHorizontal: 16,
+    paddingTop: 20,
+    paddingBottom: 18,
+    alignItems: 'center',
+  },
+  bankingAddUploadTitle: {
+    marginTop: 12,
+    color: '#091E27',
+    fontSize: 15,
+    fontFamily: fonts.regular,
+    lineHeight: 22,
+    textAlign: 'center',
+  },
+  bankingAddUploadTitleHighlight: {
+    color: '#094771',
+  },
+  bankingAddUploadSubtitle: {
+    marginTop: 4,
+    color: '#72777F',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+    textAlign: 'center',
+  },
+  bankingAddUploadFileCard: {
+    marginTop: 12,
+    borderRadius: 10,
+    backgroundColor: '#EAF6FF',
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  bankingAddUploadFileInfo: {
+    flex: 1,
+    minWidth: 0,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  bankingAddUploadFileName: {
+    flex: 1,
+    marginLeft: 10,
+    color: '#091E27',
+    fontSize: 15,
+    fontFamily: fonts.regular,
+    lineHeight: 22,
+  },
+  bankingAddUploadFileDeleteButton: {
+    width: 24,
+    height: 24,
+    marginLeft: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  bankingAddUploadButton: {
+    alignSelf: 'center',
+    marginTop: 12,
+  },
+  bankingAddReminderCard: {
+    width: '100%',
+    minHeight: 74,
+    marginBottom: 16,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: 'rgba(129, 85, 0, 0.2)',
+    backgroundColor: 'rgba(255, 221, 178, 0.2)',
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  bankingAddReminderLeft: {
+    flex: 1,
+    minWidth: 0,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingRight: 12,
+  },
+  bankingAddReminderTextBlock: {
+    flex: 1,
+    minWidth: 0,
+    marginLeft: 10,
+  },
+  bankingAddReminderTitle: {
+    color: '#624000',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+  },
+  bankingAddReminderSubtitle: {
+    marginTop: 2,
+    color: 'rgba(98, 64, 0, 0.7)',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+  },
+  bankingAddReminderToggle: {
+    width: 38,
+    height: 22,
+    borderRadius: 999,
+    backgroundColor: '#D2B57E',
+    paddingHorizontal: 2,
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+  },
+  bankingAddReminderToggleActive: {
+    backgroundColor: '#A56E00',
+    alignItems: 'flex-end',
+  },
+  bankingAddReminderToggleThumb: {
+    width: 18,
+    height: 18,
+    borderRadius: 9,
+    backgroundColor: '#FFFFFF',
+  },
+  bankingAddNotesInputShell: {
+    minHeight: 124,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#CBD6DE',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 12,
+    paddingVertical: 12,
+  },
+  bankingAddNotesInput: {
+    flex: 1,
+    paddingTop: 0,
+    paddingBottom: 0,
+    color: '#243449',
+    fontSize: 15,
+    fontFamily: fonts.regular,
+    lineHeight: 22,
   },
   heroCard: {
     marginTop: 0,
