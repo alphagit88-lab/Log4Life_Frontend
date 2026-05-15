@@ -15,12 +15,16 @@ import {useAuth} from '../context/AuthContext';
 import ArrowSvg from '../images/arrow.svg';
 import BackSvg from '../images/back.svg';
 import BackgroundSvg from '../images/background.svg';
+import BankTwoSvg from '../images/bank_2.svg';
 import VaultBackgroundSvg from '../images/bg_2.svg';
 import BellSvg from '../images/bell.svg';
 import BirthdaySvg from '../images/birthday.svg';
 import ButtonSvg from '../images/Button.svg';
 import BucketSvg from '../images/bucket.svg';
 import CarSvg from '../images/car.svg';
+import CardPatternSvg from '../images/card.svg';
+import CardTwoSvg from '../images/card_2.svg';
+import CardTwoPrimarySvg from '../images/card_2_primary.svg';
 import CollectionSvg from '../images/collection.svg';
 import DateSvg from '../images/date.svg';
 import DatesSvg from '../images/dates.svg';
@@ -44,6 +48,9 @@ import JournelSvg from '../images/journel.svg';
 import LocationSvg from '../images/location.svg';
 import MaintainceSvg from '../images/maintaince.svg';
 import MonthlySvg from '../images/monthly.svg';
+import MoneySvg from '../images/money.svg';
+import NetflixSvg from '../images/netflix.svg';
+import NetflixOneSvg from '../images/netflix_1.svg';
 import NotificationSvg from '../images/notification.svg';
 import NotificationDefaultSvg from '../images/notification_def.svg';
 import NotesSvg from '../images/notes.svg';
@@ -53,29 +60,37 @@ import PigSvg from '../images/pig.svg';
 import PhotoSvg from '../images/photo.svg';
 import PlanSvg from '../images/plan.svg';
 import PlannerSvg from '../images/planner.svg';
+import PlannerPrimarySvg from '../images/planner_primary.svg';
 import PlusSvg from '../images/plus.svg';
 import ProfileSvg from '../images/profile.svg';
 import ProfileCardSvg from '../images/profile_1.svg';
 import ProfileCardPrimarySvg from '../images/profile_1_primary.svg';
+import RecurrentSvg from '../images/recurrent.svg';
 import RecurringSvg from '../images/recurring.svg';
 import RecordsSvg from '../images/records.svg';
 import RecordsNonSvg from '../images/records_non.svg';
 import RecordsSelectedSvg from '../images/records_selected.svg';
 import ReminderSvg from '../images/reminder.svg';
 import RemindersSvg from '../images/reminders.svg';
+import RingBellSvg from '../images/ring_bell.svg';
+import SavingSvg from '../images/saving.svg';
 import SavingsSvg from '../images/savings.svg';
 import SearchGraySvg from '../images/search_gray.svg';
 import SearchSvg from '../images/search.svg';
+import SkyBroadbandSvg from '../images/sky_broadband.svg';
+import SpotifySvg from '../images/spotify.svg';
 import StatementSvg from '../images/statement.svg';
 import TapSvg from '../images/tap.svg';
 import TrashSvg from '../images/trash.svg';
 import TrashCompactSvg from '../images/trash_2.svg';
+import UpcomingSvg from '../images/upcoming.svg';
 import UploadSvg from '../images/upload.svg';
 import UploadDocumentSvg from '../images/upload_2.svg';
 import VehicleSvg from '../images/vehicle.svg';
 import WarningSvg from '../images/warning.svg';
 import WarningAlarmSvg from '../images/warning_alarm.svg';
 import WalletSvg from '../images/wallert.svg';
+import WifiSvg from '../images/wi-fi.svg';
 import WrongSvg from '../images/wrong.svg';
 import {fonts} from '../theme/fonts';
 
@@ -85,7 +100,9 @@ type RecordsView =
   | 'personal-identity'
   | 'personal-identity-add'
   | 'banking-cards'
-  | 'banking-cards-add';
+  | 'banking-cards-add'
+  | 'recurring-payments'
+  | 'recurring-payments-add';
 
 interface StatCardData {
   title: string;
@@ -141,6 +158,26 @@ interface BankingReminderData {
   icon: React.JSX.Element;
 }
 
+interface RecurringSubscriptionData {
+  id: string;
+  name: string;
+  plan: string;
+  amount: number;
+  dueLabel: string;
+  paymentMethod: string;
+  serviceIcon: React.JSX.Element;
+  paymentMethodIcon: React.JSX.Element;
+}
+
+interface RecurringInsightData {
+  id: string;
+  label: string;
+  body: string;
+  accentColor: string;
+  labelColor: string;
+  icon: React.JSX.Element;
+}
+
 interface BottomNavItemProps {
   active?: boolean;
   label: string;
@@ -182,6 +219,10 @@ function getBankDisplayName(name: string): string {
   }
 
   return /bank$/i.test(trimmedName) ? trimmedName : `${trimmedName} Bank`;
+}
+
+function formatCurrency(value: number): string {
+  return `$${value.toFixed(2)}`;
 }
 
 function HeaderActionButton({
@@ -415,6 +456,109 @@ function BankingReminderRow({
   );
 }
 
+function RecurringSubscriptionCard({
+  name,
+  plan,
+  amount,
+  dueLabel,
+  paymentMethod,
+  serviceIcon,
+  paymentMethodIcon,
+  onPress,
+}: RecurringSubscriptionData & {
+  onPress: () => void;
+}): React.JSX.Element {
+  return (
+    <Pressable
+      style={({pressed}) => [
+        styles.recurringSubscriptionCard,
+        pressed ? styles.pressed : null,
+      ]}
+      onPress={onPress}>
+      <View style={styles.recurringSubscriptionRow}>
+        <View style={styles.recurringSubscriptionArtworkWrap}>
+          {serviceIcon}
+        </View>
+
+        <View style={styles.recurringSubscriptionContent}>
+          <View style={styles.recurringSubscriptionTopRow}>
+            <View style={styles.recurringSubscriptionTextBlock}>
+              <Text style={styles.recurringSubscriptionName}>{name}</Text>
+              <Text style={styles.recurringSubscriptionPlan}>{plan}</Text>
+            </View>
+
+            <View style={styles.recurringSubscriptionPriceBlock}>
+              <View style={styles.recurringSubscriptionPriceRow}>
+                <Text style={styles.recurringSubscriptionPrice}>
+                  {formatCurrency(amount)}
+                </Text>
+                <Text style={styles.recurringSubscriptionPriceSuffix}>/mo</Text>
+              </View>
+              <Text style={styles.recurringSubscriptionDueLabel}>
+                {dueLabel}
+              </Text>
+            </View>
+          </View>
+
+          <View style={styles.recurringSubscriptionMetaRow}>
+            <View style={styles.recurringSubscriptionMetaItem}>
+              <View style={styles.recurringSubscriptionMetaIconWrap}>
+                <RecurrentSvg width={12} height={12} />
+              </View>
+              <Text style={styles.recurringSubscriptionMetaText}>
+                {'Monthly\nCycle'}
+              </Text>
+            </View>
+
+            <View
+              style={[
+                styles.recurringSubscriptionMetaItem,
+                styles.recurringSubscriptionMetaItemTrailing,
+              ]}>
+              <View style={styles.recurringSubscriptionMetaIconWrap}>
+                {paymentMethodIcon}
+              </View>
+              <Text style={styles.recurringSubscriptionMetaText}>
+                {paymentMethod}
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </Pressable>
+  );
+}
+
+function RecurringInsightCard({
+  label,
+  body,
+  accentColor,
+  labelColor,
+  icon,
+}: RecurringInsightData): React.JSX.Element {
+  return (
+    <View style={styles.recurringInsightCard}>
+      <View
+        style={[
+          styles.recurringInsightAccent,
+          {backgroundColor: accentColor},
+        ]}
+      />
+
+      <View style={styles.recurringInsightContent}>
+        <View style={styles.recurringInsightHeader}>
+          <View style={styles.recurringInsightIconWrap}>{icon}</View>
+          <Text style={[styles.recurringInsightLabel, {color: labelColor}]}>
+            {label}
+          </Text>
+        </View>
+
+        <Text style={styles.recurringInsightBody}>{body}</Text>
+      </View>
+    </View>
+  );
+}
+
 function BottomNavItem({
   active = false,
   label,
@@ -474,6 +618,24 @@ function HomeScreen(): React.JSX.Element {
   ] = useState(true);
   const [hasUploadedBankingDocument, setHasUploadedBankingDocument] =
     useState(true);
+  const [recurringDraftAmount, setRecurringDraftAmount] = useState('$15.99');
+  const [recurringDraftPaymentMethod, setRecurringDraftPaymentMethod] =
+    useState('Visa (•••• 4242)');
+  const [
+    isRecurringPaymentMethodDropdownOpen,
+    setIsRecurringPaymentMethodDropdownOpen,
+  ] = useState(false);
+  const [recurringDraftFrequency, setRecurringDraftFrequency] =
+    useState('Monthly');
+  const [isRecurringFrequencyDropdownOpen, setIsRecurringFrequencyDropdownOpen] =
+    useState(false);
+  const [recurringDraftNextDueDate, setRecurringDraftNextDueDate] =
+    useState('11/28/2023');
+  const [recurringDraftNotes, setRecurringDraftNotes] = useState(
+    'Premium Ultra HD Plan. Includes 4 screens.',
+  );
+  const [recurringDraftSmartReminder, setRecurringDraftSmartReminder] =
+    useState(true);
 
   const contentWidth = Math.min(width - 32, 402);
   const dueCardWidth = Math.min(Math.max(width * 0.72, 252), 284);
@@ -490,18 +652,32 @@ function HomeScreen(): React.JSX.Element {
   const isBankingCardsView = isRecordsTab && recordsView === 'banking-cards';
   const isBankingCardsAddView =
     isRecordsTab && recordsView === 'banking-cards-add';
+  const isRecurringPaymentsView =
+    isRecordsTab && recordsView === 'recurring-payments';
+  const isRecurringPaymentsAddView =
+    isRecordsTab && recordsView === 'recurring-payments-add';
   const isRecordsDetailView = isRecordsTab && recordsView !== 'browser';
-  const recordsDetailTitle = isBankingCardsView || isBankingCardsAddView
+  const recordsDetailTitle = isRecurringPaymentsAddView
+    ? 'Recurring Payments'
+    : isRecurringPaymentsView
+    ? 'Recurring\nPayments'
+    : isBankingCardsView || isBankingCardsAddView
     ? 'Banking & Cards'
     : 'Personal Details';
   const shouldShowRecordsAddButton =
-    isPersonalIdentityView || isBankingCardsView;
+    isPersonalIdentityView || isBankingCardsView || isRecurringPaymentsView;
   const bankingDraftDisplayName = getBankDisplayName(bankingDraftBankName);
   const bankingDraftLastFourDisplay = bankingDraftLast4Digits || '4821';
   const bankingDraftCardLabel = `${
     bankingDraftAccountType.trim() || 'Current'
   } Account`.toUpperCase();
   const bankingAccountTypeOptions = ['Current', 'Savings', 'Business', 'Joint'];
+  const recurringPaymentMethodOptions = [
+    'Visa (•••• 4242)',
+    'Direct Debit',
+    'Home Services',
+  ];
+  const recurringFrequencyOptions = ['Monthly', 'Quarterly', 'Yearly'];
 
   const statCards: StatCardData[] = [
     {
@@ -707,6 +883,72 @@ function HomeScreen(): React.JSX.Element {
     },
   ];
 
+  const recurringSubscriptions: RecurringSubscriptionData[] = [
+    {
+      id: 'netflix',
+      name: 'Netflix',
+      plan: 'Premium UHD Plan',
+      amount: 15.99,
+      dueLabel: 'Due Oct 14',
+      paymentMethod: 'Visa ••••\n4242',
+      serviceIcon: <NetflixSvg width={56} height={56} />,
+      paymentMethodIcon: <CardTwoSvg width={15} height={12} />,
+    },
+    {
+      id: 'spotify',
+      name: 'Spotify',
+      plan: 'Family Premium',
+      amount: 9.99,
+      dueLabel: 'Due Oct 18',
+      paymentMethod: 'Direct\nDebit',
+      serviceIcon: <SpotifySvg width={56} height={56} />,
+      paymentMethodIcon: <BankTwoSvg width={15} height={15} />,
+    },
+    {
+      id: 'sky-broadband',
+      name: 'Sky Broadband',
+      plan: 'Superfast Fibre',
+      amount: 42,
+      dueLabel: 'Due Nov 01',
+      paymentMethod: 'Home\nServices',
+      serviceIcon: <SkyBroadbandSvg width={56} height={56} />,
+      paymentMethodIcon: <WifiSvg width={14} height={15} />,
+    },
+  ];
+
+  const recurringInsights: RecurringInsightData[] = [
+    {
+      id: 'upcoming-peak',
+      label: 'UPCOMING PEAK',
+      body:
+        'Your highest concentration of payments occurs between the 14th and 18th of each month. Ensure your primary account is funded.',
+      accentColor: '#FEB234',
+      labelColor: '#815500',
+      icon: <UpcomingSvg width={20} height={12} />,
+    },
+    {
+      id: 'saving-opportunity',
+      label: 'SAVING OPPORTUNITY',
+      body:
+        'Switching your Sky Broadband to an annual billing cycle could save you $65.00 per year. Recommended action: View annual plans.',
+      accentColor: '#094771',
+      labelColor: '#094771',
+      icon: <SavingSvg width={15} height={20} />,
+    },
+  ];
+
+  const recurringMonthlyCommitment = recurringSubscriptions.reduce(
+    (total, subscription) => total + subscription.amount,
+    0,
+  );
+  const recurringAnnualCost = recurringMonthlyCommitment * 12;
+  const recurringBudgetUsagePercent = 68;
+  const recurringNextPayment =
+    recurringSubscriptions[0]?.dueLabel.replace('Due ', '') || 'Oct 14';
+  const recurringActiveServicesLabel = `${recurringSubscriptions.length} ${
+    recurringSubscriptions.length === 1 ? 'Subscription' : 'Subscriptions'
+  }`;
+
   const openQuickActions = () => {
     Alert.alert('Quick Actions', 'Refresh your profile or sign out.', [
       {
@@ -779,6 +1021,17 @@ function HomeScreen(): React.JSX.Element {
     setHasUploadedBankingDocument(true);
   };
 
+  const resetRecurringDraft = () => {
+    setRecurringDraftAmount('$15.99');
+    setRecurringDraftPaymentMethod('Visa (•••• 4242)');
+    setIsRecurringPaymentMethodDropdownOpen(false);
+    setRecurringDraftFrequency('Monthly');
+    setIsRecurringFrequencyDropdownOpen(false);
+    setRecurringDraftNextDueDate('11/28/2023');
+    setRecurringDraftNotes('Premium Ultra HD Plan. Includes 4 screens.');
+    setRecurringDraftSmartReminder(true);
+  };
+
   const handleRecordCategoryPress = (category: RecordCategoryData) => {
     if (category.id === 'personal-identity') {
       setRecordsView('personal-identity');
@@ -787,6 +1040,11 @@ function HomeScreen(): React.JSX.Element {
 
     if (category.id === 'banking-cards') {
       setRecordsView('banking-cards');
+      return;
+    }
+
+    if (category.id === 'recurring-payments') {
+      setRecordsView('recurring-payments');
       return;
     }
 
@@ -803,6 +1061,11 @@ function HomeScreen(): React.JSX.Element {
     setRecordsView('banking-cards-add');
   };
 
+  const openAddRecurringPayment = () => {
+    resetRecurringDraft();
+    setRecordsView('recurring-payments-add');
+  };
+
   const handleRecordsAddPress = () => {
     if (isPersonalIdentityView) {
       openAddIdentityRecord();
@@ -811,6 +1074,11 @@ function HomeScreen(): React.JSX.Element {
 
     if (isBankingCardsView) {
       openAddBankingRecord();
+      return;
+    }
+
+    if (isRecurringPaymentsView) {
+      openAddRecurringPayment();
     }
   };
 
@@ -903,6 +1171,79 @@ function HomeScreen(): React.JSX.Element {
     ]);
   };
 
+  const closeRecurringDropdowns = () => {
+    setIsRecurringPaymentMethodDropdownOpen(false);
+    setIsRecurringFrequencyDropdownOpen(false);
+  };
+
+  const handleToggleRecurringPaymentMethod = () => {
+    setIsRecurringFrequencyDropdownOpen(false);
+    setIsRecurringPaymentMethodDropdownOpen(currentValue => !currentValue);
+  };
+
+  const handleSelectRecurringPaymentMethod = (paymentMethod: string) => {
+    setRecurringDraftPaymentMethod(paymentMethod);
+    setIsRecurringPaymentMethodDropdownOpen(false);
+  };
+
+  const handleToggleRecurringFrequency = () => {
+    setIsRecurringPaymentMethodDropdownOpen(false);
+    setIsRecurringFrequencyDropdownOpen(currentValue => !currentValue);
+  };
+
+  const handleSelectRecurringFrequency = (frequency: string) => {
+    setRecurringDraftFrequency(frequency);
+    setIsRecurringFrequencyDropdownOpen(false);
+  };
+
+  const handleRecurringAmountChange = (value: string) => {
+    closeRecurringDropdowns();
+    const sanitizedValue = value.replace(/[^0-9.]/g, '');
+    const [wholePart, ...decimalParts] = sanitizedValue.split('.');
+    const decimalPart = decimalParts.join('').slice(0, 2);
+    const normalizedValue = decimalPart
+      ? `${wholePart}.${decimalPart}`
+      : wholePart;
+
+    setRecurringDraftAmount(normalizedValue ? `$${normalizedValue}` : '$');
+  };
+
+  const handleRecurringNextDueDateChange = (value: string) => {
+    closeRecurringDropdowns();
+    setRecurringDraftNextDueDate(value);
+  };
+
+  const handleRecurringNotesChange = (value: string) => {
+    closeRecurringDropdowns();
+    setRecurringDraftNotes(value);
+  };
+
+  const handleToggleRecurringSmartReminder = () => {
+    closeRecurringDropdowns();
+    setRecurringDraftSmartReminder(currentValue => !currentValue);
+  };
+
+  const handleDeleteRecurringEntry = () => {
+    Alert.alert(
+      'Delete This Entry',
+      'Remove this recurring payment draft?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: () => {
+            resetRecurringDraft();
+            setRecordsView('recurring-payments');
+          },
+        },
+      ],
+    );
+  };
+
   const handleRecordsBack = () => {
     if (recordsView === 'personal-identity-add') {
       setRecordsView('personal-identity');
@@ -911,6 +1252,11 @@ function HomeScreen(): React.JSX.Element {
 
     if (recordsView === 'banking-cards-add') {
       setRecordsView('banking-cards');
+      return;
+    }
+
+    if (recordsView === 'recurring-payments-add') {
+      setRecordsView('recurring-payments');
       return;
     }
 
@@ -1786,6 +2132,316 @@ function HomeScreen(): React.JSX.Element {
     </>
   );
 
+  const recurringPaymentsAddContent = (
+    <>
+      <View style={styles.recurringAddServiceCard}>
+        <View style={styles.recurringAddServiceArtworkWrap}>
+          <NetflixOneSvg width={63} height={80} />
+        </View>
+
+        <View style={styles.recurringAddServiceContent}>
+          <Text style={styles.recurringAddServiceLabel}>Service Name</Text>
+          <Text style={styles.recurringAddServiceName}>Netflix</Text>
+        </View>
+      </View>
+
+      <View style={styles.recurringAddSectionCard}>
+        <View style={styles.recurringAddSectionHeader}>
+          <MoneySvg width={22} height={16} />
+          <Text style={styles.recurringAddSectionTitle}>Financials</Text>
+        </View>
+
+        <View style={styles.recurringAddFieldsGroup}>
+          <View style={styles.recurringAddField}>
+            <Text style={styles.recurringAddFieldLabel}>Amount</Text>
+            <View style={styles.recurringAddInputShell}>
+              <TextInput
+                style={styles.recurringAddInput}
+                value={recurringDraftAmount}
+                onChangeText={handleRecurringAmountChange}
+                onFocus={closeRecurringDropdowns}
+                placeholder="$15.99"
+                placeholderTextColor="#98A2B3"
+                keyboardType="decimal-pad"
+                autoCapitalize="none"
+                autoCorrect={false}
+                selectionColor="#0A5688"
+              />
+            </View>
+          </View>
+
+          <View style={styles.recurringAddField}>
+            <Text style={styles.recurringAddFieldLabel}>Payment Method</Text>
+            <Pressable
+              style={({pressed}) => [
+                styles.recurringAddSelectShell,
+                pressed ? styles.pressed : null,
+              ]}
+              onPress={handleToggleRecurringPaymentMethod}>
+              <View style={styles.recurringAddSelectValueRow}>
+                <CardTwoPrimarySvg width={15} height={12} />
+                <Text
+                  style={[
+                    styles.recurringAddSelectValue,
+                    styles.recurringAddSelectValueWithIcon,
+                  ]}>
+                  {recurringDraftPaymentMethod}
+                </Text>
+              </View>
+
+              <View
+                style={[
+                  styles.recurringAddSelectIcon,
+                  isRecurringPaymentMethodDropdownOpen
+                    ? styles.recurringAddSelectIconOpen
+                    : null,
+                ]}>
+                <ArrowSvg width={8} height={12} />
+              </View>
+            </Pressable>
+
+            {isRecurringPaymentMethodDropdownOpen ? (
+              <View style={styles.recurringAddSelectDropdown}>
+                {recurringPaymentMethodOptions.map(option => (
+                  <Pressable
+                    key={option}
+                    style={({pressed}) => [
+                      styles.recurringAddSelectOption,
+                      recurringDraftPaymentMethod === option
+                        ? styles.recurringAddSelectOptionActive
+                        : null,
+                      pressed ? styles.pressed : null,
+                    ]}
+                    onPress={() => handleSelectRecurringPaymentMethod(option)}>
+                    <Text
+                      style={[
+                        styles.recurringAddSelectOptionText,
+                        recurringDraftPaymentMethod === option
+                          ? styles.recurringAddSelectOptionTextActive
+                          : null,
+                      ]}>
+                      {option}
+                    </Text>
+                  </Pressable>
+                ))}
+              </View>
+            ) : null}
+          </View>
+        </View>
+      </View>
+
+      <View style={styles.recurringAddSectionCard}>
+        <View style={styles.recurringAddSectionHeader}>
+          <PlannerPrimarySvg width={18} height={20} />
+          <Text style={styles.recurringAddSectionTitle}>Schedule</Text>
+        </View>
+
+        <View style={styles.recurringAddFieldsGroup}>
+          <View style={styles.recurringAddField}>
+            <Text style={styles.recurringAddFieldLabel}>Frequency</Text>
+            <Pressable
+              style={({pressed}) => [
+                styles.recurringAddSelectShell,
+                pressed ? styles.pressed : null,
+              ]}
+              onPress={handleToggleRecurringFrequency}>
+              <Text style={styles.recurringAddSelectValue}>
+                {recurringDraftFrequency}
+              </Text>
+
+              <View
+                style={[
+                  styles.recurringAddSelectIcon,
+                  isRecurringFrequencyDropdownOpen
+                    ? styles.recurringAddSelectIconOpen
+                    : null,
+                ]}>
+                <ArrowSvg width={8} height={12} />
+              </View>
+            </Pressable>
+
+            {isRecurringFrequencyDropdownOpen ? (
+              <View style={styles.recurringAddSelectDropdown}>
+                {recurringFrequencyOptions.map(option => (
+                  <Pressable
+                    key={option}
+                    style={({pressed}) => [
+                      styles.recurringAddSelectOption,
+                      recurringDraftFrequency === option
+                        ? styles.recurringAddSelectOptionActive
+                        : null,
+                      pressed ? styles.pressed : null,
+                    ]}
+                    onPress={() => handleSelectRecurringFrequency(option)}>
+                    <Text
+                      style={[
+                        styles.recurringAddSelectOptionText,
+                        recurringDraftFrequency === option
+                          ? styles.recurringAddSelectOptionTextActive
+                          : null,
+                      ]}>
+                      {option}
+                    </Text>
+                  </Pressable>
+                ))}
+              </View>
+            ) : null}
+          </View>
+
+          <View style={styles.recurringAddField}>
+            <Text style={styles.recurringAddFieldLabel}>Next Due Date</Text>
+            <View style={styles.recurringAddInputShell}>
+              <TextInput
+                style={styles.recurringAddInput}
+                value={recurringDraftNextDueDate}
+                onChangeText={handleRecurringNextDueDateChange}
+                onFocus={closeRecurringDropdowns}
+                placeholder="11/28/2023"
+                placeholderTextColor="#98A2B3"
+                autoCapitalize="none"
+                autoCorrect={false}
+                selectionColor="#0A5688"
+              />
+            </View>
+          </View>
+        </View>
+      </View>
+
+      <View style={styles.recurringAddSectionCard}>
+        <Pressable
+          style={({pressed}) => [
+            styles.recurringAddReminderRow,
+            pressed ? styles.pressed : null,
+          ]}
+          onPress={handleToggleRecurringSmartReminder}>
+          <View style={styles.recurringAddReminderTextRow}>
+            <RingBellSvg width={20} height={21} />
+            <View style={styles.recurringAddReminderTextBlock}>
+              <Text style={styles.recurringAddReminderTitle}>
+                Smart Reminder
+              </Text>
+              <Text style={styles.recurringAddReminderSubtitle}>
+                Get notified 2 days before due date
+              </Text>
+            </View>
+          </View>
+
+          <View
+            style={[
+              styles.recurringAddReminderToggle,
+              recurringDraftSmartReminder
+                ? styles.recurringAddReminderToggleActive
+                : null,
+            ]}>
+            <View style={styles.recurringAddReminderToggleThumb} />
+          </View>
+        </Pressable>
+
+        <View style={styles.recurringAddNotesBlock}>
+          <Text style={styles.recurringAddFieldLabel}>Notes</Text>
+          <View style={styles.recurringAddNotesInputShell}>
+            <TextInput
+              style={styles.recurringAddNotesInput}
+              value={recurringDraftNotes}
+              onChangeText={handleRecurringNotesChange}
+              onFocus={closeRecurringDropdowns}
+              placeholder="Add notes for this recurring payment..."
+              placeholderTextColor="#98A2B3"
+              multiline
+              textAlignVertical="top"
+              autoCorrect={false}
+              selectionColor="#0A5688"
+            />
+          </View>
+        </View>
+      </View>
+
+      <Pressable
+        style={({pressed}) => [
+          styles.personalDeleteEntryButton,
+          styles.recurringAddDeleteButton,
+          pressed ? styles.pressed : null,
+        ]}
+        onPress={handleDeleteRecurringEntry}>
+        <TrashCompactSvg width={16} height={18} />
+        <Text style={styles.personalDeleteEntryButtonText}>
+          Delete This Entry
+        </Text>
+      </Pressable>
+    </>
+  );
+
+  const recurringPaymentsContent = (
+    <>
+      <View style={styles.recurringHeroCard}>
+        <View style={styles.recurringHeroPatternWrap}>
+          <CardPatternSvg width={95} height={90} />
+        </View>
+
+        <Text style={styles.recurringHeroLabel}>Total Monthly Commitment</Text>
+        <Text style={styles.recurringHeroAmount}>
+          {formatCurrency(recurringMonthlyCommitment)}
+        </Text>
+
+        <View style={styles.recurringHeroInfoRow}>
+          <View style={styles.recurringHeroInfoChip}>
+            <Text style={styles.recurringHeroInfoLabel}>Next Payment</Text>
+            <Text style={styles.recurringHeroInfoValue}>
+              {recurringNextPayment}
+            </Text>
+          </View>
+
+          <View style={styles.recurringHeroInfoChip}>
+            <Text style={styles.recurringHeroInfoLabel}>Active Services</Text>
+            <Text style={styles.recurringHeroInfoValue}>
+              {recurringActiveServicesLabel}
+            </Text>
+          </View>
+        </View>
+      </View>
+
+      <View style={styles.recurringAnnualCard}>
+        <Text style={styles.recurringAnnualLabel}>Projected Annual Cost</Text>
+        <Text style={styles.recurringAnnualValue}>
+          {formatCurrency(recurringAnnualCost)}
+        </Text>
+
+        <View style={styles.recurringAnnualTrack}>
+          <View
+            style={[
+              styles.recurringAnnualFill,
+              {width: `${recurringBudgetUsagePercent}%`},
+            ]}
+          />
+        </View>
+
+        <Text style={styles.recurringAnnualHint}>
+          {recurringBudgetUsagePercent}% of lifestyle budget
+        </Text>
+      </View>
+
+      <Text style={styles.recurringSectionTitle}>Active Subscriptions</Text>
+
+      <View style={styles.recurringSubscriptionsList}>
+        {recurringSubscriptions.map(subscription => (
+          <RecurringSubscriptionCard
+            key={subscription.id}
+            {...subscription}
+            onPress={() => openPlaceholder(subscription.name)}
+          />
+        ))}
+      </View>
+
+      <Text style={styles.recurringSectionTitle}>Insights</Text>
+
+      <View style={styles.recurringInsightsList}>
+        {recurringInsights.map(insight => (
+          <RecurringInsightCard key={insight.id} {...insight} />
+        ))}
+      </View>
+    </>
+  );
+
   return (
     <SafeAreaView style={styles.safeArea} edges={['top', 'bottom']}>
       <View style={styles.screen}>
@@ -1880,6 +2536,10 @@ function HomeScreen(): React.JSX.Element {
                 ? personalIdentityAddContent
                 : isBankingCardsAddView
                 ? bankingAddContent
+                : isRecurringPaymentsAddView
+                ? recurringPaymentsAddContent
+                : isRecurringPaymentsView
+                ? recurringPaymentsContent
                 : isBankingCardsView
                 ? bankingContent
                 : isPersonalIdentityView
@@ -3773,6 +4433,544 @@ const styles = StyleSheet.create({
     lineHeight: 16,
     letterSpacing: 0.26,
     textAlign: 'center',
+  },
+  recurringAddServiceCard: {
+    width: '100%',
+    marginBottom: 22,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: '#DCE5ED',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 22,
+    paddingVertical: 22,
+    flexDirection: 'row',
+    alignItems: 'center',
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.06,
+    shadowRadius: 14,
+    elevation: 2,
+  },
+  recurringAddServiceArtworkWrap: {
+    width: 58,
+    height: 74,
+    borderRadius: 12,
+    overflow: 'hidden',
+  },
+  recurringAddServiceContent: {
+    flex: 1,
+    minWidth: 0,
+    marginLeft: 22,
+  },
+  recurringAddServiceLabel: {
+    color: '#42474E',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+  },
+  recurringAddServiceName: {
+    marginTop: 6,
+    color: '#091E27',
+    fontSize: 22,
+    fontFamily: fonts.semiBold,
+    lineHeight: 28,
+    letterSpacing: -0.22,
+  },
+  recurringAddSectionCard: {
+    width: '100%',
+    marginBottom: 18,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: '#E4EAF0',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 22,
+    paddingTop: 20,
+    paddingBottom: 18,
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.06,
+    shadowRadius: 14,
+    elevation: 2,
+  },
+  recurringAddSectionHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  recurringAddSectionTitle: {
+    marginLeft: 8,
+    color: '#094771',
+    fontSize: 18,
+    fontFamily: fonts.semiBold,
+    lineHeight: 24,
+  },
+  recurringAddFieldsGroup: {
+    marginTop: 18,
+  },
+  recurringAddField: {
+    marginBottom: 16,
+  },
+  recurringAddFieldLabel: {
+    marginBottom: 8,
+    color: '#42474E',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+  },
+  recurringAddInputShell: {
+    minHeight: 48,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#D9E1E8',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 14,
+    justifyContent: 'center',
+  },
+  recurringAddInput: {
+    paddingVertical: 0,
+    color: '#091E27',
+    fontSize: 16,
+    fontFamily: fonts.regular,
+    lineHeight: 20,
+  },
+  recurringAddSelectShell: {
+    minHeight: 48,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#D9E1E8',
+    backgroundColor: '#FFFFFF',
+    paddingLeft: 14,
+    paddingRight: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  recurringAddSelectValueRow: {
+    flex: 1,
+    minWidth: 0,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingRight: 10,
+  },
+  recurringAddSelectValue: {
+    flex: 1,
+    color: '#091E27',
+    fontSize: 16,
+    fontFamily: fonts.regular,
+    lineHeight: 20,
+  },
+  recurringAddSelectValueWithIcon: {
+    marginLeft: 10,
+  },
+  recurringAddSelectIcon: {
+    transform: [{rotate: '90deg'}],
+  },
+  recurringAddSelectIconOpen: {
+    transform: [{rotate: '-90deg'}],
+  },
+  recurringAddSelectDropdown: {
+    marginTop: 8,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#D9E1E8',
+    backgroundColor: '#FFFFFF',
+    overflow: 'hidden',
+  },
+  recurringAddSelectOption: {
+    minHeight: 44,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+    justifyContent: 'center',
+  },
+  recurringAddSelectOptionActive: {
+    backgroundColor: '#EAF6FF',
+  },
+  recurringAddSelectOptionText: {
+    color: '#091E27',
+    fontSize: 15,
+    fontFamily: fonts.regular,
+    lineHeight: 22,
+  },
+  recurringAddSelectOptionTextActive: {
+    color: '#094771',
+    fontFamily: fonts.semiBold,
+  },
+  recurringAddReminderRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  recurringAddReminderTextRow: {
+    flex: 1,
+    minWidth: 0,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingRight: 16,
+  },
+  recurringAddReminderTextBlock: {
+    flex: 1,
+    minWidth: 0,
+    marginLeft: 10,
+  },
+  recurringAddReminderTitle: {
+    color: '#091E27',
+    fontSize: 18,
+    fontFamily: fonts.semiBold,
+    lineHeight: 24,
+  },
+  recurringAddReminderSubtitle: {
+    marginTop: 2,
+    color: '#42474E',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+  },
+  recurringAddReminderToggle: {
+    width: 46,
+    height: 26,
+    borderRadius: 999,
+    backgroundColor: '#ADC9DE',
+    paddingHorizontal: 2,
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+  },
+  recurringAddReminderToggleActive: {
+    backgroundColor: '#094771',
+    alignItems: 'flex-end',
+  },
+  recurringAddReminderToggleThumb: {
+    width: 22,
+    height: 22,
+    borderRadius: 11,
+    backgroundColor: '#FFFFFF',
+  },
+  recurringAddNotesBlock: {
+    marginTop: 22,
+  },
+  recurringAddNotesInputShell: {
+    minHeight: 116,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#D9E1E8',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 14,
+    paddingVertical: 14,
+  },
+  recurringAddNotesInput: {
+    flex: 1,
+    paddingTop: 0,
+    paddingBottom: 0,
+    color: '#243449',
+    fontSize: 15,
+    fontFamily: fonts.regular,
+    lineHeight: 22,
+  },
+  recurringAddDeleteButton: {
+    width: '82%',
+    marginTop: 20,
+  },
+  recurringHeroCard: {
+    width: '100%',
+    minHeight: 178,
+    borderRadius: 12,
+    backgroundColor: '#2C5F8A',
+    padding: 24,
+    position: 'relative',
+    overflow: 'hidden',
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 8,
+    },
+    shadowOpacity: 0.16,
+    shadowRadius: 18,
+    elevation: 3,
+  },
+  recurringHeroPatternWrap: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+  },
+  recurringHeroLabel: {
+    color: '#B3D8FF',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+  },
+  recurringHeroAmount: {
+    marginTop: 10,
+    color: '#B3D8FF',
+    fontSize: 36,
+    fontFamily: fonts.bold,
+    lineHeight: 54,
+  },
+  recurringHeroInfoRow: {
+    marginTop: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  recurringHeroInfoChip: {
+    width: '48%',
+    minHeight: 40,
+    borderRadius: 8,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    paddingHorizontal: 16,
+    paddingVertical: 4,
+    justifyContent: 'center',
+  },
+  recurringHeroInfoLabel: {
+    color: '#B3D8FF',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+  },
+  recurringHeroInfoValue: {
+    marginTop: 2,
+    color: '#B3D8FF',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+  },
+  recurringAnnualCard: {
+    width: '100%',
+    marginTop: 16,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#D9E3EC',
+    backgroundColor: '#FFFFFF',
+    padding: 24,
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.06,
+    shadowRadius: 14,
+    elevation: 2,
+  },
+  recurringAnnualLabel: {
+    color: '#42474E',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+  },
+  recurringAnnualValue: {
+    marginTop: 8,
+    color: '#094771',
+    fontSize: 22,
+    fontFamily: fonts.semiBold,
+    lineHeight: 28,
+    letterSpacing: -0.22,
+  },
+  recurringAnnualTrack: {
+    width: '100%',
+    height: 8,
+    marginTop: 18,
+    borderRadius: 999,
+    backgroundColor: '#D7EBF8',
+    overflow: 'hidden',
+  },
+  recurringAnnualFill: {
+    height: '100%',
+    borderRadius: 999,
+    backgroundColor: '#FEB234',
+  },
+  recurringAnnualHint: {
+    marginTop: 8,
+    color: '#72777F',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+  },
+  recurringSectionTitle: {
+    marginTop: 28,
+    color: '#091E27',
+    fontSize: 18,
+    fontFamily: fonts.semiBold,
+    lineHeight: 24,
+  },
+  recurringSubscriptionsList: {
+    width: '100%',
+  },
+  recurringSubscriptionCard: {
+    width: '100%',
+    marginTop: 16,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#CAD5DF',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 18,
+    paddingTop: 16,
+    paddingBottom: 16,
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 14,
+    elevation: 2,
+  },
+  recurringSubscriptionRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+  },
+  recurringSubscriptionContent: {
+    flex: 1,
+    minWidth: 0,
+    marginLeft: 18,
+  },
+  recurringSubscriptionTopRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+  },
+  recurringSubscriptionArtworkWrap: {
+    width: 56,
+    height: 56,
+    marginTop: 14,
+    borderRadius: 12,
+    overflow: 'hidden',
+  },
+  recurringSubscriptionTextBlock: {
+    flex: 1,
+    minWidth: 0,
+    paddingRight: 12,
+  },
+  recurringSubscriptionName: {
+    color: '#091E27',
+    fontSize: 18,
+    fontFamily: fonts.semiBold,
+    lineHeight: 24,
+  },
+  recurringSubscriptionPlan: {
+    marginTop: 2,
+    color: '#72777F',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+  },
+  recurringSubscriptionPriceBlock: {
+    minWidth: 88,
+    marginLeft: 12,
+    alignItems: 'flex-end',
+  },
+  recurringSubscriptionPriceRow: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+  },
+  recurringSubscriptionPrice: {
+    color: '#094771',
+    fontSize: 18,
+    fontFamily: fonts.semiBold,
+    lineHeight: 24,
+  },
+  recurringSubscriptionPriceSuffix: {
+    marginLeft: 2,
+    color: '#72777F',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+  },
+  recurringSubscriptionDueLabel: {
+    marginTop: 2,
+    color: '#815500',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+    textAlign: 'right',
+  },
+  recurringSubscriptionMetaRow: {
+    marginTop: 18,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+  },
+  recurringSubscriptionMetaItem: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+  },
+  recurringSubscriptionMetaItemTrailing: {
+    marginLeft: 10,
+  },
+  recurringSubscriptionMetaIconWrap: {
+    width: 16,
+    marginTop: 2,
+    alignItems: 'center',
+  },
+  recurringSubscriptionMetaText: {
+    marginLeft: 6,
+    color: '#42474E',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+  },
+  recurringInsightsList: {
+    width: '100%',
+  },
+  recurringInsightCard: {
+    width: '100%',
+    minHeight: 162,
+    marginTop: 16,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#DDE5EE',
+    backgroundColor: '#FFFFFF',
+    overflow: 'hidden',
+    position: 'relative',
+  },
+  recurringInsightAccent: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    width: 4,
+  },
+  recurringInsightContent: {
+    minHeight: 160,
+    paddingHorizontal: 24,
+    paddingVertical: 24,
+    justifyContent: 'center',
+  },
+  recurringInsightHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  recurringInsightIconWrap: {
+    width: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 8,
+  },
+  recurringInsightLabel: {
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+  },
+  recurringInsightBody: {
+    marginTop: 16,
+    color: '#42474E',
+    fontSize: 15,
+    fontFamily: fonts.regular,
+    lineHeight: 22,
   },
   bottomNavShell: {
     position: 'absolute',
