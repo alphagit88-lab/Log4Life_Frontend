@@ -10,7 +10,10 @@ import {
   View,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import Svg, {Path} from 'react-native-svg';
 import ActiveSvg from '../images/active.svg';
+import AddActionSvg from '../images/add.svg';
+import AutoSvg from '../images/auto.svg';
 import {useAuth} from '../context/AuthContext';
 import ArrowSvg from '../images/arrow.svg';
 import BackSvg from '../images/back.svg';
@@ -18,14 +21,20 @@ import BackgroundSvg from '../images/background.svg';
 import BankTwoSvg from '../images/bank_2.svg';
 import VaultBackgroundSvg from '../images/bg_2.svg';
 import BellSvg from '../images/bell.svg';
+import BrakeSvg from '../images/brake.svg';
 import BirthdaySvg from '../images/birthday.svg';
 import ButtonSvg from '../images/Button.svg';
 import BucketSvg from '../images/bucket.svg';
 import CarSvg from '../images/car.svg';
+import CarThreeSvg from '../images/car_3.svg';
+import CarTwoSvg from '../images/car_2.svg';
 import CardPatternSvg from '../images/card.svg';
 import CardTwoSvg from '../images/card_2.svg';
 import CardTwoPrimarySvg from '../images/card_2_primary.svg';
+import CetificateSvg from '../images/cetificate.svg';
 import CollectionSvg from '../images/collection.svg';
+import ContentsSvg from '../images/contents.svg';
+import CoverageSvg from '../images/coverage.svg';
 import DateSvg from '../images/date.svg';
 import DatesSvg from '../images/dates.svg';
 import DefenceSvg from '../images/defence.svg';
@@ -47,13 +56,18 @@ import InsuranceSvg from '../images/insurance.svg';
 import JournelSvg from '../images/journel.svg';
 import LocationSvg from '../images/location.svg';
 import MaintainceSvg from '../images/maintaince.svg';
+import ModernHomeExteriorSvg from '../images/Modern home exterior.svg';
+import MotSvg from '../images/MOT.svg';
 import MonthlySvg from '../images/monthly.svg';
 import MoneySvg from '../images/money.svg';
+import MaintainOneSvg from '../images/maintain_1.svg';
+import NaturalSvg from '../images/natural.svg';
 import NetflixSvg from '../images/netflix.svg';
 import NetflixOneSvg from '../images/netflix_1.svg';
 import NotificationSvg from '../images/notification.svg';
 import NotificationDefaultSvg from '../images/notification_def.svg';
 import NotesSvg from '../images/notes.svg';
+import OilSvg from '../images/oil.svg';
 import PersonalSvg from '../images/personal.svg';
 import PetsSvg from '../images/pets.svg';
 import PigSvg from '../images/pig.svg';
@@ -72,22 +86,31 @@ import RecordsNonSvg from '../images/records_non.svg';
 import RecordsSelectedSvg from '../images/records_selected.svg';
 import ReminderSvg from '../images/reminder.svg';
 import RemindersSvg from '../images/reminders.svg';
+import RenewSvg from '../images/renew.svg';
 import RingBellSvg from '../images/ring_bell.svg';
 import SavingSvg from '../images/saving.svg';
 import SavingsSvg from '../images/savings.svg';
 import SearchGraySvg from '../images/search_gray.svg';
 import SearchSvg from '../images/search.svg';
+import ShieldSvg from '../images/shield.svg';
 import SkyBroadbandSvg from '../images/sky_broadband.svg';
+import SpeedSvg from '../images/speed.svg';
 import SpotifySvg from '../images/spotify.svg';
 import StatementSvg from '../images/statement.svg';
+import StructureSvg from '../images/structure.svg';
 import TapSvg from '../images/tap.svg';
+import TireSvg from '../images/tire.svg';
 import TrashSvg from '../images/trash.svg';
 import TrashCompactSvg from '../images/trash_2.svg';
+import TravelSvg from '../images/travel.svg';
 import UpcomingSvg from '../images/upcoming.svg';
 import UploadSvg from '../images/upload.svg';
 import UploadDocumentSvg from '../images/upload_2.svg';
+import PublicSvg from '../images/public.svg';
+import VehicleHeroSvg from '../images/vahicle_1.svg';
 import VehicleSvg from '../images/vehicle.svg';
 import WarningSvg from '../images/warning.svg';
+import WarningTwoSvg from '../images/warning_2.svg';
 import WarningAlarmSvg from '../images/warning_alarm.svg';
 import WalletSvg from '../images/wallert.svg';
 import WifiSvg from '../images/wi-fi.svg';
@@ -102,7 +125,11 @@ type RecordsView =
   | 'banking-cards'
   | 'banking-cards-add'
   | 'recurring-payments'
-  | 'recurring-payments-add';
+  | 'recurring-payments-add'
+  | 'vehicle-maintenance'
+  | 'vehicle-maintenance-add'
+  | 'insurance-policies'
+  | 'insurance-policies-add';
 
 interface StatCardData {
   title: string;
@@ -176,6 +203,42 @@ interface RecurringInsightData {
   accentColor: string;
   labelColor: string;
   icon: React.JSX.Element;
+}
+
+interface InsuranceCoverageItemData {
+  id: string;
+  title: string;
+  description: string;
+  icon: React.JSX.Element;
+}
+
+interface InsuranceAssociatedPolicyData {
+  id: string;
+  title: string;
+  subtitle: string;
+  status: 'ACTIVE' | 'ARCHIVED';
+  icon: React.JSX.Element;
+}
+
+interface VehicleRecentServiceData {
+  id: string;
+  title: string;
+  location: string;
+  date: string;
+  price: string;
+  icon: React.JSX.Element;
+}
+
+interface VehicleUpcomingMaintenanceData {
+  id: string;
+  title: string;
+  description: string;
+  footer?: string;
+  icon: React.JSX.Element;
+  accentColor: string;
+  urgent?: boolean;
+  primaryActionLabel?: string;
+  secondaryActionLabel?: string;
 }
 
 interface BottomNavItemProps {
@@ -559,6 +622,204 @@ function RecurringInsightCard({
   );
 }
 
+function InsuranceCoverageItem({
+  title,
+  description,
+  icon,
+}: InsuranceCoverageItemData): React.JSX.Element {
+  return (
+    <View style={styles.insuranceCoverageItemRow}>
+      {icon}
+
+      <View style={styles.insuranceCoverageItemTextWrap}>
+        <Text style={styles.insuranceCoverageItemTitle}>{title}</Text>
+        <Text style={styles.insuranceCoverageItemDescription}>
+          {description}
+        </Text>
+      </View>
+    </View>
+  );
+}
+
+function InsuranceAssociatedPolicyCard({
+  title,
+  subtitle,
+  status,
+  icon,
+  onPress,
+}: InsuranceAssociatedPolicyData & {
+  onPress: () => void;
+}): React.JSX.Element {
+  const isArchived = status === 'ARCHIVED';
+
+  return (
+    <Pressable
+      style={({pressed}) => [
+        styles.insuranceAssociatedPolicyCard,
+        pressed ? styles.pressed : null,
+      ]}
+      onPress={onPress}>
+      <View style={styles.insuranceAssociatedPolicyRow}>
+        {icon}
+
+        <View style={styles.insuranceAssociatedPolicyTextWrap}>
+          <Text
+            style={[
+              styles.insuranceAssociatedPolicyTitle,
+              isArchived ? styles.insuranceAssociatedPolicyTitleArchived : null,
+            ]}>
+            {title}
+          </Text>
+          <Text
+            style={[
+              styles.insuranceAssociatedPolicySubtitle,
+              isArchived
+                ? styles.insuranceAssociatedPolicySubtitleArchived
+                : null,
+            ]}>
+            {subtitle}
+          </Text>
+
+          <View
+            style={[
+              styles.insuranceAssociatedStatusChip,
+              isArchived ? styles.insuranceAssociatedStatusChipArchived : null,
+            ]}>
+            <Text
+              style={[
+                styles.insuranceAssociatedStatusText,
+                isArchived
+                  ? styles.insuranceAssociatedStatusTextArchived
+                  : null,
+              ]}>
+              {status}
+            </Text>
+          </View>
+        </View>
+
+        <View style={styles.insuranceAssociatedArrowWrap}>
+          <ArrowSvg width={8} height={12} />
+        </View>
+      </View>
+    </Pressable>
+  );
+}
+
+function VehicleRecentServiceRow({
+  title,
+  location,
+  date,
+  price,
+  icon,
+  onPress,
+}: VehicleRecentServiceData & {
+  onPress: () => void;
+}): React.JSX.Element {
+  return (
+    <Pressable
+      style={({pressed}) => [
+        styles.vehicleRecentServiceRow,
+        pressed ? styles.pressed : null,
+      ]}
+      onPress={onPress}>
+      <View style={styles.vehicleRecentServiceLeft}>
+        {icon}
+
+        <View style={styles.vehicleRecentServiceTextWrap}>
+          <Text style={styles.vehicleRecentServiceTitle}>{title}</Text>
+          <Text style={styles.vehicleRecentServiceMeta}>
+            {location} - {date}
+          </Text>
+        </View>
+      </View>
+
+      <Text style={styles.vehicleRecentServicePrice}>{price}</Text>
+    </Pressable>
+  );
+}
+
+function WhiteDocIcon(): React.JSX.Element {
+  return (
+    <Svg width={16} height={20} viewBox="0 0 16 20" fill="none">
+      <Path
+        d="M4 16H12V14H4V16ZM4 12H12V10H4V12ZM2 20C1.45 20 0.979167 19.8042 0.5875 19.4125C0.195833 19.0208 0 18.55 0 18V2C0 1.45 0.195833 0.979167 0.5875 0.5875C0.979167 0.195833 1.45 0 2 0H10L16 6V18C16 18.55 15.8042 19.0208 15.4125 19.4125C15.0208 19.8042 14.55 20 14 20H2ZM9 7V2H2V18H14V7H9ZM2 2V7V2V7V18V2Z"
+        fill="#FFFFFF"
+      />
+    </Svg>
+  );
+}
+
+function VehicleUpcomingMaintenanceCard({
+  title,
+  description,
+  footer,
+  icon,
+  accentColor,
+  urgent = false,
+  primaryActionLabel,
+  secondaryActionLabel,
+  onPrimaryPress,
+  onSecondaryPress,
+}: VehicleUpcomingMaintenanceData & {
+  onPrimaryPress?: () => void;
+  onSecondaryPress?: () => void;
+}): React.JSX.Element {
+  return (
+    <View
+      style={[
+        styles.vehicleUpcomingCard,
+        urgent
+          ? styles.vehicleUpcomingCardUrgent
+          : styles.vehicleUpcomingCardStandard,
+        {borderLeftColor: accentColor},
+      ]}>
+      <View style={styles.vehicleUpcomingTopRow}>
+        <View style={styles.vehicleUpcomingIconWrap}>{icon}</View>
+
+        <View style={styles.vehicleUpcomingTextWrap}>
+          <Text style={styles.vehicleUpcomingTitle}>{title}</Text>
+          <Text style={styles.vehicleUpcomingDescription}>{description}</Text>
+          {footer ? (
+            <Text
+              style={[
+                styles.vehicleUpcomingFooter,
+                urgent ? styles.vehicleUpcomingFooterUrgent : null,
+              ]}>
+              {footer}
+            </Text>
+          ) : null}
+        </View>
+      </View>
+
+      {urgent && primaryActionLabel && secondaryActionLabel ? (
+        <View style={styles.vehicleUpcomingActionsRow}>
+          <Pressable
+            style={({pressed}) => [
+              styles.vehicleUpcomingPrimaryButton,
+              pressed ? styles.pressed : null,
+            ]}
+            onPress={onPrimaryPress}>
+            <Text style={styles.vehicleUpcomingPrimaryButtonText}>
+              {primaryActionLabel}
+            </Text>
+          </Pressable>
+
+          <Pressable
+            style={({pressed}) => [
+              styles.vehicleUpcomingSecondaryButton,
+              pressed ? styles.pressed : null,
+            ]}
+            onPress={onSecondaryPress}>
+            <Text style={styles.vehicleUpcomingSecondaryButtonText}>
+              {secondaryActionLabel}
+            </Text>
+          </Pressable>
+        </View>
+      ) : null}
+    </View>
+  );
+}
+
 function BottomNavItem({
   active = false,
   label,
@@ -636,6 +897,33 @@ function HomeScreen(): React.JSX.Element {
   );
   const [recurringDraftSmartReminder, setRecurringDraftSmartReminder] =
     useState(true);
+  const [insuranceDraftPolicyName, setInsuranceDraftPolicyName] = useState(
+    'Home & Contents',
+  );
+  const [insuranceDraftProvider, setInsuranceDraftProvider] = useState('AXA');
+  const [insuranceDraftPolicyNumber, setInsuranceDraftPolicyNumber] =
+    useState('');
+  const [insuranceDraftRenewalDate, setInsuranceDraftRenewalDate] =
+    useState('14 Mar 2026');
+  const [insuranceDraftAnnualPremium, setInsuranceDraftAnnualPremium] =
+    useState('$0.00');
+  const [insuranceDraftNotes, setInsuranceDraftNotes] = useState('');
+  const [insuranceDraftRenewalReminder, setInsuranceDraftRenewalReminder] =
+    useState(true);
+  const [vehicleDraftName, setVehicleDraftName] = useState('Family SUV');
+  const [vehicleDraftMakeModel, setVehicleDraftMakeModel] =
+    useState('Toyota RAV4');
+  const [vehicleDraftRegistration, setVehicleDraftRegistration] =
+    useState('LX71 ABC');
+  const [vehicleDraftLastServiceDate, setVehicleDraftLastServiceDate] =
+    useState('03/15/2024');
+  const [vehicleDraftMotDueDate, setVehicleDraftMotDueDate] =
+    useState('08/22/2025');
+  const [vehicleDraftNotes, setVehicleDraftNotes] = useState(
+    'Previous service highlighted slight wear on rear wipers. Air conditioning recharged in June.',
+  );
+  const [hasUploadedVehicleDocument, setHasUploadedVehicleDocument] =
+    useState(true);
 
   const contentWidth = Math.min(width - 32, 402);
   const dueCardWidth = Math.min(Math.max(width * 0.72, 252), 284);
@@ -656,16 +944,36 @@ function HomeScreen(): React.JSX.Element {
     isRecordsTab && recordsView === 'recurring-payments';
   const isRecurringPaymentsAddView =
     isRecordsTab && recordsView === 'recurring-payments-add';
+  const isVehicleMaintenanceView =
+    isRecordsTab && recordsView === 'vehicle-maintenance';
+  const isVehicleMaintenanceAddView =
+    isRecordsTab && recordsView === 'vehicle-maintenance-add';
+  const isInsurancePoliciesView =
+    isRecordsTab && recordsView === 'insurance-policies';
+  const isInsurancePoliciesAddView =
+    isRecordsTab && recordsView === 'insurance-policies-add';
   const isRecordsDetailView = isRecordsTab && recordsView !== 'browser';
   const recordsDetailTitle = isRecurringPaymentsAddView
     ? 'Recurring Payments'
+    : isVehicleMaintenanceAddView
+    ? 'Vehicle Maintenance'
+    : isInsurancePoliciesAddView
+    ? 'Insurance Policies'
+    : isVehicleMaintenanceView
+    ? 'Vehicle Maintenance'
     : isRecurringPaymentsView
     ? 'Recurring\nPayments'
+    : isInsurancePoliciesView
+    ? 'Insurance\nPolicies'
     : isBankingCardsView || isBankingCardsAddView
     ? 'Banking & Cards'
     : 'Personal Details';
   const shouldShowRecordsAddButton =
-    isPersonalIdentityView || isBankingCardsView || isRecurringPaymentsView;
+    isPersonalIdentityView ||
+    isBankingCardsView ||
+    isRecurringPaymentsView ||
+    isVehicleMaintenanceView ||
+    isInsurancePoliciesView;
   const bankingDraftDisplayName = getBankDisplayName(bankingDraftBankName);
   const bankingDraftLastFourDisplay = bankingDraftLast4Digits || '4821';
   const bankingDraftCardLabel = `${
@@ -937,6 +1245,106 @@ function HomeScreen(): React.JSX.Element {
     },
   ];
 
+  const insuranceCoverageItems: InsuranceCoverageItemData[] = [
+    {
+      id: 'structural-coverage',
+      title: 'Structural Coverage',
+      description: 'Up to $750,000 for rebuild costs.',
+      icon: <StructureSvg width={35} height={31} />,
+    },
+    {
+      id: 'contents-protection',
+      title: 'Contents Protection',
+      description: 'Up to $150,000 global replacement.',
+      icon: <ContentsSvg width={33} height={33} />,
+    },
+    {
+      id: 'natural-disasters',
+      title: 'Natural Disasters',
+      description: 'Includes flood and seismic activity.',
+      icon: <NaturalSvg width={33} height={33} />,
+    },
+    {
+      id: 'public-liability',
+      title: 'Public Liability',
+      description: 'Personal liability up to $2,000,000.',
+      icon: <PublicSvg width={30} height={33} />,
+    },
+  ];
+
+  const insuranceAssociatedPolicies: InsuranceAssociatedPolicyData[] = [
+    {
+      id: 'auto-geico',
+      title: 'Auto Insurance - Geico',
+      subtitle: 'Policy: G-88219 - Model: Tesla Model 3',
+      status: 'ACTIVE',
+      icon: <AutoSvg width={48} height={48} />,
+    },
+    {
+      id: 'health-bluecross',
+      title: 'Health Premium - BlueCross',
+      subtitle: 'Policy: BC-PLAT-001 - Family Plan',
+      status: 'ACTIVE',
+      icon: <HealthSvg width={48} height={48} />,
+    },
+    {
+      id: 'travel-allianz',
+      title: 'Travel - Allianz',
+      subtitle: 'Policy: TRV-8941 - Single Trip',
+      status: 'ARCHIVED',
+      icon: <TravelSvg width={48} height={48} />,
+    },
+  ];
+
+  const vehicleRecentServices: VehicleRecentServiceData[] = [
+    {
+      id: 'full-annual-service',
+      title: 'Full Annual Service',
+      location: 'Toyota Official Center',
+      date: '15 Jan 2024',
+      price: '$285.00',
+      icon: <MaintainOneSvg width={40} height={40} />,
+    },
+    {
+      id: 'tire-rotation',
+      title: 'Tire Rotation & Pressure',
+      location: 'QuickFit Center',
+      date: '12 Nov 2023',
+      price: '$45.00',
+      icon: <TireSvg width={40} height={40} />,
+    },
+    {
+      id: 'oil-filter-change',
+      title: 'Oil Filter Change',
+      location: 'Toyota Official Center',
+      date: '08 Jul 2023',
+      price: '$120.00',
+      icon: <OilSvg width={40} height={40} />,
+    },
+  ];
+
+  const vehicleUpcomingMaintenance: VehicleUpcomingMaintenanceData[] = [
+    {
+      id: 'mot-renewal',
+      title: 'MOT Renewal',
+      description:
+        'Critical deadline approaching in 30 days. Failure to renew results in illegal vehicle operation.',
+      icon: <MotSvg width={18} height={20} />,
+      accentColor: '#BA1A1A',
+      urgent: true,
+      primaryActionLabel: 'Schedule\nAppointment',
+      secondaryActionLabel: 'Remind Me\nLater',
+    },
+    {
+      id: 'brake-fluid-flush',
+      title: 'Brake Fluid Flush',
+      description: 'Recommended every 24 months. Last performed Oct 2022.',
+      footer: 'Suggested: Oct 2024',
+      icon: <BrakeSvg width={19} height={21} />,
+      accentColor: '#815500',
+    },
+  ];
+
   const recurringMonthlyCommitment = recurringSubscriptions.reduce(
     (total, subscription) => total + subscription.amount,
     0,
@@ -1032,6 +1440,28 @@ function HomeScreen(): React.JSX.Element {
     setRecurringDraftSmartReminder(true);
   };
 
+  const resetInsuranceDraft = () => {
+    setInsuranceDraftPolicyName('Home & Contents');
+    setInsuranceDraftProvider('AXA');
+    setInsuranceDraftPolicyNumber('');
+    setInsuranceDraftRenewalDate('14 Mar 2026');
+    setInsuranceDraftAnnualPremium('$0.00');
+    setInsuranceDraftNotes('');
+    setInsuranceDraftRenewalReminder(true);
+  };
+
+  const resetVehicleDraft = () => {
+    setVehicleDraftName('Family SUV');
+    setVehicleDraftMakeModel('Toyota RAV4');
+    setVehicleDraftRegistration('LX71 ABC');
+    setVehicleDraftLastServiceDate('03/15/2024');
+    setVehicleDraftMotDueDate('08/22/2025');
+    setVehicleDraftNotes(
+      'Previous service highlighted slight wear on rear wipers. Air conditioning recharged in June.',
+    );
+    setHasUploadedVehicleDocument(true);
+  };
+
   const handleRecordCategoryPress = (category: RecordCategoryData) => {
     if (category.id === 'personal-identity') {
       setRecordsView('personal-identity');
@@ -1045,6 +1475,16 @@ function HomeScreen(): React.JSX.Element {
 
     if (category.id === 'recurring-payments') {
       setRecordsView('recurring-payments');
+      return;
+    }
+
+    if (category.id === 'vehicle-maintenance') {
+      setRecordsView('vehicle-maintenance');
+      return;
+    }
+
+    if (category.id === 'insurance-policies') {
+      setRecordsView('insurance-policies');
       return;
     }
 
@@ -1066,6 +1506,16 @@ function HomeScreen(): React.JSX.Element {
     setRecordsView('recurring-payments-add');
   };
 
+  const openAddInsurancePolicy = () => {
+    resetInsuranceDraft();
+    setRecordsView('insurance-policies-add');
+  };
+
+  const openAddVehicleMaintenanceRecord = () => {
+    resetVehicleDraft();
+    setRecordsView('vehicle-maintenance-add');
+  };
+
   const handleRecordsAddPress = () => {
     if (isPersonalIdentityView) {
       openAddIdentityRecord();
@@ -1079,6 +1529,17 @@ function HomeScreen(): React.JSX.Element {
 
     if (isRecurringPaymentsView) {
       openAddRecurringPayment();
+      return;
+    }
+
+    if (isVehicleMaintenanceView) {
+      openAddVehicleMaintenanceRecord();
+      return;
+    }
+
+    if (isInsurancePoliciesView) {
+      openAddInsurancePolicy();
+      return;
     }
   };
 
@@ -1244,6 +1705,60 @@ function HomeScreen(): React.JSX.Element {
     );
   };
 
+  const handleToggleInsuranceRenewalReminder = () => {
+    setInsuranceDraftRenewalReminder(currentValue => !currentValue);
+  };
+
+  const handleDeleteInsuranceEntry = () => {
+    Alert.alert(
+      'Delete Policy Entry',
+      'Remove this insurance policy draft?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: () => {
+            resetInsuranceDraft();
+            setRecordsView('insurance-policies');
+          },
+        },
+      ],
+    );
+  };
+
+  const handleBrowseVehicleDocument = () => {
+    setHasUploadedVehicleDocument(true);
+  };
+
+  const handleDeleteVehicleDocument = () => {
+    setHasUploadedVehicleDocument(false);
+  };
+
+  const handleDeleteVehicleEntry = () => {
+    Alert.alert(
+      'Delete Vehicle Record',
+      'Remove this vehicle maintenance draft?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: () => {
+            resetVehicleDraft();
+            setRecordsView('vehicle-maintenance');
+          },
+        },
+      ],
+    );
+  };
+
   const handleRecordsBack = () => {
     if (recordsView === 'personal-identity-add') {
       setRecordsView('personal-identity');
@@ -1257,6 +1772,16 @@ function HomeScreen(): React.JSX.Element {
 
     if (recordsView === 'recurring-payments-add') {
       setRecordsView('recurring-payments');
+      return;
+    }
+
+    if (recordsView === 'insurance-policies-add') {
+      setRecordsView('insurance-policies');
+      return;
+    }
+
+    if (recordsView === 'vehicle-maintenance-add') {
+      setRecordsView('vehicle-maintenance');
       return;
     }
 
@@ -2442,6 +2967,643 @@ function HomeScreen(): React.JSX.Element {
     </>
   );
 
+  const vehicleMaintenanceContent = (
+    <>
+      <View style={styles.vehicleHeroCard}>
+        <View style={styles.vehicleHeroImageWrap}>
+          <VehicleHeroSvg
+            width="100%"
+            height="100%"
+            preserveAspectRatio="xMidYMid slice"
+          />
+        </View>
+
+        <View style={styles.vehicleHeroBody}>
+          <View style={styles.vehicleHeroHeaderRow}>
+            <View>
+              <Text style={styles.vehicleHeroEyebrow}>PRIMARY RECORD</Text>
+            </View>
+
+            <View style={styles.vehicleHeroStatusChip}>
+              <Text style={styles.vehicleHeroStatusText}>Active</Text>
+            </View>
+          </View>
+
+          <Text style={styles.vehicleHeroTitle}>{'Family SUV -\nToyota RAV4'}</Text>
+
+          <View style={styles.vehicleHeroMetaRow}>
+            <View style={styles.vehicleHeroMetaColumn}>
+              <Text style={styles.vehicleHeroMetaLabel}>Registration</Text>
+              <Text style={styles.vehicleHeroMetaValue}>LX71 ABC</Text>
+            </View>
+
+            <View style={styles.vehicleHeroMetaColumn}>
+              <Text style={styles.vehicleHeroMetaLabel}>Last Service</Text>
+              <Text style={styles.vehicleHeroMetaValue}>15 Jan 2024</Text>
+            </View>
+          </View>
+
+          <View style={styles.vehicleMotUrgentCard}>
+            <View style={styles.vehicleMotUrgentLeft}>
+              <WarningTwoSvg width={22} height={19} />
+
+              <View style={styles.vehicleMotUrgentTextWrap}>
+                <Text style={styles.vehicleMotUrgentTitle}>MOT URGENT</Text>
+                <Text style={styles.vehicleMotUrgentValue}>Due: 22 Aug 2025</Text>
+              </View>
+            </View>
+
+            <Pressable
+              style={({pressed}) => [
+                styles.vehicleMotUrgentButton,
+                pressed ? styles.pressed : null,
+              ]}
+              onPress={() => openPlaceholder('Book MOT')}>
+              <Text style={styles.vehicleMotUrgentButtonText}>Book Now</Text>
+            </Pressable>
+          </View>
+        </View>
+      </View>
+
+      <View style={styles.vehicleEfficiencyCard}>
+        <Text style={styles.vehicleEfficiencyLabel}>FUEL EFFICIENCY</Text>
+
+        <View style={styles.vehicleEfficiencyValueRow}>
+          <Text style={styles.vehicleEfficiencyValue}>42.5</Text>
+          <Text style={styles.vehicleEfficiencyUnit}>MPG</Text>
+        </View>
+
+        <View style={styles.vehicleEfficiencyTrack}>
+          <View style={styles.vehicleEfficiencyFill} />
+        </View>
+
+        <Text style={styles.vehicleEfficiencyTrend}>+2.1% from last month</Text>
+      </View>
+
+      <View style={styles.vehicleOdometerCard}>
+        <View>
+          <Text style={styles.vehicleOdometerLabel}>ODOMETER</Text>
+          <Text style={styles.vehicleOdometerValue}>
+            12,482<Text style={styles.vehicleOdometerUnit}>mi</Text>
+          </Text>
+        </View>
+
+        <View style={styles.vehicleOdometerIconWrap}>
+          <SpeedSvg width={27} height={22} />
+        </View>
+      </View>
+
+      <View style={styles.vehicleSectionHeaderRow}>
+        <Text style={styles.vehicleSectionTitle}>Recent Services</Text>
+        <Pressable onPress={() => openPlaceholder('All Recent Services')}>
+          <Text style={styles.vehicleSectionLink}>View All</Text>
+        </Pressable>
+      </View>
+
+      <View style={styles.vehicleRecentServicesCard}>
+        {vehicleRecentServices.map((service, index) => (
+          <React.Fragment key={service.id}>
+            <VehicleRecentServiceRow
+              {...service}
+              onPress={() => openPlaceholder(service.title)}
+            />
+            {index < vehicleRecentServices.length - 1 ? (
+              <View style={styles.vehicleRecentServiceDivider} />
+            ) : null}
+          </React.Fragment>
+        ))}
+      </View>
+
+      <View style={styles.vehicleSectionHeaderRow}>
+        <Text style={styles.vehicleSectionTitle}>Upcoming Maintenance</Text>
+        <Pressable onPress={() => openPlaceholder('Manage Maintenance')}>
+          <Text style={styles.vehicleSectionLink}>Manage</Text>
+        </Pressable>
+      </View>
+
+      <View style={styles.vehicleUpcomingList}>
+        {vehicleUpcomingMaintenance.map(item => (
+          <VehicleUpcomingMaintenanceCard
+            key={item.id}
+            {...item}
+            onPrimaryPress={() => openPlaceholder('Schedule Appointment')}
+            onSecondaryPress={() => openPlaceholder('Remind Me Later')}
+          />
+        ))}
+      </View>
+
+      <View style={styles.vehicleGloveboxCard}>
+        <Text style={styles.vehicleGloveboxTitle}>Digital Glovebox</Text>
+        <Text style={styles.vehicleGloveboxBody}>
+          All your insurance policies, breakdown cover details, and warranty
+          documents stored securely in one place.
+        </Text>
+
+        <View style={styles.vehicleGloveboxActionsRow}>
+          <Pressable
+            style={({pressed}) => [
+              styles.vehicleGloveboxSecondaryButton,
+              pressed ? styles.pressed : null,
+            ]}
+            onPress={() => openPlaceholder('View Docs')}>
+            <WhiteDocIcon />
+            <Text style={styles.vehicleGloveboxSecondaryButtonText}>
+              {'View\nDocs'}
+            </Text>
+          </Pressable>
+
+          <Pressable
+            style={({pressed}) => [
+              styles.vehicleGloveboxPrimaryButton,
+              pressed ? styles.pressed : null,
+            ]}
+            onPress={() => openPlaceholder('Add Files')}>
+            <AddActionSvg width={16} height={16} />
+            <Text style={styles.vehicleGloveboxPrimaryButtonText}>
+              {'Add\nFiles'}
+            </Text>
+          </Pressable>
+        </View>
+      </View>
+    </>
+  );
+
+  const vehicleMaintenanceAddContent = (
+    <>
+      <View style={styles.vehicleAddHeroCard}>
+        <View style={styles.vehicleAddHeroImageWrap}>
+          <CarTwoSvg
+            width="100%"
+            height="100%"
+            preserveAspectRatio="xMidYMid meet"
+          />
+        </View>
+
+        <View style={styles.vehicleAddHeroBadge}>
+          <Text style={styles.vehicleAddHeroBadgeText}>ACTIVE ASSET</Text>
+        </View>
+
+        <Text style={styles.vehicleAddHeroTitle}>
+          {vehicleDraftName || 'Family SUV'}
+        </Text>
+
+        <View style={styles.vehicleAddHeroMetaRow}>
+          <CarThreeSvg width={14} height={14} />
+          <Text style={styles.vehicleAddHeroMetaText}>
+            {(vehicleDraftMakeModel || 'Toyota RAV4').trim()}
+            {' \u2022 '}
+            {(vehicleDraftRegistration || 'LX71 ABC').trim()}
+          </Text>
+        </View>
+      </View>
+
+      <View style={styles.vehicleAddFieldCard}>
+        <Text style={styles.vehicleAddFieldLabel}>Vehicle Name</Text>
+        <View style={styles.vehicleAddInputShell}>
+          <TextInput
+            style={styles.vehicleAddInput}
+            value={vehicleDraftName}
+            onChangeText={setVehicleDraftName}
+            placeholder="Family SUV"
+            placeholderTextColor="#8A94A6"
+            autoCapitalize="words"
+            autoCorrect={false}
+            selectionColor="#0A5688"
+          />
+        </View>
+      </View>
+
+      <View style={styles.vehicleAddFieldCard}>
+        <Text style={styles.vehicleAddFieldLabel}>Make / Model</Text>
+        <View style={styles.vehicleAddInputShell}>
+          <TextInput
+            style={styles.vehicleAddInput}
+            value={vehicleDraftMakeModel}
+            onChangeText={setVehicleDraftMakeModel}
+            placeholder="Toyota RAV4"
+            placeholderTextColor="#8A94A6"
+            autoCapitalize="words"
+            autoCorrect={false}
+            selectionColor="#0A5688"
+          />
+        </View>
+      </View>
+
+      <View style={styles.vehicleAddFieldCard}>
+        <Text style={styles.vehicleAddFieldLabel}>Registration</Text>
+        <View style={styles.vehicleAddInputShell}>
+          <TextInput
+            style={styles.vehicleAddInput}
+            value={vehicleDraftRegistration}
+            onChangeText={setVehicleDraftRegistration}
+            placeholder="LX71 ABC"
+            placeholderTextColor="#8A94A6"
+            autoCapitalize="characters"
+            autoCorrect={false}
+            selectionColor="#0A5688"
+          />
+        </View>
+      </View>
+
+      <View style={styles.vehicleAddCard}>
+        <Text style={styles.vehicleAddSectionTitle}>Maintenance Deadlines</Text>
+        <View style={styles.vehicleAddSectionDivider} />
+
+        <View style={styles.vehicleAddField}>
+          <Text style={styles.vehicleAddFieldLabel}>Last Service Date</Text>
+          <View style={styles.vehicleAddInputShell}>
+            <TextInput
+              style={styles.vehicleAddInput}
+              value={vehicleDraftLastServiceDate}
+              onChangeText={setVehicleDraftLastServiceDate}
+              placeholder="03/15/2024"
+              placeholderTextColor="#8A94A6"
+              autoCapitalize="none"
+              autoCorrect={false}
+              selectionColor="#0A5688"
+            />
+          </View>
+        </View>
+
+        <View style={styles.vehicleAddFieldLast}>
+          <Text style={styles.vehicleAddFieldLabel}>MOT Due Date</Text>
+          <View style={styles.vehicleAddInputShell}>
+            <TextInput
+              style={[styles.vehicleAddInput, styles.vehicleAddInputAlert]}
+              value={vehicleDraftMotDueDate}
+              onChangeText={setVehicleDraftMotDueDate}
+              placeholder="08/22/2025"
+              placeholderTextColor="#D92D20"
+              autoCapitalize="none"
+              autoCorrect={false}
+              selectionColor="#0A5688"
+            />
+          </View>
+        </View>
+
+        <View style={styles.vehicleAddComplianceBlock}>
+          <View style={styles.vehicleAddComplianceTrack}>
+            <View style={styles.vehicleAddComplianceFill} />
+          </View>
+          <Text style={styles.vehicleAddComplianceHint}>
+            75% through current service interval. 143 days remaining.
+          </Text>
+        </View>
+      </View>
+
+      <View style={styles.vehicleAddCard}>
+        <Text style={styles.vehicleAddUploadSectionTitle}>
+          Document Upload (Logbook/V5C)
+        </Text>
+
+        <Pressable
+          style={({pressed}) => [
+            styles.vehicleAddUploadArea,
+            pressed ? styles.pressed : null,
+          ]}
+          onPress={handleBrowseVehicleDocument}>
+          <UploadDocumentSvg width={30} height={36} />
+          <Text style={styles.vehicleAddUploadTitle}>
+            {'Click to upload or drag\nand drop'}
+          </Text>
+          <Text style={styles.vehicleAddUploadSubtitle}>
+            PDF, JPG, or PNG up to 10MB
+          </Text>
+        </Pressable>
+
+        {hasUploadedVehicleDocument ? (
+          <View style={styles.vehicleAddUploadFileCard}>
+            <View style={styles.vehicleAddUploadFileInfo}>
+              <DocSvg width={16} height={20} />
+              <View style={styles.vehicleAddUploadFileTextWrap}>
+                <Text style={styles.vehicleAddUploadFileName}>
+                  v5c_logbook_final.pdf
+                </Text>
+                <Text style={styles.vehicleAddUploadFileMeta}>
+                  2.4 MB • Uploaded 12 May 2024
+                </Text>
+              </View>
+            </View>
+
+            <Pressable
+              style={({pressed}) => [
+                styles.vehicleAddUploadFileDeleteButton,
+                pressed ? styles.pressed : null,
+              ]}
+              onPress={handleDeleteVehicleDocument}>
+              <TrashSvg width={16} height={18} />
+            </Pressable>
+          </View>
+        ) : null}
+      </View>
+
+      <View style={styles.vehicleAddCard}>
+        <Text style={styles.vehicleAddFieldLabel}>Maintenance Notes</Text>
+        <View style={styles.vehicleAddNotesShell}>
+          <TextInput
+            style={styles.vehicleAddNotesInput}
+            value={vehicleDraftNotes}
+            onChangeText={setVehicleDraftNotes}
+            placeholder="Add maintenance history or service notes here..."
+            placeholderTextColor="#8A94A6"
+            multiline
+            textAlignVertical="top"
+            autoCorrect={false}
+            selectionColor="#0A5688"
+          />
+        </View>
+      </View>
+
+      <Pressable
+        style={({pressed}) => [
+          styles.vehicleAddDeleteButton,
+          pressed ? styles.pressed : null,
+        ]}
+        onPress={handleDeleteVehicleEntry}>
+        <TrashCompactSvg width={14} height={16} />
+        <Text style={styles.vehicleAddDeleteButtonText}>
+          Delete Vehicle Record
+        </Text>
+      </Pressable>
+    </>
+  );
+
+  const insurancePoliciesContent = (
+    <>
+      <View style={styles.insurancePolicyCard}>
+        <View style={styles.insuranceHeroImageWrap}>
+          <ModernHomeExteriorSvg
+            width="100%"
+            height="100%"
+            preserveAspectRatio="xMidYMid slice"
+          />
+
+          <View style={styles.insuranceActiveChip}>
+            <Text style={styles.insuranceActiveChipText}>ACTIVE</Text>
+          </View>
+        </View>
+
+        <View style={styles.insurancePolicyBody}>
+          <View style={styles.insurancePolicyTitleRow}>
+            <Text style={styles.insurancePolicyTitle}>
+              {'Home &\nContents - AXA'}
+            </Text>
+
+            <Pressable
+              style={({pressed}) => [
+                styles.insuranceRenewChip,
+                pressed ? styles.pressed : null,
+              ]}
+              onPress={() => openPlaceholder('Renew Home Policy')}>
+              <RenewSvg width={14} height={15} />
+              <Text style={styles.insuranceRenewChipText}>
+                {'Renew\nSoon'}
+              </Text>
+            </Pressable>
+          </View>
+
+          <View style={styles.insurancePolicyNumberRow}>
+            <ShieldSvg width={11} height={14} />
+            <Text style={styles.insurancePolicyNumber}>
+              Policy #: HE-28491
+            </Text>
+          </View>
+
+          <View style={styles.insurancePolicyMetaRow}>
+            <View style={styles.insurancePolicyMetaCard}>
+              <Text style={styles.insurancePolicyMetaLabel}>Renewal Date</Text>
+              <Text style={styles.insurancePolicyMetaValue}>14 Mar 2026</Text>
+            </View>
+
+            <View style={styles.insurancePolicyMetaCard}>
+              <Text style={styles.insurancePolicyMetaLabel}>Annual Premium</Text>
+              <Text style={styles.insurancePolicyMetaValue}>$1,240.00</Text>
+            </View>
+          </View>
+
+          <View style={styles.insurancePolicyActionsRow}>
+            <Pressable
+              style={({pressed}) => [
+                styles.insurancePrimaryActionButton,
+                pressed ? styles.pressed : null,
+              ]}
+              onPress={() => openPlaceholder('Download Certificate')}>
+              <Text style={styles.insurancePrimaryActionText}>
+                Download Certificate
+              </Text>
+            </Pressable>
+
+            <Pressable
+              style={({pressed}) => [
+                styles.insuranceSecondaryActionButton,
+                pressed ? styles.pressed : null,
+              ]}
+              onPress={() => openPlaceholder('Manage Insurance Policy')}>
+              <Text style={styles.insuranceSecondaryActionText}>Manage</Text>
+            </Pressable>
+          </View>
+        </View>
+      </View>
+
+      <View style={styles.insuranceCoverageCard}>
+        <View style={styles.insuranceSectionHeaderRow}>
+          <CoverageSvg width={20} height={18} />
+          <Text style={styles.insuranceSectionTitle}>Coverage Highlights</Text>
+        </View>
+
+        <View style={styles.insuranceCoverageList}>
+          {insuranceCoverageItems.map(item => (
+            <InsuranceCoverageItem key={item.id} {...item} />
+          ))}
+        </View>
+      </View>
+
+      <View style={styles.insuranceAssociatedHeaderRow}>
+        <Text style={styles.insuranceAssociatedTitle}>Associated Policies</Text>
+        <Text style={styles.insuranceAssociatedCount}>3 Total Records</Text>
+      </View>
+
+      <View style={styles.insuranceAssociatedList}>
+        {insuranceAssociatedPolicies.map(policy => (
+          <InsuranceAssociatedPolicyCard
+            key={policy.id}
+            {...policy}
+            onPress={() => openPlaceholder(policy.title)}
+          />
+        ))}
+      </View>
+    </>
+  );
+
+  const insurancePoliciesAddContent = (
+    <>
+      <View style={styles.insuranceAddIntro}>
+        <Text style={styles.insuranceAddEyebrow}>POLICY MANAGEMENT</Text>
+        <Text style={styles.insuranceAddTitle}>
+          {insuranceDraftPolicyName || 'Home & Contents'}
+        </Text>
+      </View>
+
+      <View style={styles.insuranceAddCard}>
+        <View style={styles.insuranceAddField}>
+          <Text style={styles.insuranceAddFieldLabel}>Policy Name</Text>
+          <View style={styles.insuranceAddInputShell}>
+            <TextInput
+              style={styles.insuranceAddInput}
+              value={insuranceDraftPolicyName}
+              onChangeText={setInsuranceDraftPolicyName}
+              placeholder="Home & Contents"
+              placeholderTextColor="#8A94A6"
+              autoCapitalize="words"
+              autoCorrect={false}
+              selectionColor="#0A5688"
+            />
+          </View>
+        </View>
+
+        <View style={styles.insuranceAddField}>
+          <Text style={styles.insuranceAddFieldLabel}>Provider</Text>
+          <View style={styles.insuranceAddInputShell}>
+            <TextInput
+              style={styles.insuranceAddInput}
+              value={insuranceDraftProvider}
+              onChangeText={setInsuranceDraftProvider}
+              placeholder="AXA"
+              placeholderTextColor="#8A94A6"
+              autoCapitalize="words"
+              autoCorrect={false}
+              selectionColor="#0A5688"
+            />
+          </View>
+        </View>
+
+        <View style={styles.insuranceAddField}>
+          <Text style={styles.insuranceAddFieldLabel}>Policy Number</Text>
+          <View style={styles.insuranceAddInputShell}>
+            <TextInput
+              style={styles.insuranceAddInput}
+              value={insuranceDraftPolicyNumber}
+              onChangeText={setInsuranceDraftPolicyNumber}
+              placeholder="e.g. AX-123456789"
+              placeholderTextColor="#8A94A6"
+              autoCapitalize="characters"
+              autoCorrect={false}
+              selectionColor="#0A5688"
+            />
+          </View>
+        </View>
+
+        <View style={styles.insuranceAddFieldLast}>
+          <Text style={styles.insuranceAddFieldLabel}>Renewal Date</Text>
+          <Pressable
+            style={({pressed}) => [
+              styles.insuranceAddDateInputShell,
+              pressed ? styles.pressed : null,
+            ]}
+            onPress={() => openPlaceholder('Select Renewal Date')}>
+            <Text style={styles.insuranceAddInput}>
+              {insuranceDraftRenewalDate}
+            </Text>
+            <PlannerSvg width={18} height={20} />
+          </Pressable>
+        </View>
+      </View>
+
+      <View style={styles.insuranceAddCard}>
+        <View style={styles.insuranceAddFieldLast}>
+          <Text style={styles.insuranceAddFieldLabel}>Annual Premium Amount</Text>
+          <View style={styles.insuranceAddInputShell}>
+            <TextInput
+              style={styles.insuranceAddInput}
+              value={insuranceDraftAnnualPremium}
+              onChangeText={setInsuranceDraftAnnualPremium}
+              placeholder="$0.00"
+              placeholderTextColor="#8A94A6"
+              autoCapitalize="none"
+              autoCorrect={false}
+              selectionColor="#0A5688"
+            />
+          </View>
+        </View>
+
+        <Pressable
+          style={({pressed}) => [
+            styles.insuranceAddReminderCard,
+            pressed ? styles.pressed : null,
+          ]}
+          onPress={handleToggleInsuranceRenewalReminder}>
+          <View style={styles.insuranceAddReminderTextWrap}>
+            <Text style={styles.insuranceAddReminderTitle}>Renewal Reminder</Text>
+            <Text style={styles.insuranceAddReminderSubtitle}>
+              Notify me 30 days before
+            </Text>
+          </View>
+
+          <View
+            style={[
+              styles.insuranceAddReminderToggle,
+              insuranceDraftRenewalReminder
+                ? styles.insuranceAddReminderToggleActive
+                : null,
+            ]}>
+            <View style={styles.insuranceAddReminderThumb} />
+          </View>
+        </Pressable>
+      </View>
+
+      <View style={styles.insuranceAddCard}>
+        <Text style={styles.insuranceAddSectionTitle}>Policy Documents</Text>
+
+        <Pressable
+          style={({pressed}) => [
+            styles.insuranceAddUploadArea,
+            pressed ? styles.pressed : null,
+          ]}
+          onPress={() => openPlaceholder('Upload Policy Certificate')}>
+          <CetificateSvg width={32} height={40} />
+          <Text style={styles.insuranceAddUploadTitle}>
+            Drop your certificate here
+          </Text>
+          <Text style={styles.insuranceAddUploadSubtitle}>
+            Supports PDF, PNG, JPG up to 10MB
+          </Text>
+        </Pressable>
+      </View>
+
+      <View style={styles.insuranceAddCard}>
+        <Text style={styles.insuranceAddNotesLabel}>Internal Notes</Text>
+
+        <View style={styles.insuranceAddNotesShell}>
+          <TextInput
+            style={styles.insuranceAddNotesInput}
+            value={insuranceDraftNotes}
+            onChangeText={setInsuranceDraftNotes}
+            placeholder="Add any specific details or claim history notes here..."
+            placeholderTextColor="#8A94A6"
+            multiline
+            textAlignVertical="top"
+            autoCorrect={false}
+            selectionColor="#0A5688"
+          />
+        </View>
+      </View>
+
+      <View style={styles.insuranceAddFooterDivider} />
+
+      <Pressable
+        style={({pressed}) => [
+          styles.insuranceAddDeleteButton,
+          pressed ? styles.pressed : null,
+        ]}
+        onPress={handleDeleteInsuranceEntry}>
+        <TrashCompactSvg width={16} height={18} />
+        <Text style={styles.insuranceAddDeleteButtonText}>
+          Delete Policy Entry
+        </Text>
+      </Pressable>
+    </>
+  );
+
   return (
     <SafeAreaView style={styles.safeArea} edges={['top', 'bottom']}>
       <View style={styles.screen}>
@@ -2538,8 +3700,16 @@ function HomeScreen(): React.JSX.Element {
                 ? bankingAddContent
                 : isRecurringPaymentsAddView
                 ? recurringPaymentsAddContent
+                : isVehicleMaintenanceAddView
+                ? vehicleMaintenanceAddContent
+                : isInsurancePoliciesAddView
+                ? insurancePoliciesAddContent
                 : isRecurringPaymentsView
                 ? recurringPaymentsContent
+                : isVehicleMaintenanceView
+                ? vehicleMaintenanceContent
+                : isInsurancePoliciesView
+                ? insurancePoliciesContent
                 : isBankingCardsView
                 ? bankingContent
                 : isPersonalIdentityView
@@ -4971,6 +6141,1341 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontFamily: fonts.regular,
     lineHeight: 22,
+  },
+  vehicleHeroCard: {
+    width: '100%',
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: '#D7E4EE',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: 20,
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.06,
+    shadowRadius: 14,
+    elevation: 2,
+  },
+  vehicleHeroImageWrap: {
+    height: 174,
+    borderRadius: 10,
+    overflow: 'hidden',
+    backgroundColor: '#162833',
+  },
+  vehicleHeroBody: {
+    paddingTop: 18,
+  },
+  vehicleHeroHeaderRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  vehicleHeroEyebrow: {
+    color: '#42474E',
+    fontSize: 13,
+    fontFamily: fonts.medium,
+    lineHeight: 16,
+    letterSpacing: 0.78,
+  },
+  vehicleHeroStatusChip: {
+    minHeight: 28,
+    borderRadius: 999,
+    backgroundColor: '#3E6E9A',
+    paddingHorizontal: 14,
+    paddingVertical: 6,
+    justifyContent: 'center',
+  },
+  vehicleHeroStatusText: {
+    color: '#FFFFFF',
+    fontSize: 13,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+  },
+  vehicleHeroTitle: {
+    marginTop: 10,
+    color: '#094771',
+    fontSize: 24,
+    fontFamily: fonts.bold,
+    lineHeight: 34,
+    letterSpacing: -0.48,
+  },
+  vehicleHeroMetaRow: {
+    marginTop: 16,
+    paddingTop: 12,
+    borderTopWidth: 1,
+    borderTopColor: '#D7E0E8',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  vehicleHeroMetaColumn: {
+    width: '47%',
+  },
+  vehicleHeroMetaLabel: {
+    color: '#42474E',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+  },
+  vehicleHeroMetaValue: {
+    marginTop: 2,
+    color: '#091E27',
+    fontSize: 18,
+    fontFamily: fonts.regular,
+    lineHeight: 24,
+  },
+  vehicleMotUrgentCard: {
+    marginTop: 18,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#FFD5D2',
+    backgroundColor: '#FFF5F5',
+    paddingHorizontal: 14,
+    paddingVertical: 14,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  vehicleMotUrgentLeft: {
+    flex: 1,
+    minWidth: 0,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingRight: 12,
+  },
+  vehicleMotUrgentTextWrap: {
+    marginLeft: 12,
+    flex: 1,
+    minWidth: 0,
+  },
+  vehicleMotUrgentTitle: {
+    color: '#D92D20',
+    fontSize: 13,
+    fontFamily: fonts.medium,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+  },
+  vehicleMotUrgentValue: {
+    marginTop: 2,
+    color: '#2E2F33',
+    fontSize: 13,
+    fontFamily: fonts.regular,
+    lineHeight: 18,
+  },
+  vehicleMotUrgentButton: {
+    minWidth: 88,
+    height: 32,
+    borderRadius: 8,
+    backgroundColor: '#D92D20',
+    paddingHorizontal: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  vehicleMotUrgentButtonText: {
+    color: '#FFFFFF',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+  },
+  vehicleEfficiencyCard: {
+    width: '100%',
+    marginTop: 20,
+    height: 160,
+    borderRadius: 12,
+    backgroundColor: '#D6EBF8',
+    padding: 24,
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    elevation: 2,
+  },
+  vehicleEfficiencyLabel: {
+    color: '#1E537C',
+    fontSize: 13,
+    fontFamily: fonts.medium,
+    lineHeight: 16,
+    letterSpacing: 1.04,
+  },
+  vehicleEfficiencyValueRow: {
+    marginTop: 16,
+    flexDirection: 'row',
+    alignItems: 'baseline',
+  },
+  vehicleEfficiencyValue: {
+    color: '#094771',
+    fontSize: 28,
+    fontFamily: fonts.bold,
+    lineHeight: 36,
+    letterSpacing: -0.56,
+  },
+  vehicleEfficiencyUnit: {
+    marginLeft: 6,
+    color: '#42474E',
+    fontSize: 24,
+    fontFamily: fonts.regular,
+    lineHeight: 24,
+  },
+  vehicleEfficiencyTrack: {
+    width: '100%',
+    height: 8,
+    marginTop: 18,
+    borderRadius: 999,
+    backgroundColor: '#B7C9D8',
+    overflow: 'hidden',
+  },
+  vehicleEfficiencyFill: {
+    width: '75%',
+    height: '100%',
+    borderRadius: 999,
+    backgroundColor: '#094771',
+  },
+  vehicleEfficiencyTrend: {
+    marginTop: 8,
+    color: '#42474E',
+    fontSize: 13,
+    fontFamily: fonts.regular,
+    lineHeight: 18,
+  },
+  vehicleOdometerCard: {
+    width: '100%',
+    marginTop: 18,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: '#D7E4EE',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 24,
+    paddingVertical: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 12,
+    elevation: 2,
+  },
+  vehicleOdometerLabel: {
+    color: '#42474E',
+    fontSize: 13,
+    fontFamily: fonts.medium,
+    lineHeight: 16,
+    letterSpacing: 0.78,
+  },
+  vehicleOdometerValue: {
+    marginTop: 4,
+    color: '#091E27',
+    fontSize: 20,
+    fontFamily: fonts.regular,
+    lineHeight: 26,
+  },
+  vehicleOdometerUnit: {
+    fontSize: 16,
+    lineHeight: 22,
+  },
+  vehicleOdometerIconWrap: {
+    marginLeft: 16,
+    width: 36,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  vehicleSectionHeaderRow: {
+    width: '100%',
+    marginTop: 28,
+    marginBottom: 14,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  vehicleSectionTitle: {
+    color: '#094771',
+    fontSize: 18,
+    fontFamily: fonts.semiBold,
+    lineHeight: 24,
+  },
+  vehicleSectionLink: {
+    color: '#094771',
+    fontSize: 13,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+  },
+  vehicleRecentServicesCard: {
+    width: '100%',
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: '#D7E4EE',
+    backgroundColor: '#FFFFFF',
+    overflow: 'hidden',
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 12,
+    elevation: 2,
+  },
+  vehicleRecentServiceRow: {
+    minHeight: 76,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  vehicleRecentServiceLeft: {
+    flex: 1,
+    minWidth: 0,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingRight: 12,
+  },
+  vehicleRecentServiceTextWrap: {
+    flex: 1,
+    minWidth: 0,
+    marginLeft: 12,
+  },
+  vehicleRecentServiceTitle: {
+    color: '#091E27',
+    fontSize: 16,
+    fontFamily: fonts.regular,
+    lineHeight: 22,
+  },
+  vehicleRecentServiceMeta: {
+    marginTop: 2,
+    color: '#42474E',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+  },
+  vehicleRecentServicePrice: {
+    color: '#094771',
+    fontSize: 14,
+    fontFamily: fonts.regular,
+    lineHeight: 20,
+  },
+  vehicleRecentServiceDivider: {
+    height: 1,
+    backgroundColor: '#E5EDF3',
+    marginLeft: 16,
+  },
+  vehicleUpcomingList: {
+    width: '100%',
+  },
+  vehicleUpcomingCard: {
+    width: '100%',
+    marginBottom: 12,
+    borderRadius: 8,
+    borderLeftWidth: 4,
+    backgroundColor: '#FFFFFF',
+    padding: 16,
+    shadowColor: '#000000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    elevation: 1,
+    justifyContent: 'space-between',
+  },
+  vehicleUpcomingCardUrgent: {
+    height: 180,
+  },
+  vehicleUpcomingCardStandard: {
+    height: 124,
+  },
+  vehicleUpcomingTopRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+  },
+  vehicleUpcomingIconWrap: {
+    width: 20,
+    marginTop: 2,
+    alignItems: 'center',
+  },
+  vehicleUpcomingTextWrap: {
+    flex: 1,
+    minWidth: 0,
+    marginLeft: 12,
+  },
+  vehicleUpcomingTitle: {
+    color: '#091E27',
+    fontSize: 16,
+    fontFamily: fonts.semiBold,
+    lineHeight: 22,
+  },
+  vehicleUpcomingDescription: {
+    marginTop: 4,
+    color: '#42474E',
+    fontSize: 13,
+    fontFamily: fonts.regular,
+    lineHeight: 20,
+  },
+  vehicleUpcomingFooter: {
+    marginTop: 10,
+    color: '#A06D00',
+    fontSize: 13,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+  },
+  vehicleUpcomingFooterUrgent: {
+    color: '#D92D20',
+  },
+  vehicleUpcomingActionsRow: {
+    marginTop: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    paddingLeft: 32,
+  },
+  vehicleUpcomingPrimaryButton: {
+    width: 154,
+    height: 42,
+    borderRadius: 8,
+    backgroundColor: '#094771',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 8,
+    paddingHorizontal: 32,
+    paddingVertical: 4,
+  },
+  vehicleUpcomingPrimaryButtonText: {
+    color: '#FFFFFF',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+    textAlign: 'center',
+  },
+  vehicleUpcomingSecondaryButton: {
+    width: 124,
+    height: 42,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#C2C7CF',
+    backgroundColor: '#FFFFFF',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 24,
+    paddingVertical: 4,
+  },
+  vehicleUpcomingSecondaryButtonText: {
+    color: '#091E27',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+    textAlign: 'center',
+  },
+  vehicleGloveboxCard: {
+    width: '100%',
+    marginTop: 12,
+    minHeight: 222,
+    borderRadius: 12,
+    backgroundColor: '#094771',
+    padding: 24,
+    justifyContent: 'space-between',
+  },
+  vehicleGloveboxTitle: {
+    color: '#FFFFFF',
+    fontSize: 22,
+    fontFamily: fonts.semiBold,
+    lineHeight: 28,
+    letterSpacing: -0.22,
+    textAlign: 'center',
+  },
+  vehicleGloveboxBody: {
+    marginTop: 8,
+    color: '#D6EBF8',
+    fontSize: 13,
+    fontFamily: fonts.regular,
+    lineHeight: 20,
+    textAlign: 'center',
+  },
+  vehicleGloveboxActionsRow: {
+    marginTop: 18,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  vehicleGloveboxSecondaryButton: {
+    width: 146,
+    height: 66,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#A8C7DE',
+    backgroundColor: 'transparent',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+  },
+  vehicleGloveboxSecondaryButtonText: {
+    marginLeft: 18,
+    color: '#FFFFFF',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+    textAlign: 'center',
+  },
+  vehicleGloveboxPrimaryButton: {
+    width: 146,
+    height: 66,
+    borderRadius: 12,
+    backgroundColor: '#FEB234',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    paddingLeft: 24,
+    paddingRight: 24,
+    paddingVertical: 16,
+  },
+  vehicleGloveboxPrimaryButtonText: {
+    marginLeft: 29,
+    color: '#291800',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+    textAlign: 'center',
+  },
+  vehicleAddHeroCard: {
+    width: '100%',
+    marginBottom: 18,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: '#D7E4EE',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 18,
+    paddingTop: 18,
+    paddingBottom: 22,
+    alignItems: 'center',
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 14,
+    elevation: 2,
+  },
+  vehicleAddHeroImageWrap: {
+    width: '100%',
+    height: 150,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  vehicleAddHeroBadge: {
+    marginTop: 10,
+    minHeight: 26,
+    borderRadius: 999,
+    backgroundColor: '#FEB234',
+    paddingHorizontal: 14,
+    paddingVertical: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  vehicleAddHeroBadgeText: {
+    color: '#815500',
+    fontSize: 12,
+    fontFamily: fonts.medium,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+  },
+  vehicleAddHeroTitle: {
+    marginTop: 12,
+    color: '#094771',
+    fontSize: 24,
+    fontFamily: fonts.regular,
+    lineHeight: 32,
+    textAlign: 'center',
+  },
+  vehicleAddHeroMetaRow: {
+    marginTop: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  vehicleAddHeroMetaText: {
+    marginLeft: 4,
+    color: '#42474E',
+    fontSize: 13,
+    fontFamily: fonts.regular,
+    lineHeight: 18,
+    textAlign: 'center',
+  },
+  vehicleAddFieldCard: {
+    width: '100%',
+    marginBottom: 18,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: '#E2EAF1',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 14,
+    paddingTop: 14,
+    paddingBottom: 14,
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 14,
+    elevation: 2,
+  },
+  vehicleAddCard: {
+    width: '100%',
+    marginBottom: 18,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: '#E2EAF1',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 14,
+    paddingTop: 16,
+    paddingBottom: 16,
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 14,
+    elevation: 2,
+  },
+  vehicleAddSectionTitle: {
+    color: '#094771',
+    fontSize: 18,
+    fontFamily: fonts.regular,
+    lineHeight: 24,
+  },
+  vehicleAddUploadSectionTitle: {
+    color: '#42474E',
+    fontSize: 13,
+    fontFamily: fonts.regular,
+    lineHeight: 18,
+  },
+  vehicleAddSectionDivider: {
+    height: 1,
+    marginTop: 8,
+    marginBottom: 14,
+    backgroundColor: '#E1E9F0',
+  },
+  vehicleAddField: {
+    marginBottom: 14,
+  },
+  vehicleAddFieldLast: {
+    marginBottom: 0,
+  },
+  vehicleAddFieldLabel: {
+    marginBottom: 8,
+    color: '#42474E',
+    fontSize: 13,
+    fontFamily: fonts.regular,
+    lineHeight: 18,
+  },
+  vehicleAddInputShell: {
+    minHeight: 44,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#C7D1DC',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 14,
+    justifyContent: 'center',
+  },
+  vehicleAddInput: {
+    flex: 1,
+    paddingVertical: 0,
+    color: '#091E27',
+    fontSize: 15,
+    fontFamily: fonts.regular,
+    lineHeight: 20,
+  },
+  vehicleAddInputAlert: {
+    color: '#BA1A1A',
+  },
+  vehicleAddComplianceBlock: {
+    marginTop: 16,
+  },
+  vehicleAddComplianceTrack: {
+    width: '100%',
+    height: 6,
+    borderRadius: 999,
+    backgroundColor: '#D8ECF9',
+    overflow: 'hidden',
+  },
+  vehicleAddComplianceFill: {
+    width: '75%',
+    height: '100%',
+    borderRadius: 999,
+    backgroundColor: '#0A5688',
+  },
+  vehicleAddComplianceHint: {
+    marginTop: 8,
+    color: '#42474E',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+  },
+  vehicleAddUploadArea: {
+    marginTop: 14,
+    minHeight: 180,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: '#C7D1DC',
+    borderStyle: 'dashed',
+    backgroundColor: '#FFFFFF',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 24,
+    paddingVertical: 20,
+  },
+  vehicleAddUploadTitle: {
+    marginTop: 14,
+    color: '#091E27',
+    fontSize: 16,
+    fontFamily: fonts.regular,
+    lineHeight: 22,
+    textAlign: 'center',
+  },
+  vehicleAddUploadSubtitle: {
+    marginTop: 8,
+    color: '#42474E',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    textAlign: 'center',
+  },
+  vehicleAddUploadFileCard: {
+    marginTop: 12,
+    minHeight: 52,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#BFDCEF',
+    backgroundColor: '#EAF6FF',
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  vehicleAddUploadFileInfo: {
+    flex: 1,
+    minWidth: 0,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingRight: 12,
+  },
+  vehicleAddUploadFileTextWrap: {
+    flex: 1,
+    minWidth: 0,
+    marginLeft: 10,
+  },
+  vehicleAddUploadFileName: {
+    color: '#094771',
+    fontSize: 13,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+  },
+  vehicleAddUploadFileMeta: {
+    marginTop: 2,
+    color: '#42474E',
+    fontSize: 11,
+    fontFamily: fonts.regular,
+    lineHeight: 14,
+  },
+  vehicleAddUploadFileDeleteButton: {
+    width: 24,
+    height: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  vehicleAddNotesShell: {
+    minHeight: 118,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#C7D1DC',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 14,
+    paddingVertical: 14,
+  },
+  vehicleAddNotesInput: {
+    flex: 1,
+    paddingTop: 0,
+    paddingBottom: 0,
+    color: '#091E27',
+    fontSize: 15,
+    fontFamily: fonts.regular,
+    lineHeight: 24,
+  },
+  vehicleAddDeleteButton: {
+    alignSelf: 'center',
+    minHeight: 36,
+    marginTop: 10,
+    marginBottom: 12,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#F0C9C5',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 18,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  vehicleAddDeleteButtonText: {
+    marginLeft: 8,
+    color: '#D92D20',
+    fontSize: 13,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+  },
+  insurancePolicyCard: {
+    width: '100%',
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: '#D7E4EE',
+    backgroundColor: '#FFFFFF',
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.06,
+    shadowRadius: 14,
+    elevation: 2,
+  },
+  insuranceHeroImageWrap: {
+    height: 180,
+    marginTop: 22,
+    marginHorizontal: 22,
+    borderRadius: 10,
+    overflow: 'hidden',
+    backgroundColor: '#D6E5F0',
+    position: 'relative',
+  },
+  insuranceActiveChip: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    minHeight: 24,
+    borderRadius: 999,
+    backgroundColor: '#FEB234',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    justifyContent: 'center',
+  },
+  insuranceActiveChipText: {
+    color: '#6D4700',
+    fontSize: 12,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+  },
+  insurancePolicyBody: {
+    paddingHorizontal: 22,
+    paddingTop: 22,
+    paddingBottom: 20,
+  },
+  insurancePolicyTitleRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+  },
+  insurancePolicyTitle: {
+    flex: 1,
+    color: '#094771',
+    fontSize: 28,
+    fontFamily: fonts.bold,
+    lineHeight: 36,
+    letterSpacing: -0.56,
+    paddingRight: 12,
+  },
+  insuranceRenewChip: {
+    minHeight: 42,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#E8A020',
+    backgroundColor: '#FFF6E7',
+    paddingHorizontal: 14,
+    paddingVertical: 4,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  insuranceRenewChipText: {
+    marginLeft: 4,
+    color: '#815500',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+  },
+  insurancePolicyNumberRow: {
+    marginTop: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  insurancePolicyNumber: {
+    marginLeft: 6,
+    color: '#42474E',
+    fontSize: 16,
+    fontFamily: fonts.regular,
+    lineHeight: 24,
+  },
+  insurancePolicyMetaRow: {
+    marginTop: 18,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  insurancePolicyMetaCard: {
+    width: '48.5%',
+    minHeight: 58,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#C2C7CF',
+    backgroundColor: '#E7F6FF',
+    padding: 8,
+    justifyContent: 'center',
+  },
+  insurancePolicyMetaLabel: {
+    color: '#42474E',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+  },
+  insurancePolicyMetaValue: {
+    marginTop: 2,
+    color: '#094771',
+    fontSize: 18,
+    fontFamily: fonts.semiBold,
+    lineHeight: 24,
+  },
+  insurancePolicyActionsRow: {
+    marginTop: 22,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  insurancePrimaryActionButton: {
+    flex: 1,
+    height: 34,
+    borderRadius: 8,
+    backgroundColor: '#094771',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 14,
+  },
+  insurancePrimaryActionText: {
+    color: '#FFFFFF',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+    textAlign: 'center',
+  },
+  insuranceSecondaryActionButton: {
+    width: 90,
+    height: 34,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#72777F',
+    backgroundColor: '#FFFFFF',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  insuranceSecondaryActionText: {
+    color: '#094771',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+    textAlign: 'center',
+  },
+  insuranceCoverageCard: {
+    width: '100%',
+    marginTop: 24,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: '#D7E4EE',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: 18,
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 14,
+    elevation: 2,
+  },
+  insuranceSectionHeaderRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  insuranceSectionTitle: {
+    marginLeft: 8,
+    color: '#094771',
+    fontSize: 18,
+    fontFamily: fonts.semiBold,
+    lineHeight: 24,
+  },
+  insuranceCoverageList: {
+    marginTop: 18,
+  },
+  insuranceCoverageItemRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginBottom: 14,
+  },
+  insuranceCoverageItemTextWrap: {
+    flex: 1,
+    minWidth: 0,
+    marginLeft: 14,
+  },
+  insuranceCoverageItemTitle: {
+    color: '#091E27',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+  },
+  insuranceCoverageItemDescription: {
+    marginTop: 2,
+    color: '#42474E',
+    fontSize: 13,
+    fontFamily: fonts.regular,
+    lineHeight: 18,
+  },
+  insuranceAssociatedHeaderRow: {
+    width: '100%',
+    marginTop: 28,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  insuranceAssociatedTitle: {
+    color: '#094771',
+    fontSize: 18,
+    fontFamily: fonts.semiBold,
+    lineHeight: 24,
+  },
+  insuranceAssociatedCount: {
+    color: '#42474E',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+  },
+  insuranceAssociatedList: {
+    width: '100%',
+    marginTop: 16,
+  },
+  insuranceAssociatedPolicyCard: {
+    width: '100%',
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: '#D7E4EE',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+    marginBottom: 16,
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 12,
+    elevation: 2,
+  },
+  insuranceAssociatedPolicyRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  insuranceAssociatedPolicyTextWrap: {
+    flex: 1,
+    minWidth: 0,
+    marginLeft: 14,
+    paddingRight: 10,
+  },
+  insuranceAssociatedPolicyTitle: {
+    color: '#091E27',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+  },
+  insuranceAssociatedPolicyTitleArchived: {
+    color: '#72777F',
+  },
+  insuranceAssociatedPolicySubtitle: {
+    marginTop: 2,
+    color: '#42474E',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+  },
+  insuranceAssociatedPolicySubtitleArchived: {
+    color: '#72777F',
+  },
+  insuranceAssociatedStatusChip: {
+    alignSelf: 'flex-start',
+    marginTop: 12,
+    minHeight: 24,
+    borderRadius: 999,
+    backgroundColor: '#DFF0FB',
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    justifyContent: 'center',
+  },
+  insuranceAssociatedStatusChipArchived: {
+    backgroundColor: '#E7EDF2',
+  },
+  insuranceAssociatedStatusText: {
+    color: '#0A5688',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+  },
+  insuranceAssociatedStatusTextArchived: {
+    color: '#72777F',
+  },
+  insuranceAssociatedArrowWrap: {
+    width: 12,
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+  },
+  insuranceAddIntro: {
+    width: '100%',
+    marginBottom: 18,
+    paddingHorizontal: 2,
+  },
+  insuranceAddEyebrow: {
+    color: '#42474E',
+    fontSize: 13,
+    fontFamily: fonts.medium,
+    lineHeight: 18,
+    letterSpacing: 1.56,
+  },
+  insuranceAddTitle: {
+    marginTop: 6,
+    color: '#094771',
+    fontSize: 28,
+    fontFamily: fonts.regular,
+    lineHeight: 36,
+    letterSpacing: -0.56,
+  },
+  insuranceAddCard: {
+    width: '100%',
+    marginBottom: 18,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: '#E2EAF1',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 22,
+    paddingTop: 22,
+    paddingBottom: 20,
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 14,
+    elevation: 2,
+  },
+  insuranceAddField: {
+    marginBottom: 16,
+  },
+  insuranceAddFieldLast: {
+    marginBottom: 0,
+  },
+  insuranceAddFieldLabel: {
+    marginBottom: 8,
+    color: '#42474E',
+    fontSize: 13,
+    fontFamily: fonts.regular,
+    lineHeight: 18,
+  },
+  insuranceAddInputShell: {
+    minHeight: 44,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#C7D1DC',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 14,
+    justifyContent: 'center',
+  },
+  insuranceAddDateInputShell: {
+    minHeight: 44,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#C7D1DC',
+    backgroundColor: '#FFFFFF',
+    paddingLeft: 14,
+    paddingRight: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  insuranceAddInput: {
+    flex: 1,
+    paddingVertical: 0,
+    color: '#091E27',
+    fontSize: 15,
+    fontFamily: fonts.regular,
+    lineHeight: 20,
+  },
+  insuranceAddReminderCard: {
+    marginTop: 24,
+    minHeight: 72,
+    borderRadius: 10,
+    backgroundColor: '#DFF1FF',
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  insuranceAddReminderTextWrap: {
+    flex: 1,
+    minWidth: 0,
+    paddingRight: 14,
+  },
+  insuranceAddReminderTitle: {
+    color: '#091E27',
+    fontSize: 18,
+    fontFamily: fonts.regular,
+    lineHeight: 24,
+  },
+  insuranceAddReminderSubtitle: {
+    marginTop: 2,
+    color: '#42474E',
+    fontSize: 13,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+  },
+  insuranceAddReminderToggle: {
+    width: 48,
+    height: 28,
+    borderRadius: 999,
+    backgroundColor: '#ADC9DE',
+    paddingHorizontal: 3,
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+  },
+  insuranceAddReminderToggleActive: {
+    backgroundColor: '#094771',
+    alignItems: 'flex-end',
+  },
+  insuranceAddReminderThumb: {
+    width: 22,
+    height: 22,
+    borderRadius: 11,
+    backgroundColor: '#FFFFFF',
+  },
+  insuranceAddSectionTitle: {
+    color: '#094771',
+    fontSize: 18,
+    fontFamily: fonts.regular,
+    lineHeight: 24,
+  },
+  insuranceAddNotesLabel: {
+    color: '#42474E',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+  },
+  insuranceAddUploadArea: {
+    marginTop: 16,
+    minHeight: 168,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: '#C7D1DC',
+    borderStyle: 'dashed',
+    backgroundColor: '#FFFFFF',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+  },
+  insuranceAddUploadTitle: {
+    marginTop: 16,
+    color: '#091E27',
+    fontSize: 16,
+    fontFamily: fonts.regular,
+    lineHeight: 20,
+    textAlign: 'center',
+  },
+  insuranceAddUploadSubtitle: {
+    marginTop: 4,
+    color: '#42474E',
+    fontSize: 13,
+    fontFamily: fonts.regular,
+    lineHeight: 18,
+    textAlign: 'center',
+  },
+  insuranceAddNotesShell: {
+    marginTop: 14,
+    minHeight: 182,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#C7D1DC',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 14,
+    paddingVertical: 14,
+  },
+  insuranceAddNotesInput: {
+    flex: 1,
+    paddingTop: 0,
+    paddingBottom: 0,
+    color: '#091E27',
+    fontSize: 15,
+    fontFamily: fonts.regular,
+    lineHeight: 22,
+  },
+  insuranceAddFooterDivider: {
+    width: '100%',
+    height: 1,
+    marginTop: 6,
+    marginBottom: 18,
+    backgroundColor: '#D1D8DF',
+  },
+  insuranceAddDeleteButton: {
+    width: '100%',
+    minHeight: 40,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 6,
+  },
+  insuranceAddDeleteButtonText: {
+    marginLeft: 8,
+    color: '#BA1A1A',
+    fontSize: 15,
+    fontFamily: fonts.regular,
+    lineHeight: 20,
   },
   bottomNavShell: {
     position: 'absolute',
