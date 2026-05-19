@@ -10,7 +10,7 @@ import {
   View,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import Svg, {Path} from 'react-native-svg';
+import Svg, {Defs, LinearGradient, Path, Rect, Stop} from 'react-native-svg';
 import ActiveSvg from '../images/active.svg';
 import AddActionSvg from '../images/add.svg';
 import AutoSvg from '../images/auto.svg';
@@ -28,6 +28,7 @@ import BucketSvg from '../images/bucket.svg';
 import CarSvg from '../images/car.svg';
 import CarThreeSvg from '../images/car_3.svg';
 import CarTwoSvg from '../images/car_2.svg';
+import ClinicalLabEquipmentSvg from '../images/Clinical Lab Equipment.svg';
 import CardPatternSvg from '../images/card.svg';
 import CardTwoSvg from '../images/card_2.svg';
 import CardTwoPrimarySvg from '../images/card_2_primary.svg';
@@ -41,10 +42,12 @@ import DefenceSvg from '../images/defence.svg';
 import DocSvg from '../images/doc.svg';
 import DotSvg from '../images/dot.svg';
 import EditSvg from '../images/edit.svg';
+import EditBackgroundSvg from '../images/edit_bg.svg';
 import EncryptedSvg from '../images/encrypted.svg';
 import EyeSvg from '../images/eye.svg';
 import FitnessSvg from '../images/fitness.svg';
 import FingerSvg from '../images/finger.svg';
+import FadeSvg from '../images/fade.svg';
 import Glow1Svg from '../images/glow_1.svg';
 import Glow2Svg from '../images/glow_2.svg';
 import HealthSvg from '../images/health.svg';
@@ -62,6 +65,7 @@ import MonthlySvg from '../images/monthly.svg';
 import MoneySvg from '../images/money.svg';
 import MaintainOneSvg from '../images/maintain_1.svg';
 import NaturalSvg from '../images/natural.svg';
+import NameSvg from '../images/name.svg';
 import NetflixSvg from '../images/netflix.svg';
 import NetflixOneSvg from '../images/netflix_1.svg';
 import NotificationSvg from '../images/notification.svg';
@@ -79,6 +83,7 @@ import PlusSvg from '../images/plus.svg';
 import ProfileSvg from '../images/profile.svg';
 import ProfileCardSvg from '../images/profile_1.svg';
 import ProfileCardPrimarySvg from '../images/profile_1_primary.svg';
+import ProgressSvg from '../images/progress.svg';
 import RecurrentSvg from '../images/recurrent.svg';
 import RecurringSvg from '../images/recurring.svg';
 import RecordsSvg from '../images/records.svg';
@@ -92,6 +97,7 @@ import SavingSvg from '../images/saving.svg';
 import SavingsSvg from '../images/savings.svg';
 import SearchGraySvg from '../images/search_gray.svg';
 import SearchSvg from '../images/search.svg';
+import ShieldTwoSvg from '../images/shield_2.svg';
 import ShieldSvg from '../images/shield.svg';
 import SkyBroadbandSvg from '../images/sky_broadband.svg';
 import SpeedSvg from '../images/speed.svg';
@@ -107,6 +113,7 @@ import UpcomingSvg from '../images/upcoming.svg';
 import UploadSvg from '../images/upload.svg';
 import UploadDocumentSvg from '../images/upload_2.svg';
 import PublicSvg from '../images/public.svg';
+import PillSvg from '../images/pill.svg';
 import VehicleHeroSvg from '../images/vahicle_1.svg';
 import VehicleSvg from '../images/vehicle.svg';
 import WarningSvg from '../images/warning.svg';
@@ -115,6 +122,10 @@ import WarningAlarmSvg from '../images/warning_alarm.svg';
 import WalletSvg from '../images/wallert.svg';
 import WifiSvg from '../images/wi-fi.svg';
 import WrongSvg from '../images/wrong.svg';
+import WatchSvg from '../images/watch.svg';
+import BloodSvg from '../images/blood.svg';
+import BloodTwoSvg from '../images/blood_2.svg';
+import GymSvg from '../images/gym.svg';
 import {fonts} from '../theme/fonts';
 
 type BottomTabKey = 'home' | 'records' | 'reminders' | 'planner' | 'profile';
@@ -124,6 +135,8 @@ type RecordsView =
   | 'personal-identity-add'
   | 'banking-cards'
   | 'banking-cards-add'
+  | 'health-fitness'
+  | 'health-fitness-add'
   | 'recurring-payments'
   | 'recurring-payments-add'
   | 'vehicle-maintenance'
@@ -218,6 +231,14 @@ interface InsuranceAssociatedPolicyData {
   subtitle: string;
   status: 'ACTIVE' | 'ARCHIVED';
   icon: React.JSX.Element;
+}
+
+interface HealthCheckupData {
+  id: string;
+  month: string;
+  day: string;
+  title: string;
+  subtitle: string;
 }
 
 interface VehicleRecentServiceData {
@@ -820,6 +841,78 @@ function VehicleUpcomingMaintenanceCard({
   );
 }
 
+function HealthAnalysisGradient(): React.JSX.Element {
+  return (
+    <Svg
+      width="100%"
+      height="100%"
+      viewBox="0 0 358 358"
+      preserveAspectRatio="none"
+      style={styles.healthAnalysisGradient}>
+      <Defs>
+        <LinearGradient
+          id="healthAnalysisFade"
+          x1="179"
+          y1="358"
+          x2="179"
+          y2="0"
+          gradientUnits="userSpaceOnUse">
+          <Stop offset="0" stopColor="#094771" stopOpacity={0.9} />
+          <Stop offset="1" stopColor="#094771" stopOpacity={0} />
+        </LinearGradient>
+      </Defs>
+      <Rect width="358" height="358" fill="url(#healthAnalysisFade)" />
+    </Svg>
+  );
+}
+
+function HealthProfileGlyph(): React.JSX.Element {
+  return (
+    <Svg width={25} height={25} viewBox="14 14 20 20" fill="none">
+      <Path
+        d="M16 34C15.45 34 14.9792 33.8042 14.5875 33.4125C14.1958 33.0208 14 32.55 14 32V20C14 19.45 14.1958 18.9792 14.5875 18.5875C14.9792 18.1958 15.45 18 16 18H20V16C20 15.45 20.1958 14.9792 20.5875 14.5875C20.9792 14.1958 21.45 14 22 14H26C26.55 14 27.0208 14.1958 27.4125 14.5875C27.8042 14.9792 28 15.45 28 16V18H32C32.55 18 33.0208 18.1958 33.4125 18.5875C33.8042 18.9792 34 19.45 34 20V32C34 32.55 33.8042 33.0208 33.4125 33.4125C33.0208 33.8042 32.55 34 32 34H16ZM16 32H32V20H16V32ZM22 18H26V16H22V18ZM16 32V20V32ZM23 27V30H25V27H28V25H25V22H23V25H20V27H23Z"
+        fill="#094771"
+      />
+    </Svg>
+  );
+}
+
+function HealthCheckupRow({
+  month,
+  day,
+  title,
+  subtitle,
+  showDivider = false,
+  onPress,
+}: HealthCheckupData & {
+  showDivider?: boolean;
+  onPress: () => void;
+}): React.JSX.Element {
+  return (
+    <Pressable
+      style={({pressed}) => [
+        styles.healthCheckupRow,
+        showDivider ? styles.healthCheckupRowWithDivider : null,
+        pressed ? styles.pressed : null,
+      ]}
+      onPress={onPress}>
+      <View style={styles.healthCheckupDateBadge}>
+        <Text style={styles.healthCheckupMonth}>{month}</Text>
+        <Text style={styles.healthCheckupDay}>{day}</Text>
+      </View>
+
+      <View style={styles.healthCheckupTextWrap}>
+        <Text style={styles.healthCheckupTitle}>{title}</Text>
+        <Text style={styles.healthCheckupSubtitle}>{subtitle}</Text>
+      </View>
+
+      <View style={styles.healthCheckupArrowWrap}>
+        <ArrowSvg width={8} height={12} />
+      </View>
+    </Pressable>
+  );
+}
+
 function BottomNavItem({
   active = false,
   label,
@@ -924,6 +1017,23 @@ function HomeScreen(): React.JSX.Element {
   );
   const [hasUploadedVehicleDocument, setHasUploadedVehicleDocument] =
     useState(true);
+  const [healthDraftProviderTopic, setHealthDraftProviderTopic] =
+    useState('Primary Care');
+  const [healthDraftContact, setHealthDraftContact] = useState('Dr. H. Patel');
+  const [healthDraftMedications, setHealthDraftMedications] = useState(
+    'Multivitamin, Omega-3, Lisinopril 10mg',
+  );
+  const [healthDraftWeeklyGoalPercent, setHealthDraftWeeklyGoalPercent] =
+    useState('75%');
+  const [healthDraftWeeklyGoalText, setHealthDraftWeeklyGoalText] = useState(
+    '150 mins cardio',
+  );
+  const [healthDraftRemindersEnabled, setHealthDraftRemindersEnabled] =
+    useState(true);
+  const [healthDraftNotes, setHealthDraftNotes] = useState(
+    'Last physical exam was clear. Follow-up scheduled for October for blood work. Keep tracking sodium intake.',
+  );
+  const [hasUploadedHealthReport, setHasUploadedHealthReport] = useState(true);
 
   const contentWidth = Math.min(width - 32, 402);
   const dueCardWidth = Math.min(Math.max(width * 0.72, 252), 284);
@@ -952,6 +1062,9 @@ function HomeScreen(): React.JSX.Element {
     isRecordsTab && recordsView === 'insurance-policies';
   const isInsurancePoliciesAddView =
     isRecordsTab && recordsView === 'insurance-policies-add';
+  const isHealthFitnessView = isRecordsTab && recordsView === 'health-fitness';
+  const isHealthFitnessAddView =
+    isRecordsTab && recordsView === 'health-fitness-add';
   const isRecordsDetailView = isRecordsTab && recordsView !== 'browser';
   const recordsDetailTitle = isRecurringPaymentsAddView
     ? 'Recurring Payments'
@@ -959,12 +1072,16 @@ function HomeScreen(): React.JSX.Element {
     ? 'Vehicle Maintenance'
     : isInsurancePoliciesAddView
     ? 'Insurance Policies'
+    : isHealthFitnessAddView
+    ? 'Health & Fitness'
     : isVehicleMaintenanceView
     ? 'Vehicle Maintenance'
     : isRecurringPaymentsView
     ? 'Recurring\nPayments'
     : isInsurancePoliciesView
     ? 'Insurance\nPolicies'
+    : isHealthFitnessView
+    ? 'Health & Fitness'
     : isBankingCardsView || isBankingCardsAddView
     ? 'Banking & Cards'
     : 'Personal Details';
@@ -973,7 +1090,8 @@ function HomeScreen(): React.JSX.Element {
     isBankingCardsView ||
     isRecurringPaymentsView ||
     isVehicleMaintenanceView ||
-    isInsurancePoliciesView;
+    isInsurancePoliciesView ||
+    isHealthFitnessView;
   const bankingDraftDisplayName = getBankDisplayName(bankingDraftBankName);
   const bankingDraftLastFourDisplay = bankingDraftLast4Digits || '4821';
   const bankingDraftCardLabel = `${
@@ -1296,6 +1414,36 @@ function HomeScreen(): React.JSX.Element {
     },
   ];
 
+  const healthCheckups: HealthCheckupData[] = [
+    {
+      id: 'annual-physical',
+      month: 'OCT',
+      day: '12',
+      title: 'Annual Physical',
+      subtitle: 'Central Hospital • Dr. H.\nPatel',
+    },
+    {
+      id: 'dental-cleaning',
+      month: 'AUG',
+      day: '24',
+      title: 'Dental Cleaning',
+      subtitle: 'Smile Care Studio • Dr.\nAris',
+    },
+    {
+      id: 'cardiology-review',
+      month: 'JUN',
+      day: '05',
+      title: 'Cardiology Review',
+      subtitle: 'Heart Institute •\nSpecialist Wing',
+    },
+  ];
+
+  const healthWeeklyGoalPercent = 70;
+  const healthDraftWeeklyGoalProgress = Math.max(
+    0,
+    Math.min(100, parseInt(healthDraftWeeklyGoalPercent, 10) || 0),
+  );
+
   const vehicleRecentServices: VehicleRecentServiceData[] = [
     {
       id: 'full-annual-service',
@@ -1462,6 +1610,19 @@ function HomeScreen(): React.JSX.Element {
     setHasUploadedVehicleDocument(true);
   };
 
+  const resetHealthDraft = () => {
+    setHealthDraftProviderTopic('Primary Care');
+    setHealthDraftContact('Dr. H. Patel');
+    setHealthDraftMedications('Multivitamin, Omega-3, Lisinopril 10mg');
+    setHealthDraftWeeklyGoalPercent('75%');
+    setHealthDraftWeeklyGoalText('150 mins cardio');
+    setHealthDraftRemindersEnabled(true);
+    setHealthDraftNotes(
+      'Last physical exam was clear. Follow-up scheduled for October for blood work. Keep tracking sodium intake.',
+    );
+    setHasUploadedHealthReport(true);
+  };
+
   const handleRecordCategoryPress = (category: RecordCategoryData) => {
     if (category.id === 'personal-identity') {
       setRecordsView('personal-identity');
@@ -1485,6 +1646,11 @@ function HomeScreen(): React.JSX.Element {
 
     if (category.id === 'insurance-policies') {
       setRecordsView('insurance-policies');
+      return;
+    }
+
+    if (category.id === 'health-fitness') {
+      setRecordsView('health-fitness');
       return;
     }
 
@@ -1516,6 +1682,11 @@ function HomeScreen(): React.JSX.Element {
     setRecordsView('vehicle-maintenance-add');
   };
 
+  const openAddHealthFitnessRecord = () => {
+    resetHealthDraft();
+    setRecordsView('health-fitness-add');
+  };
+
   const handleRecordsAddPress = () => {
     if (isPersonalIdentityView) {
       openAddIdentityRecord();
@@ -1540,6 +1711,10 @@ function HomeScreen(): React.JSX.Element {
     if (isInsurancePoliciesView) {
       openAddInsurancePolicy();
       return;
+    }
+
+    if (isHealthFitnessView) {
+      openAddHealthFitnessRecord();
     }
   };
 
@@ -1759,6 +1934,31 @@ function HomeScreen(): React.JSX.Element {
     );
   };
 
+  const handleBrowseHealthReport = () => {
+    setHasUploadedHealthReport(true);
+  };
+
+  const handleToggleHealthReminders = () => {
+    setHealthDraftRemindersEnabled(currentValue => !currentValue);
+  };
+
+  const handleDeleteHealthEntry = () => {
+    Alert.alert('Delete Entry', 'Remove this health profile draft?', [
+      {
+        text: 'Cancel',
+        style: 'cancel',
+      },
+      {
+        text: 'Delete',
+        style: 'destructive',
+        onPress: () => {
+          resetHealthDraft();
+          setRecordsView('health-fitness');
+        },
+      },
+    ]);
+  };
+
   const handleRecordsBack = () => {
     if (recordsView === 'personal-identity-add') {
       setRecordsView('personal-identity');
@@ -1782,6 +1982,11 @@ function HomeScreen(): React.JSX.Element {
 
     if (recordsView === 'vehicle-maintenance-add') {
       setRecordsView('vehicle-maintenance');
+      return;
+    }
+
+    if (recordsView === 'health-fitness-add') {
+      setRecordsView('health-fitness');
       return;
     }
 
@@ -3435,6 +3640,357 @@ function HomeScreen(): React.JSX.Element {
     </>
   );
 
+  const healthFitnessContent = (
+    <>
+      <Pressable
+        style={({pressed}) => [
+          styles.healthPrimaryCard,
+          pressed ? styles.pressed : null,
+        ]}
+        onPress={() => openPlaceholder('Primary Care')}>
+        <FadeSvg
+          width={148}
+          height={148}
+          style={styles.healthPrimaryBackgroundMark}
+        />
+
+        <View style={styles.healthPrimaryCardContent}>
+          <ShieldTwoSvg width={96} height={96} />
+
+          <View style={styles.healthPrimaryTitleRow}>
+            <Text style={styles.healthPrimaryTitle}>Primary Care</Text>
+            <View style={styles.healthVerifiedChip}>
+              <Text style={styles.healthVerifiedChipText}>Verified</Text>
+            </View>
+          </View>
+
+          <View style={styles.healthPrimaryMetaRow}>
+            <NameSvg width={14} height={17} />
+            <Text style={styles.healthPrimaryMetaText}>Dr. H. Patel (GP)</Text>
+          </View>
+
+          <View style={styles.healthPrimaryMetaRow}>
+            <BloodSvg width={14} height={17} />
+            <Text style={styles.healthPrimaryMetaText}>Blood Type: O+</Text>
+          </View>
+        </View>
+      </Pressable>
+
+      <View style={styles.healthUtilityCard}>
+        <PillSvg width={42} height={42} />
+        <View style={styles.healthUtilityCopy}>
+          <Text style={styles.healthUtilityLabel}>Medications</Text>
+          <Text style={styles.healthMedicationValue}>
+            Atorvastatin 10mg daily
+          </Text>
+        </View>
+      </View>
+
+      <View style={styles.healthUtilityCard}>
+        <GymSvg width={44} height={44} />
+        <View style={styles.healthUtilityCopy}>
+          <Text style={styles.healthUtilityLabel}>Weekly Goal</Text>
+          <View style={styles.healthGoalRow}>
+            <View style={styles.healthGoalTrack}>
+              <View
+                style={[
+                  styles.healthGoalFill,
+                  {width: `${healthWeeklyGoalPercent}%`},
+                ]}
+              />
+            </View>
+            <Text style={styles.healthGoalPercent}>
+              {healthWeeklyGoalPercent}%
+            </Text>
+          </View>
+        </View>
+      </View>
+
+      <View style={styles.healthCheckupsCard}>
+        <View style={styles.healthSectionHeader}>
+          <Text style={styles.healthSectionTitle}>Recent Checkups</Text>
+          <Pressable onPress={() => openPlaceholder('All Recent Checkups')}>
+            <Text style={styles.healthSectionLink}>View All</Text>
+          </Pressable>
+        </View>
+
+        <View style={styles.healthCheckupsList}>
+          {healthCheckups.map((checkup, index) => (
+            <HealthCheckupRow
+              key={checkup.id}
+              {...checkup}
+              showDivider={index > 0}
+              onPress={() => openPlaceholder(checkup.title)}
+            />
+          ))}
+        </View>
+      </View>
+
+      <View style={styles.healthAnalysisCard}>
+        <ClinicalLabEquipmentSvg
+          width="100%"
+          height="100%"
+          preserveAspectRatio="xMidYMid slice"
+          style={styles.healthAnalysisArtwork}
+        />
+        <View style={styles.healthAnalysisTint} />
+        <HealthAnalysisGradient />
+
+        <View style={styles.healthAnalysisContent}>
+          <Text style={styles.healthAnalysisLabel}>LATEST ANALYSIS</Text>
+          <Text style={styles.healthAnalysisTitle}>Full Blood Count</Text>
+          <Text style={styles.healthAnalysisBody}>
+            {'Results uploaded 2 days ago. Stable\nacross all markers.'}
+          </Text>
+
+          <Pressable
+            style={({pressed}) => [
+              styles.healthAnalysisButton,
+              pressed ? styles.pressed : null,
+            ]}
+            onPress={() => openPlaceholder('Full Blood Count PDF')}>
+            <Text style={styles.healthAnalysisButtonText}>View PDF</Text>
+          </Pressable>
+        </View>
+      </View>
+
+      <View style={styles.healthHeartRateCard}>
+        <View style={styles.healthHeartRateTopRow}>
+          <WatchSvg width={14} height={20} />
+
+          <View style={styles.healthHeartRateSyncChip}>
+            <Text style={styles.healthHeartRateSyncText}>SYNCED</Text>
+          </View>
+        </View>
+
+        <Text style={styles.healthHeartRateLabel}>Resting Heart Rate</Text>
+
+        <View style={styles.healthHeartRateValueRow}>
+          <Text style={styles.healthHeartRateValue}>58</Text>
+          <Text style={styles.healthHeartRateUnit}>BPM</Text>
+        </View>
+
+        <View style={styles.healthHeartRateTrendRow}>
+          <ProgressSvg width={12} height={7} />
+          <Text style={styles.healthHeartRateTrendText}>
+            3% lower than last week
+          </Text>
+        </View>
+      </View>
+    </>
+  );
+
+  const healthFitnessAddContent = (
+    <>
+      <View style={styles.healthAddOverviewSection}>
+        <View style={styles.healthAddHeroCard}>
+          <View style={styles.healthAddHeroRow}>
+            <View style={styles.healthAddHeroIconWrap}>
+              <HealthProfileGlyph />
+            </View>
+
+            <View style={styles.healthAddHeroTextWrap}>
+              <Text style={styles.healthAddHeroTitle}>Health Profile</Text>
+              <Text style={styles.healthAddHeroBody}>
+                Update your medical record and wellness goals.
+              </Text>
+            </View>
+          </View>
+        </View>
+
+        <View style={styles.healthAddBasicInfoCard}>
+          <View style={styles.healthAddField}>
+            <Text style={styles.healthAddFieldLabel}>Provider/Topic</Text>
+            <View style={styles.healthAddInputShell}>
+              <TextInput
+                style={styles.healthAddInput}
+                value={healthDraftProviderTopic}
+                onChangeText={setHealthDraftProviderTopic}
+                placeholder="Primary Care"
+                placeholderTextColor="#8A94A6"
+                autoCapitalize="words"
+                autoCorrect={false}
+                selectionColor="#0A5688"
+              />
+            </View>
+          </View>
+
+          <View style={styles.healthAddFieldLast}>
+            <Text style={styles.healthAddFieldLabel}>Contact</Text>
+            <View style={styles.healthAddInputShell}>
+              <TextInput
+                style={styles.healthAddInput}
+                value={healthDraftContact}
+                onChangeText={setHealthDraftContact}
+                placeholder="Dr. H. Patel"
+                placeholderTextColor="#8A94A6"
+                autoCapitalize="words"
+                autoCorrect={false}
+                selectionColor="#0A5688"
+              />
+            </View>
+          </View>
+        </View>
+
+        <View style={styles.healthAddBloodCard}>
+          <Text style={styles.healthAddBloodLabel}>Blood Type</Text>
+
+        <View style={styles.healthAddBloodValueRow}>
+          <Text style={styles.healthAddBloodValue}>O+</Text>
+          <View style={styles.healthAddBloodIconWrap}>
+            <BloodTwoSvg width={13.33} height={16.67} />
+          </View>
+        </View>
+
+          <Text style={styles.healthAddBloodNote}>Universal Donor</Text>
+        </View>
+      </View>
+
+      <View style={styles.healthAddDetailsCard}>
+        <View style={styles.healthAddTextareaField}>
+          <Text style={styles.healthAddFieldLabel}>Medications</Text>
+          <View style={styles.healthAddTextareaShell}>
+            <TextInput
+              style={styles.healthAddTextareaInput}
+              value={healthDraftMedications}
+              onChangeText={setHealthDraftMedications}
+              placeholder="List medications"
+              placeholderTextColor="#8A94A6"
+              multiline
+              textAlignVertical="top"
+              autoCorrect={false}
+              selectionColor="#0A5688"
+            />
+          </View>
+        </View>
+
+        <View style={styles.healthAddGoalSection}>
+          <View style={styles.healthAddGoalHeader}>
+            <Text style={styles.healthAddGoalLabel}>Weekly Goal</Text>
+            <Text style={styles.healthAddGoalPercent}>
+              {healthDraftWeeklyGoalPercent}
+            </Text>
+          </View>
+
+          <View style={styles.healthAddGoalTrack}>
+            <View
+              style={[
+                styles.healthAddGoalFill,
+                {width: `${healthDraftWeeklyGoalProgress}%`},
+              ]}
+            />
+          </View>
+
+          <View style={styles.healthAddInputShell}>
+            <TextInput
+              style={styles.healthAddInput}
+              value={healthDraftWeeklyGoalText}
+              onChangeText={setHealthDraftWeeklyGoalText}
+              placeholder="150 mins cardio"
+              placeholderTextColor="#8A94A6"
+              autoCapitalize="sentences"
+              autoCorrect={false}
+              selectionColor="#0A5688"
+            />
+          </View>
+        </View>
+      </View>
+
+      <View style={styles.healthAddUploadCard}>
+        <Text style={styles.healthAddFieldLabel}>Medical Reports</Text>
+
+        <View style={styles.healthAddUploadRow}>
+          <Pressable
+            style={({pressed}) => [
+              styles.healthAddUploadAction,
+              pressed ? styles.pressed : null,
+            ]}
+            onPress={handleBrowseHealthReport}>
+            <UploadDocumentSvg width={20} height={25} />
+            <Text style={styles.healthAddUploadActionText}>Upload PDF</Text>
+          </Pressable>
+
+          <View style={styles.healthAddUploadPreviewCard}>
+            {hasUploadedHealthReport ? (
+              <EditBackgroundSvg
+                width="100%"
+                height="100%"
+                preserveAspectRatio="xMidYMid slice"
+              />
+            ) : (
+              <View style={styles.healthAddUploadPreviewEmpty} />
+            )}
+          </View>
+        </View>
+      </View>
+
+      <View style={styles.healthAddControlsCard}>
+        <View style={styles.healthAddReminderRow}>
+          <View style={styles.healthAddReminderCopy}>
+            <BellSvg width={20} height={21} />
+
+            <View style={styles.healthAddReminderTextWrap}>
+              <Text style={styles.healthAddReminderTitle}>Reminders</Text>
+              <Text style={styles.healthAddReminderBody}>
+                Daily medication alerts
+              </Text>
+            </View>
+          </View>
+
+          <Pressable
+            style={[
+              styles.healthAddReminderToggle,
+              healthDraftRemindersEnabled
+                ? styles.healthAddReminderToggleActive
+                : null,
+            ]}
+            onPress={handleToggleHealthReminders}>
+            <View
+              style={[
+                styles.healthAddReminderThumb,
+                healthDraftRemindersEnabled
+                  ? styles.healthAddReminderThumbActive
+                  : null,
+              ]}
+            />
+          </Pressable>
+        </View>
+
+        <View style={styles.healthAddDivider} />
+
+        <View style={styles.healthAddNotesSection}>
+          <Text style={styles.healthAddFieldLabel}>Notes</Text>
+
+          <View style={styles.healthAddNotesShell}>
+            <TextInput
+              style={styles.healthAddNotesInput}
+              value={healthDraftNotes}
+              onChangeText={setHealthDraftNotes}
+              placeholder="Add relevant health notes..."
+              placeholderTextColor="#8A94A6"
+              multiline
+              textAlignVertical="top"
+              autoCorrect={false}
+              selectionColor="#0A5688"
+            />
+          </View>
+        </View>
+      </View>
+
+      <View style={styles.healthAddDangerZone}>
+        <Pressable
+          style={({pressed}) => [
+            styles.healthAddDeleteButton,
+            pressed ? styles.pressed : null,
+          ]}
+          onPress={handleDeleteHealthEntry}>
+          <TrashCompactSvg width={16} height={18} />
+          <Text style={styles.healthAddDeleteButtonText}>Delete Entry</Text>
+        </Pressable>
+      </View>
+    </>
+  );
+
   const insurancePoliciesAddContent = (
     <>
       <View style={styles.insuranceAddIntro}>
@@ -3702,6 +4258,8 @@ function HomeScreen(): React.JSX.Element {
                 ? recurringPaymentsAddContent
                 : isVehicleMaintenanceAddView
                 ? vehicleMaintenanceAddContent
+                : isHealthFitnessAddView
+                ? healthFitnessAddContent
                 : isInsurancePoliciesAddView
                 ? insurancePoliciesAddContent
                 : isRecurringPaymentsView
@@ -3710,6 +4268,8 @@ function HomeScreen(): React.JSX.Element {
                 ? vehicleMaintenanceContent
                 : isInsurancePoliciesView
                 ? insurancePoliciesContent
+                : isHealthFitnessView
+                ? healthFitnessContent
                 : isBankingCardsView
                 ? bankingContent
                 : isPersonalIdentityView
@@ -7476,6 +8036,794 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontFamily: fonts.regular,
     lineHeight: 20,
+  },
+  healthPrimaryCard: {
+    width: '100%',
+    minHeight: 266,
+    marginBottom: 24,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: '#C2C7CF',
+    backgroundColor: '#FFFFFF',
+    overflow: 'hidden',
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.06,
+    shadowRadius: 14,
+    elevation: 2,
+  },
+  healthPrimaryCardContent: {
+    flex: 1,
+    padding: 24,
+    justifyContent: 'flex-start',
+  },
+  healthPrimaryBackgroundMark: {
+    position: 'absolute',
+    right: -8,
+    bottom: 0,
+  },
+  healthPrimaryTitleRow: {
+    marginTop: 24,
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+  },
+  healthPrimaryTitle: {
+    color: '#091E27',
+    fontSize: 28,
+    fontFamily: fonts.bold,
+    lineHeight: 36,
+    letterSpacing: -0.56,
+  },
+  healthVerifiedChip: {
+    width: 84,
+    height: 24,
+    marginLeft: 10,
+    borderRadius: 9999,
+    backgroundColor: '#2C5F8A',
+    paddingHorizontal: 16,
+    paddingVertical: 4,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  healthVerifiedChipText: {
+    color: '#FFFFFF',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+  },
+  healthPrimaryMetaRow: {
+    marginTop: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  healthPrimaryMetaText: {
+    marginLeft: 8,
+    color: '#42474E',
+    fontSize: 15,
+    fontFamily: fonts.regular,
+    lineHeight: 22,
+  },
+  healthUtilityCard: {
+    width: '100%',
+    minHeight: 70,
+    marginBottom: 16,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: '#C2C7CF',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    flexDirection: 'row',
+    alignItems: 'center',
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 12,
+    elevation: 2,
+  },
+  healthUtilityCopy: {
+    flex: 1,
+    minWidth: 0,
+    marginLeft: 16,
+  },
+  healthUtilityLabel: {
+    color: '#72777F',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+  },
+  healthMedicationValue: {
+    marginTop: 2,
+    color: '#091E27',
+    fontSize: 15,
+    fontFamily: fonts.bold,
+    lineHeight: 22,
+  },
+  healthGoalRow: {
+    marginTop: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  healthGoalTrack: {
+    flex: 1,
+    height: 8,
+    borderRadius: 999,
+    backgroundColor: '#CBE4F4',
+    overflow: 'hidden',
+    marginRight: 12,
+  },
+  healthGoalFill: {
+    height: '100%',
+    borderRadius: 999,
+    backgroundColor: '#9A6A00',
+  },
+  healthGoalPercent: {
+    color: '#9A6A00',
+    fontSize: 15,
+    fontFamily: fonts.medium,
+    lineHeight: 22,
+  },
+  healthCheckupsCard: {
+    width: '100%',
+    marginTop: 12,
+    marginBottom: 24,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: '#C2C7CF',
+    backgroundColor: '#FFFFFF',
+    overflow: 'hidden',
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 14,
+    elevation: 2,
+  },
+  healthSectionHeader: {
+    paddingHorizontal: 24,
+    paddingTop: 24,
+    paddingBottom: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  healthSectionTitle: {
+    color: '#091E27',
+    fontSize: 18,
+    fontFamily: fonts.semiBold,
+    lineHeight: 24,
+  },
+  healthSectionLink: {
+    color: '#094771',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+    textAlign: 'center',
+  },
+  healthCheckupsList: {
+    width: '100%',
+  },
+  healthCheckupRow: {
+    paddingHorizontal: 24,
+    paddingVertical: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  healthCheckupRowWithDivider: {
+    borderTopWidth: 1,
+    borderTopColor: '#D8DDE3',
+  },
+  healthCheckupDateBadge: {
+    width: 56,
+    height: 60,
+    borderRadius: 14,
+    backgroundColor: '#D6EBF8',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  healthCheckupMonth: {
+    color: '#72777F',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+  },
+  healthCheckupDay: {
+    marginTop: 2,
+    color: '#094771',
+    fontSize: 18,
+    fontFamily: fonts.regular,
+    lineHeight: 24,
+  },
+  healthCheckupTextWrap: {
+    flex: 1,
+    minWidth: 0,
+    marginLeft: 16,
+    paddingRight: 12,
+  },
+  healthCheckupTitle: {
+    color: '#091E27',
+    fontSize: 18,
+    fontFamily: fonts.semiBold,
+    lineHeight: 24,
+  },
+  healthCheckupSubtitle: {
+    marginTop: 2,
+    color: '#42474E',
+    fontSize: 15,
+    fontFamily: fonts.regular,
+    lineHeight: 22,
+  },
+  healthCheckupArrowWrap: {
+    width: 12,
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+  },
+  healthAnalysisCard: {
+    width: '100%',
+    height: 358,
+    marginBottom: 20,
+    borderRadius: 16,
+    overflow: 'hidden',
+    backgroundColor: '#094771',
+    position: 'relative',
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.08,
+    shadowRadius: 16,
+    elevation: 2,
+  },
+  healthAnalysisArtwork: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  healthAnalysisTint: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(9, 71, 113, 0.22)',
+  },
+  healthAnalysisGradient: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  healthAnalysisContent: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    padding: 24,
+  },
+  healthAnalysisLabel: {
+    color: '#CFE5FF',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 1.2,
+  },
+  healthAnalysisTitle: {
+    marginTop: 6,
+    color: '#FFFFFF',
+    fontSize: 22,
+    fontFamily: fonts.semiBold,
+    lineHeight: 28,
+    letterSpacing: -0.22,
+  },
+  healthAnalysisBody: {
+    marginTop: 8,
+    color: '#9BCBFC',
+    fontSize: 15,
+    fontFamily: fonts.regular,
+    lineHeight: 22,
+    maxWidth: 250,
+  },
+  healthAnalysisButton: {
+    alignSelf: 'flex-start',
+    minHeight: 34,
+    marginTop: 20,
+    borderRadius: 999,
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  healthAnalysisButtonText: {
+    color: '#094771',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+    textAlign: 'center',
+  },
+  healthHeartRateCard: {
+    width: '100%',
+    minHeight: 169,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: '#C2C7CF',
+    backgroundColor: '#D6EBF8',
+    padding: 24,
+    marginBottom: 8,
+  },
+  healthHeartRateTopRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  healthHeartRateSyncChip: {
+    minHeight: 24,
+    borderRadius: 4,
+    backgroundColor: '#D9FFE3',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  healthHeartRateSyncText: {
+    color: '#4E7F60',
+    fontSize: 10,
+    fontFamily: fonts.medium,
+    lineHeight: 12,
+    letterSpacing: 0.6,
+  },
+  healthHeartRateLabel: {
+    marginTop: 16,
+    color: '#42474E',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+  },
+  healthHeartRateValueRow: {
+    marginTop: 4,
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+  },
+  healthHeartRateValue: {
+    color: '#091E27',
+    fontSize: 28,
+    fontFamily: fonts.bold,
+    lineHeight: 36,
+    letterSpacing: -0.56,
+  },
+  healthHeartRateUnit: {
+    marginLeft: 4,
+    marginBottom: 8,
+    color: '#72777F',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+  },
+  healthHeartRateTrendRow: {
+    marginTop: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  healthHeartRateTrendText: {
+    marginLeft: 4,
+    color: '#094771',
+    fontSize: 13,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+  },
+  healthAddOverviewSection: {
+    width: '100%',
+    marginBottom: 24,
+  },
+  healthAddHeroCard: {
+    width: '100%',
+    minHeight: 106,
+    marginBottom: 16,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#C2C7CF',
+    backgroundColor: '#FFFFFF',
+    padding: 16,
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    elevation: 2,
+  },
+  healthAddHeroRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  healthAddHeroIconWrap: {
+    width: 44.88,
+    height: 64,
+    borderRadius: 9999,
+    backgroundColor: '#CFE5FF',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 16,
+  },
+  healthAddHeroTextWrap: {
+    flex: 1,
+    minWidth: 0,
+  },
+  healthAddHeroTitle: {
+    color: '#091E27',
+    fontSize: 18,
+    fontFamily: fonts.semiBold,
+    lineHeight: 24,
+  },
+  healthAddHeroBody: {
+    marginTop: 2,
+    color: '#42474E',
+    fontSize: 16,
+    fontFamily: fonts.regular,
+    lineHeight: 24,
+  },
+  healthAddBasicInfoCard: {
+    width: '100%',
+    minHeight: 190,
+    marginBottom: 16,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#C2C7CF',
+    backgroundColor: '#FFFFFF',
+    padding: 16,
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    elevation: 2,
+  },
+  healthAddField: {
+    width: '100%',
+    marginBottom: 16,
+  },
+  healthAddFieldLast: {
+    width: '100%',
+  },
+  healthAddFieldLabel: {
+    marginBottom: 4,
+    color: '#42474E',
+    fontSize: 16,
+    fontFamily: fonts.regular,
+    lineHeight: 24,
+  },
+  healthAddInputShell: {
+    width: '100%',
+    height: 42,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#C2C7CF',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 16,
+    justifyContent: 'center',
+  },
+  healthAddInput: {
+    flex: 1,
+    paddingVertical: 0,
+    color: '#091E27',
+    fontSize: 16,
+    fontFamily: fonts.regular,
+    lineHeight: 24,
+  },
+  healthAddBloodCard: {
+    width: '100%',
+    minHeight: 120,
+    borderRadius: 12,
+    backgroundColor: '#2C5F8A',
+    padding: 16,
+    justifyContent: 'space-between',
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    elevation: 2,
+  },
+  healthAddBloodLabel: {
+    color: 'rgba(179, 216, 255, 0.8)',
+    fontSize: 16,
+    fontFamily: fonts.regular,
+    lineHeight: 24,
+  },
+  healthAddBloodValueRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  healthAddBloodValue: {
+    marginRight: 4,
+    color: '#B3D8FF',
+    fontSize: 36,
+    fontFamily: fonts.bold,
+    lineHeight: 40,
+  },
+  healthAddBloodIconWrap: {
+    marginTop: 2,
+  },
+  healthAddBloodNote: {
+    color: '#B3D8FF',
+    fontSize: 16,
+    fontFamily: fonts.regular,
+    lineHeight: 24,
+  },
+  healthAddDetailsCard: {
+    width: '100%',
+    minHeight: 266,
+    marginBottom: 24,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#C2C7CF',
+    backgroundColor: '#FFFFFF',
+    padding: 16,
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    elevation: 2,
+  },
+  healthAddTextareaField: {
+    width: '100%',
+    marginBottom: 24,
+  },
+  healthAddTextareaShell: {
+    width: '100%',
+    minHeight: 90,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#C2C7CF',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 16,
+    paddingTop: 8,
+    paddingBottom: 8,
+  },
+  healthAddTextareaInput: {
+    flex: 1,
+    paddingTop: 0,
+    paddingBottom: 0,
+    color: '#091E27',
+    fontSize: 16,
+    fontFamily: fonts.regular,
+    lineHeight: 24,
+  },
+  healthAddGoalSection: {
+    width: '100%',
+  },
+  healthAddGoalHeader: {
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'space-between',
+    marginBottom: 8,
+  },
+  healthAddGoalLabel: {
+    color: '#42474E',
+    fontSize: 16,
+    fontFamily: fonts.regular,
+    lineHeight: 24,
+  },
+  healthAddGoalPercent: {
+    color: '#094771',
+    fontSize: 16,
+    fontFamily: fonts.regular,
+    lineHeight: 24,
+  },
+  healthAddGoalTrack: {
+    width: '100%',
+    height: 8,
+    borderRadius: 9999,
+    backgroundColor: '#D1E6F2',
+    overflow: 'hidden',
+    marginBottom: 16,
+  },
+  healthAddGoalFill: {
+    height: '100%',
+    borderRadius: 9999,
+    backgroundColor: '#094771',
+  },
+  healthAddUploadCard: {
+    width: '100%',
+    minHeight: 232,
+    marginBottom: 24,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#C2C7CF',
+    backgroundColor: '#FFFFFF',
+    padding: 16,
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    elevation: 2,
+  },
+  healthAddUploadRow: {
+    width: '100%',
+    marginTop: 16,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  healthAddUploadAction: {
+    width: '47.8%',
+    minHeight: 147,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderStyle: 'dashed',
+    borderColor: '#C2C7CF',
+    backgroundColor: '#E7F6FF',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 24,
+  },
+  healthAddUploadActionText: {
+    marginTop: 8,
+    color: '#094771',
+    fontSize: 16,
+    fontFamily: fonts.regular,
+    lineHeight: 24,
+    textAlign: 'center',
+  },
+  healthAddUploadPreviewCard: {
+    width: '47.8%',
+    height: 158,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#C2C7CF',
+    overflow: 'hidden',
+    backgroundColor: '#FFFFFF',
+  },
+  healthAddUploadPreviewEmpty: {
+    flex: 1,
+    backgroundColor: '#F3F6F9',
+  },
+  healthAddControlsCard: {
+    width: '100%',
+    minHeight: 257,
+    marginBottom: 24,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#C2C7CF',
+    backgroundColor: '#FFFFFF',
+    padding: 16,
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    elevation: 2,
+  },
+  healthAddReminderRow: {
+    width: '100%',
+    minHeight: 48,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  healthAddReminderCopy: {
+    flex: 1,
+    minWidth: 0,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingRight: 12,
+  },
+  healthAddReminderTextWrap: {
+    flex: 1,
+    minWidth: 0,
+    marginLeft: 8,
+  },
+  healthAddReminderTitle: {
+    color: '#091E27',
+    fontSize: 16,
+    fontFamily: fonts.regular,
+    lineHeight: 24,
+  },
+  healthAddReminderBody: {
+    color: '#42474E',
+    fontSize: 16,
+    fontFamily: fonts.regular,
+    lineHeight: 24,
+  },
+  healthAddReminderToggle: {
+    width: 44,
+    height: 24,
+    borderRadius: 9999,
+    backgroundColor: '#C6D3DF',
+    paddingHorizontal: 2,
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+  },
+  healthAddReminderToggleActive: {
+    backgroundColor: '#094771',
+    alignItems: 'flex-end',
+  },
+  healthAddReminderThumb: {
+    width: 20,
+    height: 20,
+    borderRadius: 9999,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#FFFFFF',
+  },
+  healthAddReminderThumbActive: {
+    backgroundColor: '#FFFFFF',
+  },
+  healthAddDivider: {
+    width: '100%',
+    height: 1,
+    backgroundColor: '#C2C7CF',
+    marginTop: 16,
+    marginBottom: 16,
+  },
+  healthAddNotesSection: {
+    width: '100%',
+  },
+  healthAddNotesShell: {
+    width: '100%',
+    minHeight: 114,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#C2C7CF',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 16,
+    paddingTop: 8,
+    paddingBottom: 8,
+  },
+  healthAddNotesInput: {
+    flex: 1,
+    paddingTop: 0,
+    paddingBottom: 0,
+    color: '#091E27',
+    fontSize: 16,
+    fontFamily: fonts.regular,
+    lineHeight: 24,
+  },
+  healthAddDangerZone: {
+    width: '100%',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  healthAddDeleteButton: {
+    minWidth: 169,
+    minHeight: 50,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: 'rgba(186, 26, 26, 0.3)',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 24,
+    paddingVertical: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  healthAddDeleteButtonText: {
+    marginLeft: 8,
+    color: '#BA1A1A',
+    fontSize: 16,
+    fontFamily: fonts.regular,
+    lineHeight: 24,
+    textAlign: 'center',
   },
   bottomNavShell: {
     position: 'absolute',
