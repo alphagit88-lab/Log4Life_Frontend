@@ -5,51 +5,22 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   useWindowDimensions,
   View,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import Svg, {Defs, LinearGradient, Path, Rect, Stop} from 'react-native-svg';
-import ActiveSvg from '../images/active.svg';
-import AddActionSvg from '../images/add.svg';
-import AutoSvg from '../images/auto.svg';
 import {useAuth} from '../context/AuthContext';
 import ArrowSvg from '../images/arrow.svg';
 import BackSvg from '../images/back.svg';
 import BackgroundSvg from '../images/background.svg';
-import BankTwoSvg from '../images/bank_2.svg';
-import VaultBackgroundSvg from '../images/bg_2.svg';
-import BellSvg from '../images/bell.svg';
-import BrakeSvg from '../images/brake.svg';
-import BirthdaySvg from '../images/birthday.svg';
 import ButtonSvg from '../images/Button.svg';
 import BucketSvg from '../images/bucket.svg';
 import CarSvg from '../images/car.svg';
-import CarThreeSvg from '../images/car_3.svg';
-import CarTwoSvg from '../images/car_2.svg';
-import ClinicalLabEquipmentSvg from '../images/Clinical Lab Equipment.svg';
-import CardPatternSvg from '../images/card.svg';
-import CardTwoSvg from '../images/card_2.svg';
-import CardTwoPrimarySvg from '../images/card_2_primary.svg';
-import CetificateSvg from '../images/cetificate.svg';
 import CollectionSvg from '../images/collection.svg';
-import ContentsSvg from '../images/contents.svg';
-import CoverageSvg from '../images/coverage.svg';
 import DateSvg from '../images/date.svg';
 import DatesSvg from '../images/dates.svg';
 import DefenceSvg from '../images/defence.svg';
-import DocSvg from '../images/doc.svg';
-import DotSvg from '../images/dot.svg';
-import EditSvg from '../images/edit.svg';
-import EditBackgroundSvg from '../images/edit_bg.svg';
-import EncryptedSvg from '../images/encrypted.svg';
-import EyeSvg from '../images/eye.svg';
 import FitnessSvg from '../images/fitness.svg';
-import FingerSvg from '../images/finger.svg';
-import FadeSvg from '../images/fade.svg';
-import Glow1Svg from '../images/glow_1.svg';
-import Glow2Svg from '../images/glow_2.svg';
 import HealthSvg from '../images/health.svg';
 import HiSvg from '../images/HI.svg';
 import HomeNonSvg from '../images/home_non.svg';
@@ -59,73 +30,56 @@ import InsuranceSvg from '../images/insurance.svg';
 import JournelSvg from '../images/journel.svg';
 import LocationSvg from '../images/location.svg';
 import MaintainceSvg from '../images/maintaince.svg';
-import ModernHomeExteriorSvg from '../images/Modern home exterior.svg';
-import MotSvg from '../images/MOT.svg';
-import MonthlySvg from '../images/monthly.svg';
-import MoneySvg from '../images/money.svg';
-import MaintainOneSvg from '../images/maintain_1.svg';
-import NaturalSvg from '../images/natural.svg';
-import NameSvg from '../images/name.svg';
-import NetflixSvg from '../images/netflix.svg';
-import NetflixOneSvg from '../images/netflix_1.svg';
 import NotificationSvg from '../images/notification.svg';
 import NotificationDefaultSvg from '../images/notification_def.svg';
-import NotesSvg from '../images/notes.svg';
-import OilSvg from '../images/oil.svg';
 import PersonalSvg from '../images/personal.svg';
 import PetsSvg from '../images/pets.svg';
-import PigSvg from '../images/pig.svg';
 import PhotoSvg from '../images/photo.svg';
 import PlanSvg from '../images/plan.svg';
 import PlannerSvg from '../images/planner.svg';
-import PlannerPrimarySvg from '../images/planner_primary.svg';
 import PlusSvg from '../images/plus.svg';
 import ProfileSvg from '../images/profile.svg';
-import ProfileCardSvg from '../images/profile_1.svg';
-import ProfileCardPrimarySvg from '../images/profile_1_primary.svg';
-import ProgressSvg from '../images/progress.svg';
-import RecurrentSvg from '../images/recurrent.svg';
 import RecurringSvg from '../images/recurring.svg';
 import RecordsSvg from '../images/records.svg';
 import RecordsNonSvg from '../images/records_non.svg';
 import RecordsSelectedSvg from '../images/records_selected.svg';
 import ReminderSvg from '../images/reminder.svg';
 import RemindersSvg from '../images/reminders.svg';
-import RenewSvg from '../images/renew.svg';
-import RingBellSvg from '../images/ring_bell.svg';
-import SavingSvg from '../images/saving.svg';
 import SavingsSvg from '../images/savings.svg';
 import SearchGraySvg from '../images/search_gray.svg';
 import SearchSvg from '../images/search.svg';
-import ShieldTwoSvg from '../images/shield_2.svg';
-import ShieldSvg from '../images/shield.svg';
-import SkyBroadbandSvg from '../images/sky_broadband.svg';
-import SpeedSvg from '../images/speed.svg';
-import SpotifySvg from '../images/spotify.svg';
 import StatementSvg from '../images/statement.svg';
-import StructureSvg from '../images/structure.svg';
-import TapSvg from '../images/tap.svg';
-import TireSvg from '../images/tire.svg';
-import TrashSvg from '../images/trash.svg';
-import TrashCompactSvg from '../images/trash_2.svg';
-import TravelSvg from '../images/travel.svg';
-import UpcomingSvg from '../images/upcoming.svg';
-import UploadSvg from '../images/upload.svg';
-import UploadDocumentSvg from '../images/upload_2.svg';
-import PublicSvg from '../images/public.svg';
-import PillSvg from '../images/pill.svg';
-import VehicleHeroSvg from '../images/vahicle_1.svg';
 import VehicleSvg from '../images/vehicle.svg';
 import WarningSvg from '../images/warning.svg';
-import WarningTwoSvg from '../images/warning_2.svg';
-import WarningAlarmSvg from '../images/warning_alarm.svg';
 import WalletSvg from '../images/wallert.svg';
-import WifiSvg from '../images/wi-fi.svg';
-import WrongSvg from '../images/wrong.svg';
-import WatchSvg from '../images/watch.svg';
-import BloodSvg from '../images/blood.svg';
-import BloodTwoSvg from '../images/blood_2.svg';
-import GymSvg from '../images/gym.svg';
+import {
+  BankingCardsAddContent,
+  BankingCardsContent,
+} from './home/BankingCardsSection';
+import {
+  HealthFitnessAddContent,
+  HealthFitnessContent,
+} from './home/HealthFitnessSection';
+import {
+  ImportantDatesAddContent,
+  ImportantDatesContent,
+} from './home/ImportantDatesSection';
+import {
+  InsurancePoliciesAddContent,
+  InsurancePoliciesContent,
+} from './home/InsurancePoliciesSection';
+import {
+  PersonalIdentityAddContent,
+  PersonalIdentityContent,
+} from './home/PersonalIdentitySection';
+import {
+  RecurringPaymentsAddContent,
+  RecurringPaymentsContent,
+} from './home/RecurringPaymentsSection';
+import {
+  VehicleMaintenanceAddContent,
+  VehicleMaintenanceContent,
+} from './home/VehicleMaintenanceSection';
 import {fonts} from '../theme/fonts';
 
 type BottomTabKey = 'home' | 'records' | 'reminders' | 'planner' | 'profile';
@@ -133,6 +87,8 @@ type RecordsView =
   | 'browser'
   | 'personal-identity'
   | 'personal-identity-add'
+  | 'important-dates'
+  | 'important-dates-add'
   | 'banking-cards'
   | 'banking-cards-add'
   | 'health-fitness'
@@ -171,95 +127,6 @@ interface RecordCategoryData {
   title: string;
   count: string;
   icon: React.JSX.Element;
-}
-
-interface IdentityRecordData {
-  id: string;
-  name: string;
-  dateOfBirth: string;
-  identifierPrefix: string;
-  identifierSuffix: string;
-  status: string;
-}
-
-interface BankingAccountData {
-  id: string;
-  title: string;
-  accountNumber: string;
-  balance: string;
-  status: 'Active' | 'Growth';
-  icon: React.JSX.Element;
-}
-
-interface BankingReminderData {
-  id: string;
-  title: string;
-  schedule: string;
-  icon: React.JSX.Element;
-}
-
-interface RecurringSubscriptionData {
-  id: string;
-  name: string;
-  plan: string;
-  amount: number;
-  dueLabel: string;
-  paymentMethod: string;
-  serviceIcon: React.JSX.Element;
-  paymentMethodIcon: React.JSX.Element;
-}
-
-interface RecurringInsightData {
-  id: string;
-  label: string;
-  body: string;
-  accentColor: string;
-  labelColor: string;
-  icon: React.JSX.Element;
-}
-
-interface InsuranceCoverageItemData {
-  id: string;
-  title: string;
-  description: string;
-  icon: React.JSX.Element;
-}
-
-interface InsuranceAssociatedPolicyData {
-  id: string;
-  title: string;
-  subtitle: string;
-  status: 'ACTIVE' | 'ARCHIVED';
-  icon: React.JSX.Element;
-}
-
-interface HealthCheckupData {
-  id: string;
-  month: string;
-  day: string;
-  title: string;
-  subtitle: string;
-}
-
-interface VehicleRecentServiceData {
-  id: string;
-  title: string;
-  location: string;
-  date: string;
-  price: string;
-  icon: React.JSX.Element;
-}
-
-interface VehicleUpcomingMaintenanceData {
-  id: string;
-  title: string;
-  description: string;
-  footer?: string;
-  icon: React.JSX.Element;
-  accentColor: string;
-  urgent?: boolean;
-  primaryActionLabel?: string;
-  secondaryActionLabel?: string;
 }
 
 interface BottomNavItemProps {
@@ -303,10 +170,6 @@ function getBankDisplayName(name: string): string {
   }
 
   return /bank$/i.test(trimmedName) ? trimmedName : `${trimmedName} Bank`;
-}
-
-function formatCurrency(value: number): string {
-  return `$${value.toFixed(2)}`;
 }
 
 function HeaderActionButton({
@@ -457,462 +320,6 @@ function RecordCategoryCard({
   );
 }
 
-function RecordNumberDots({count}: {count: number}): React.JSX.Element {
-  return (
-    <View style={styles.personalRecordDotsRow}>
-      {Array.from({length: count}).map((_, index) => (
-        <View key={`mask-dot-${index}`} style={styles.personalRecordDotWrap}>
-          <DotSvg width={6} height={6} />
-        </View>
-      ))}
-    </View>
-  );
-}
-
-function BankingAccountCard({
-  title,
-  accountNumber,
-  balance,
-  status,
-  icon,
-  onPress,
-}: BankingAccountData & {
-  onPress: () => void;
-}): React.JSX.Element {
-  const isGrowth = status === 'Growth';
-
-  return (
-    <Pressable
-      style={({pressed}) => [
-        styles.bankingAccountCard,
-        pressed ? styles.pressed : null,
-      ]}
-      onPress={onPress}>
-      <View style={styles.bankingAccountIconWrap}>{icon}</View>
-      <Text style={styles.bankingAccountTitle}>{title}</Text>
-      <Text style={styles.bankingAccountNumber}>{accountNumber}</Text>
-
-      <View style={styles.bankingAccountFooter}>
-        <Text style={styles.bankingAccountBalance}>{balance}</Text>
-        <View
-          style={[
-            styles.bankingAccountStatusChip,
-            isGrowth ? styles.bankingAccountStatusChipGrowth : null,
-          ]}>
-          <Text
-            style={[
-              styles.bankingAccountStatusText,
-              isGrowth ? styles.bankingAccountStatusTextGrowth : null,
-            ]}>
-            {status}
-          </Text>
-        </View>
-      </View>
-    </Pressable>
-  );
-}
-
-function BankingReminderRow({
-  title,
-  schedule,
-  icon,
-  onPress,
-}: BankingReminderData & {
-  onPress: () => void;
-}): React.JSX.Element {
-  return (
-    <Pressable
-      style={({pressed}) => [
-        styles.bankingReminderRow,
-        pressed ? styles.pressed : null,
-      ]}
-      onPress={onPress}>
-      <View style={styles.bankingReminderRowLeft}>
-        <View style={styles.bankingReminderIconWrap}>{icon}</View>
-        <View style={styles.bankingReminderTextWrap}>
-          <Text style={styles.bankingReminderRowTitle}>{title}</Text>
-          <Text style={styles.bankingReminderRowSchedule}>{schedule}</Text>
-        </View>
-      </View>
-
-      <ArrowSvg width={8} height={12} />
-    </Pressable>
-  );
-}
-
-function RecurringSubscriptionCard({
-  name,
-  plan,
-  amount,
-  dueLabel,
-  paymentMethod,
-  serviceIcon,
-  paymentMethodIcon,
-  onPress,
-}: RecurringSubscriptionData & {
-  onPress: () => void;
-}): React.JSX.Element {
-  return (
-    <Pressable
-      style={({pressed}) => [
-        styles.recurringSubscriptionCard,
-        pressed ? styles.pressed : null,
-      ]}
-      onPress={onPress}>
-      <View style={styles.recurringSubscriptionRow}>
-        <View style={styles.recurringSubscriptionArtworkWrap}>
-          {serviceIcon}
-        </View>
-
-        <View style={styles.recurringSubscriptionContent}>
-          <View style={styles.recurringSubscriptionTopRow}>
-            <View style={styles.recurringSubscriptionTextBlock}>
-              <Text style={styles.recurringSubscriptionName}>{name}</Text>
-              <Text style={styles.recurringSubscriptionPlan}>{plan}</Text>
-            </View>
-
-            <View style={styles.recurringSubscriptionPriceBlock}>
-              <View style={styles.recurringSubscriptionPriceRow}>
-                <Text style={styles.recurringSubscriptionPrice}>
-                  {formatCurrency(amount)}
-                </Text>
-                <Text style={styles.recurringSubscriptionPriceSuffix}>/mo</Text>
-              </View>
-              <Text style={styles.recurringSubscriptionDueLabel}>
-                {dueLabel}
-              </Text>
-            </View>
-          </View>
-
-          <View style={styles.recurringSubscriptionMetaRow}>
-            <View style={styles.recurringSubscriptionMetaItem}>
-              <View style={styles.recurringSubscriptionMetaIconWrap}>
-                <RecurrentSvg width={12} height={12} />
-              </View>
-              <Text style={styles.recurringSubscriptionMetaText}>
-                {'Monthly\nCycle'}
-              </Text>
-            </View>
-
-            <View
-              style={[
-                styles.recurringSubscriptionMetaItem,
-                styles.recurringSubscriptionMetaItemTrailing,
-              ]}>
-              <View style={styles.recurringSubscriptionMetaIconWrap}>
-                {paymentMethodIcon}
-              </View>
-              <Text style={styles.recurringSubscriptionMetaText}>
-                {paymentMethod}
-              </Text>
-            </View>
-          </View>
-        </View>
-      </View>
-    </Pressable>
-  );
-}
-
-function RecurringInsightCard({
-  label,
-  body,
-  accentColor,
-  labelColor,
-  icon,
-}: RecurringInsightData): React.JSX.Element {
-  return (
-    <View style={styles.recurringInsightCard}>
-      <View
-        style={[
-          styles.recurringInsightAccent,
-          {backgroundColor: accentColor},
-        ]}
-      />
-
-      <View style={styles.recurringInsightContent}>
-        <View style={styles.recurringInsightHeader}>
-          <View style={styles.recurringInsightIconWrap}>{icon}</View>
-          <Text style={[styles.recurringInsightLabel, {color: labelColor}]}>
-            {label}
-          </Text>
-        </View>
-
-        <Text style={styles.recurringInsightBody}>{body}</Text>
-      </View>
-    </View>
-  );
-}
-
-function InsuranceCoverageItem({
-  title,
-  description,
-  icon,
-}: InsuranceCoverageItemData): React.JSX.Element {
-  return (
-    <View style={styles.insuranceCoverageItemRow}>
-      {icon}
-
-      <View style={styles.insuranceCoverageItemTextWrap}>
-        <Text style={styles.insuranceCoverageItemTitle}>{title}</Text>
-        <Text style={styles.insuranceCoverageItemDescription}>
-          {description}
-        </Text>
-      </View>
-    </View>
-  );
-}
-
-function InsuranceAssociatedPolicyCard({
-  title,
-  subtitle,
-  status,
-  icon,
-  onPress,
-}: InsuranceAssociatedPolicyData & {
-  onPress: () => void;
-}): React.JSX.Element {
-  const isArchived = status === 'ARCHIVED';
-
-  return (
-    <Pressable
-      style={({pressed}) => [
-        styles.insuranceAssociatedPolicyCard,
-        pressed ? styles.pressed : null,
-      ]}
-      onPress={onPress}>
-      <View style={styles.insuranceAssociatedPolicyRow}>
-        {icon}
-
-        <View style={styles.insuranceAssociatedPolicyTextWrap}>
-          <Text
-            style={[
-              styles.insuranceAssociatedPolicyTitle,
-              isArchived ? styles.insuranceAssociatedPolicyTitleArchived : null,
-            ]}>
-            {title}
-          </Text>
-          <Text
-            style={[
-              styles.insuranceAssociatedPolicySubtitle,
-              isArchived
-                ? styles.insuranceAssociatedPolicySubtitleArchived
-                : null,
-            ]}>
-            {subtitle}
-          </Text>
-
-          <View
-            style={[
-              styles.insuranceAssociatedStatusChip,
-              isArchived ? styles.insuranceAssociatedStatusChipArchived : null,
-            ]}>
-            <Text
-              style={[
-                styles.insuranceAssociatedStatusText,
-                isArchived
-                  ? styles.insuranceAssociatedStatusTextArchived
-                  : null,
-              ]}>
-              {status}
-            </Text>
-          </View>
-        </View>
-
-        <View style={styles.insuranceAssociatedArrowWrap}>
-          <ArrowSvg width={8} height={12} />
-        </View>
-      </View>
-    </Pressable>
-  );
-}
-
-function VehicleRecentServiceRow({
-  title,
-  location,
-  date,
-  price,
-  icon,
-  onPress,
-}: VehicleRecentServiceData & {
-  onPress: () => void;
-}): React.JSX.Element {
-  return (
-    <Pressable
-      style={({pressed}) => [
-        styles.vehicleRecentServiceRow,
-        pressed ? styles.pressed : null,
-      ]}
-      onPress={onPress}>
-      <View style={styles.vehicleRecentServiceLeft}>
-        {icon}
-
-        <View style={styles.vehicleRecentServiceTextWrap}>
-          <Text style={styles.vehicleRecentServiceTitle}>{title}</Text>
-          <Text style={styles.vehicleRecentServiceMeta}>
-            {location} - {date}
-          </Text>
-        </View>
-      </View>
-
-      <Text style={styles.vehicleRecentServicePrice}>{price}</Text>
-    </Pressable>
-  );
-}
-
-function WhiteDocIcon(): React.JSX.Element {
-  return (
-    <Svg width={16} height={20} viewBox="0 0 16 20" fill="none">
-      <Path
-        d="M4 16H12V14H4V16ZM4 12H12V10H4V12ZM2 20C1.45 20 0.979167 19.8042 0.5875 19.4125C0.195833 19.0208 0 18.55 0 18V2C0 1.45 0.195833 0.979167 0.5875 0.5875C0.979167 0.195833 1.45 0 2 0H10L16 6V18C16 18.55 15.8042 19.0208 15.4125 19.4125C15.0208 19.8042 14.55 20 14 20H2ZM9 7V2H2V18H14V7H9ZM2 2V7V2V7V18V2Z"
-        fill="#FFFFFF"
-      />
-    </Svg>
-  );
-}
-
-function VehicleUpcomingMaintenanceCard({
-  title,
-  description,
-  footer,
-  icon,
-  accentColor,
-  urgent = false,
-  primaryActionLabel,
-  secondaryActionLabel,
-  onPrimaryPress,
-  onSecondaryPress,
-}: VehicleUpcomingMaintenanceData & {
-  onPrimaryPress?: () => void;
-  onSecondaryPress?: () => void;
-}): React.JSX.Element {
-  return (
-    <View
-      style={[
-        styles.vehicleUpcomingCard,
-        urgent
-          ? styles.vehicleUpcomingCardUrgent
-          : styles.vehicleUpcomingCardStandard,
-        {borderLeftColor: accentColor},
-      ]}>
-      <View style={styles.vehicleUpcomingTopRow}>
-        <View style={styles.vehicleUpcomingIconWrap}>{icon}</View>
-
-        <View style={styles.vehicleUpcomingTextWrap}>
-          <Text style={styles.vehicleUpcomingTitle}>{title}</Text>
-          <Text style={styles.vehicleUpcomingDescription}>{description}</Text>
-          {footer ? (
-            <Text
-              style={[
-                styles.vehicleUpcomingFooter,
-                urgent ? styles.vehicleUpcomingFooterUrgent : null,
-              ]}>
-              {footer}
-            </Text>
-          ) : null}
-        </View>
-      </View>
-
-      {urgent && primaryActionLabel && secondaryActionLabel ? (
-        <View style={styles.vehicleUpcomingActionsRow}>
-          <Pressable
-            style={({pressed}) => [
-              styles.vehicleUpcomingPrimaryButton,
-              pressed ? styles.pressed : null,
-            ]}
-            onPress={onPrimaryPress}>
-            <Text style={styles.vehicleUpcomingPrimaryButtonText}>
-              {primaryActionLabel}
-            </Text>
-          </Pressable>
-
-          <Pressable
-            style={({pressed}) => [
-              styles.vehicleUpcomingSecondaryButton,
-              pressed ? styles.pressed : null,
-            ]}
-            onPress={onSecondaryPress}>
-            <Text style={styles.vehicleUpcomingSecondaryButtonText}>
-              {secondaryActionLabel}
-            </Text>
-          </Pressable>
-        </View>
-      ) : null}
-    </View>
-  );
-}
-
-function HealthAnalysisGradient(): React.JSX.Element {
-  return (
-    <Svg
-      width="100%"
-      height="100%"
-      viewBox="0 0 358 358"
-      preserveAspectRatio="none"
-      style={styles.healthAnalysisGradient}>
-      <Defs>
-        <LinearGradient
-          id="healthAnalysisFade"
-          x1="179"
-          y1="358"
-          x2="179"
-          y2="0"
-          gradientUnits="userSpaceOnUse">
-          <Stop offset="0" stopColor="#094771" stopOpacity={0.9} />
-          <Stop offset="1" stopColor="#094771" stopOpacity={0} />
-        </LinearGradient>
-      </Defs>
-      <Rect width="358" height="358" fill="url(#healthAnalysisFade)" />
-    </Svg>
-  );
-}
-
-function HealthProfileGlyph(): React.JSX.Element {
-  return (
-    <Svg width={25} height={25} viewBox="14 14 20 20" fill="none">
-      <Path
-        d="M16 34C15.45 34 14.9792 33.8042 14.5875 33.4125C14.1958 33.0208 14 32.55 14 32V20C14 19.45 14.1958 18.9792 14.5875 18.5875C14.9792 18.1958 15.45 18 16 18H20V16C20 15.45 20.1958 14.9792 20.5875 14.5875C20.9792 14.1958 21.45 14 22 14H26C26.55 14 27.0208 14.1958 27.4125 14.5875C27.8042 14.9792 28 15.45 28 16V18H32C32.55 18 33.0208 18.1958 33.4125 18.5875C33.8042 18.9792 34 19.45 34 20V32C34 32.55 33.8042 33.0208 33.4125 33.4125C33.0208 33.8042 32.55 34 32 34H16ZM16 32H32V20H16V32ZM22 18H26V16H22V18ZM16 32V20V32ZM23 27V30H25V27H28V25H25V22H23V25H20V27H23Z"
-        fill="#094771"
-      />
-    </Svg>
-  );
-}
-
-function HealthCheckupRow({
-  month,
-  day,
-  title,
-  subtitle,
-  showDivider = false,
-  onPress,
-}: HealthCheckupData & {
-  showDivider?: boolean;
-  onPress: () => void;
-}): React.JSX.Element {
-  return (
-    <Pressable
-      style={({pressed}) => [
-        styles.healthCheckupRow,
-        showDivider ? styles.healthCheckupRowWithDivider : null,
-        pressed ? styles.pressed : null,
-      ]}
-      onPress={onPress}>
-      <View style={styles.healthCheckupDateBadge}>
-        <Text style={styles.healthCheckupMonth}>{month}</Text>
-        <Text style={styles.healthCheckupDay}>{day}</Text>
-      </View>
-
-      <View style={styles.healthCheckupTextWrap}>
-        <Text style={styles.healthCheckupTitle}>{title}</Text>
-        <Text style={styles.healthCheckupSubtitle}>{subtitle}</Text>
-      </View>
-
-      <View style={styles.healthCheckupArrowWrap}>
-        <ArrowSvg width={8} height={12} />
-      </View>
-    </Pressable>
-  );
-}
-
 function BottomNavItem({
   active = false,
   label,
@@ -974,7 +381,7 @@ function HomeScreen(): React.JSX.Element {
     useState(true);
   const [recurringDraftAmount, setRecurringDraftAmount] = useState('$15.99');
   const [recurringDraftPaymentMethod, setRecurringDraftPaymentMethod] =
-    useState('Visa (•••• 4242)');
+    useState('Visa (â€¢â€¢â€¢â€¢ 4242)');
   const [
     isRecurringPaymentMethodDropdownOpen,
     setIsRecurringPaymentMethodDropdownOpen,
@@ -1065,6 +472,9 @@ function HomeScreen(): React.JSX.Element {
   const isHealthFitnessView = isRecordsTab && recordsView === 'health-fitness';
   const isHealthFitnessAddView =
     isRecordsTab && recordsView === 'health-fitness-add';
+  const isImportantDatesView = isRecordsTab && recordsView === 'important-dates';
+  const isImportantDatesAddView =
+    isRecordsTab && recordsView === 'important-dates-add';
   const isRecordsDetailView = isRecordsTab && recordsView !== 'browser';
   const recordsDetailTitle = isRecurringPaymentsAddView
     ? 'Recurring Payments'
@@ -1082,6 +492,10 @@ function HomeScreen(): React.JSX.Element {
     ? 'Insurance\nPolicies'
     : isHealthFitnessView
     ? 'Health & Fitness'
+    : isImportantDatesAddView
+    ? 'Important Dates'
+    : isImportantDatesView
+    ? 'Important Dates'
     : isBankingCardsView || isBankingCardsAddView
     ? 'Banking & Cards'
     : 'Personal Details';
@@ -1091,7 +505,8 @@ function HomeScreen(): React.JSX.Element {
     isRecurringPaymentsView ||
     isVehicleMaintenanceView ||
     isInsurancePoliciesView ||
-    isHealthFitnessView;
+    isHealthFitnessView ||
+    isImportantDatesView;
   const bankingDraftDisplayName = getBankDisplayName(bankingDraftBankName);
   const bankingDraftLastFourDisplay = bankingDraftLast4Digits || '4821';
   const bankingDraftCardLabel = `${
@@ -1099,7 +514,7 @@ function HomeScreen(): React.JSX.Element {
   } Account`.toUpperCase();
   const bankingAccountTypeOptions = ['Current', 'Savings', 'Business', 'Joint'];
   const recurringPaymentMethodOptions = [
-    'Visa (•••• 4242)',
+    'Visa (â€¢â€¢â€¢â€¢ 4242)',
     'Direct Debit',
     'Home Services',
   ];
@@ -1211,7 +626,7 @@ function HomeScreen(): React.JSX.Element {
     {
       id: 'important-dates',
       title: 'Important\nDates',
-      count: '09 Records',
+      count: '12 Records',
       icon: <DatesSvg width={56} height={56} />,
     },
     {
@@ -1264,246 +679,10 @@ function HomeScreen(): React.JSX.Element {
     },
   ];
 
-  const personalIdentityRecords: IdentityRecordData[] = [
-    {
-      id: 'primary-identity',
-      name: personalProfileName,
-      dateOfBirth: '12/05/1985',
-      identifierPrefix: 'JW',
-      identifierSuffix: 'C',
-      status: 'Primary',
-    },
-  ];
-
-  const bankingAccounts: BankingAccountData[] = [
-    {
-      id: 'barclays-current',
-      title: 'Barclays Current Account',
-      accountNumber: '**** 4821',
-      balance: '$2,450.00',
-      status: 'Active',
-      icon: <StatementSvg width={48} height={48} />,
-    },
-    {
-      id: 'hsbc-savings',
-      title: 'HSBC Savings',
-      accountNumber: '**** 9034',
-      balance: '$12,100.00',
-      status: 'Growth',
-      icon: <PigSvg width={48} height={48} />,
-    },
-  ];
-
-  const bankingReminders: BankingReminderData[] = [
-    {
-      id: 'barclays-interest',
-      title: 'Review Barclays Interest Rate',
-      schedule: 'Scheduled for: Tomorrow, 09:00 AM',
-      icon: <BellSvg width={20} height={21} />,
-    },
-    {
-      id: 'monthly-transfer',
-      title: 'Monthly Savings Transfer',
-      schedule: 'Scheduled for: 25th Oct, 12:00 PM',
-      icon: <MonthlySvg width={18} height={20} />,
-    },
-  ];
-
-  const recurringSubscriptions: RecurringSubscriptionData[] = [
-    {
-      id: 'netflix',
-      name: 'Netflix',
-      plan: 'Premium UHD Plan',
-      amount: 15.99,
-      dueLabel: 'Due Oct 14',
-      paymentMethod: 'Visa ••••\n4242',
-      serviceIcon: <NetflixSvg width={56} height={56} />,
-      paymentMethodIcon: <CardTwoSvg width={15} height={12} />,
-    },
-    {
-      id: 'spotify',
-      name: 'Spotify',
-      plan: 'Family Premium',
-      amount: 9.99,
-      dueLabel: 'Due Oct 18',
-      paymentMethod: 'Direct\nDebit',
-      serviceIcon: <SpotifySvg width={56} height={56} />,
-      paymentMethodIcon: <BankTwoSvg width={15} height={15} />,
-    },
-    {
-      id: 'sky-broadband',
-      name: 'Sky Broadband',
-      plan: 'Superfast Fibre',
-      amount: 42,
-      dueLabel: 'Due Nov 01',
-      paymentMethod: 'Home\nServices',
-      serviceIcon: <SkyBroadbandSvg width={56} height={56} />,
-      paymentMethodIcon: <WifiSvg width={14} height={15} />,
-    },
-  ];
-
-  const recurringInsights: RecurringInsightData[] = [
-    {
-      id: 'upcoming-peak',
-      label: 'UPCOMING PEAK',
-      body:
-        'Your highest concentration of payments occurs between the 14th and 18th of each month. Ensure your primary account is funded.',
-      accentColor: '#FEB234',
-      labelColor: '#815500',
-      icon: <UpcomingSvg width={20} height={12} />,
-    },
-    {
-      id: 'saving-opportunity',
-      label: 'SAVING OPPORTUNITY',
-      body:
-        'Switching your Sky Broadband to an annual billing cycle could save you $65.00 per year. Recommended action: View annual plans.',
-      accentColor: '#094771',
-      labelColor: '#094771',
-      icon: <SavingSvg width={15} height={20} />,
-    },
-  ];
-
-  const insuranceCoverageItems: InsuranceCoverageItemData[] = [
-    {
-      id: 'structural-coverage',
-      title: 'Structural Coverage',
-      description: 'Up to $750,000 for rebuild costs.',
-      icon: <StructureSvg width={35} height={31} />,
-    },
-    {
-      id: 'contents-protection',
-      title: 'Contents Protection',
-      description: 'Up to $150,000 global replacement.',
-      icon: <ContentsSvg width={33} height={33} />,
-    },
-    {
-      id: 'natural-disasters',
-      title: 'Natural Disasters',
-      description: 'Includes flood and seismic activity.',
-      icon: <NaturalSvg width={33} height={33} />,
-    },
-    {
-      id: 'public-liability',
-      title: 'Public Liability',
-      description: 'Personal liability up to $2,000,000.',
-      icon: <PublicSvg width={30} height={33} />,
-    },
-  ];
-
-  const insuranceAssociatedPolicies: InsuranceAssociatedPolicyData[] = [
-    {
-      id: 'auto-geico',
-      title: 'Auto Insurance - Geico',
-      subtitle: 'Policy: G-88219 - Model: Tesla Model 3',
-      status: 'ACTIVE',
-      icon: <AutoSvg width={48} height={48} />,
-    },
-    {
-      id: 'health-bluecross',
-      title: 'Health Premium - BlueCross',
-      subtitle: 'Policy: BC-PLAT-001 - Family Plan',
-      status: 'ACTIVE',
-      icon: <HealthSvg width={48} height={48} />,
-    },
-    {
-      id: 'travel-allianz',
-      title: 'Travel - Allianz',
-      subtitle: 'Policy: TRV-8941 - Single Trip',
-      status: 'ARCHIVED',
-      icon: <TravelSvg width={48} height={48} />,
-    },
-  ];
-
-  const healthCheckups: HealthCheckupData[] = [
-    {
-      id: 'annual-physical',
-      month: 'OCT',
-      day: '12',
-      title: 'Annual Physical',
-      subtitle: 'Central Hospital • Dr. H.\nPatel',
-    },
-    {
-      id: 'dental-cleaning',
-      month: 'AUG',
-      day: '24',
-      title: 'Dental Cleaning',
-      subtitle: 'Smile Care Studio • Dr.\nAris',
-    },
-    {
-      id: 'cardiology-review',
-      month: 'JUN',
-      day: '05',
-      title: 'Cardiology Review',
-      subtitle: 'Heart Institute •\nSpecialist Wing',
-    },
-  ];
-
-  const healthWeeklyGoalPercent = 70;
   const healthDraftWeeklyGoalProgress = Math.max(
     0,
     Math.min(100, parseInt(healthDraftWeeklyGoalPercent, 10) || 0),
   );
-
-  const vehicleRecentServices: VehicleRecentServiceData[] = [
-    {
-      id: 'full-annual-service',
-      title: 'Full Annual Service',
-      location: 'Toyota Official Center',
-      date: '15 Jan 2024',
-      price: '$285.00',
-      icon: <MaintainOneSvg width={40} height={40} />,
-    },
-    {
-      id: 'tire-rotation',
-      title: 'Tire Rotation & Pressure',
-      location: 'QuickFit Center',
-      date: '12 Nov 2023',
-      price: '$45.00',
-      icon: <TireSvg width={40} height={40} />,
-    },
-    {
-      id: 'oil-filter-change',
-      title: 'Oil Filter Change',
-      location: 'Toyota Official Center',
-      date: '08 Jul 2023',
-      price: '$120.00',
-      icon: <OilSvg width={40} height={40} />,
-    },
-  ];
-
-  const vehicleUpcomingMaintenance: VehicleUpcomingMaintenanceData[] = [
-    {
-      id: 'mot-renewal',
-      title: 'MOT Renewal',
-      description:
-        'Critical deadline approaching in 30 days. Failure to renew results in illegal vehicle operation.',
-      icon: <MotSvg width={18} height={20} />,
-      accentColor: '#BA1A1A',
-      urgent: true,
-      primaryActionLabel: 'Schedule\nAppointment',
-      secondaryActionLabel: 'Remind Me\nLater',
-    },
-    {
-      id: 'brake-fluid-flush',
-      title: 'Brake Fluid Flush',
-      description: 'Recommended every 24 months. Last performed Oct 2022.',
-      footer: 'Suggested: Oct 2024',
-      icon: <BrakeSvg width={19} height={21} />,
-      accentColor: '#815500',
-    },
-  ];
-
-  const recurringMonthlyCommitment = recurringSubscriptions.reduce(
-    (total, subscription) => total + subscription.amount,
-    0,
-  );
-  const recurringAnnualCost = recurringMonthlyCommitment * 12;
-  const recurringBudgetUsagePercent = 68;
-  const recurringNextPayment =
-    recurringSubscriptions[0]?.dueLabel.replace('Due ', '') || 'Oct 14';
-  const recurringActiveServicesLabel = `${recurringSubscriptions.length} ${
-    recurringSubscriptions.length === 1 ? 'Subscription' : 'Subscriptions'
-  }`;
 
   const openQuickActions = () => {
     Alert.alert('Quick Actions', 'Refresh your profile or sign out.', [
@@ -1579,7 +758,7 @@ function HomeScreen(): React.JSX.Element {
 
   const resetRecurringDraft = () => {
     setRecurringDraftAmount('$15.99');
-    setRecurringDraftPaymentMethod('Visa (•••• 4242)');
+    setRecurringDraftPaymentMethod('Visa (â€¢â€¢â€¢â€¢ 4242)');
     setIsRecurringPaymentMethodDropdownOpen(false);
     setRecurringDraftFrequency('Monthly');
     setIsRecurringFrequencyDropdownOpen(false);
@@ -1654,6 +833,11 @@ function HomeScreen(): React.JSX.Element {
       return;
     }
 
+    if (category.id === 'important-dates') {
+      setRecordsView('important-dates');
+      return;
+    }
+
     openRecordCategory(category.title, category.count);
   };
 
@@ -1687,6 +871,10 @@ function HomeScreen(): React.JSX.Element {
     setRecordsView('health-fitness-add');
   };
 
+  const openAddImportantDateRecord = () => {
+    setRecordsView('important-dates-add');
+  };
+
   const handleRecordsAddPress = () => {
     if (isPersonalIdentityView) {
       openAddIdentityRecord();
@@ -1715,7 +903,28 @@ function HomeScreen(): React.JSX.Element {
 
     if (isHealthFitnessView) {
       openAddHealthFitnessRecord();
+      return;
     }
+
+    if (isImportantDatesView) {
+      openAddImportantDateRecord();
+    }
+  };
+
+  const handleDeleteImportantDateEntry = () => {
+    Alert.alert('Delete Entry', 'Remove this important date draft?', [
+      {
+        text: 'Cancel',
+        style: 'cancel',
+      },
+      {
+        text: 'Delete',
+        style: 'destructive',
+        onPress: () => {
+          setRecordsView('important-dates');
+        },
+      },
+    ]);
   };
 
   const handleBrowseIdentityDocument = () => {
@@ -1990,6 +1199,11 @@ function HomeScreen(): React.JSX.Element {
       return;
     }
 
+    if (recordsView === 'important-dates-add') {
+      setRecordsView('important-dates');
+      return;
+    }
+
     if (recordsView !== 'browser') {
       setRecordsView('browser');
       return;
@@ -2145,2019 +1359,197 @@ function HomeScreen(): React.JSX.Element {
   );
 
   const personalIdentityContent = (
-    <>
-      <View style={styles.personalIdentityIntroCard}>
-        <FingerSvg
-          width={84}
-          height={96}
-          style={styles.personalIdentityFingerprint}
-        />
-        <Text style={styles.personalIdentityIntroTitle}>
-          Active Identity Profiles
-        </Text>
-        <Text style={styles.personalIdentityIntroBody}>
-          Securely manage and access your essential personal identification
-          details. All data is locally encrypted for your privacy.
-        </Text>
-
-        <View style={styles.personalIdentityInfoChipStack}>
-          <Pressable
-            style={({pressed}) => [
-              styles.personalIdentityInfoChip,
-              pressed ? styles.pressed : null,
-            ]}
-            onPress={() => openPlaceholder('Active identity records')}>
-            <ActiveSvg width={16} height={20} />
-            <Text style={styles.personalIdentityInfoChipText}>
-              1 Active Record
-            </Text>
-          </Pressable>
-
-          <Pressable
-            style={({pressed}) => [
-              styles.personalIdentityInfoChip,
-              styles.personalIdentityInfoChipSecondary,
-              pressed ? styles.pressed : null,
-            ]}
-            onPress={() => openPlaceholder('Encrypted storage')}>
-            <EncryptedSvg width={16} height={20} />
-            <Text
-              style={[
-                styles.personalIdentityInfoChipText,
-                styles.personalIdentityInfoChipTextSecondary,
-              ]}>
-              Encrypted Storage
-            </Text>
-          </Pressable>
-        </View>
-      </View>
-
-      <Pressable
-        style={({pressed}) => [
-          styles.personalProfileCard,
-          pressed ? styles.pressed : null,
-        ]}
-        onPress={() => openPlaceholder('Primary profile')}>
-        <View style={styles.personalProfileContent}>
-          <View style={styles.personalProfileTopRow}>
-            <ProfileCardSvg width={34} height={34} />
-
-            <View style={styles.personalProfileLatestChip}>
-              <Text style={styles.personalProfileLatestText}>LATEST</Text>
-            </View>
-          </View>
-
-          <View style={styles.personalProfileTextBlock}>
-            <Text style={styles.personalProfileName}>
-              {personalProfileCardName}
-            </Text>
-            <Text style={styles.personalProfileLabel}>PRIMARY PROFILE</Text>
-          </View>
-        </View>
-      </Pressable>
-
-      <View style={styles.personalRecordsHeader}>
-        <Text style={styles.personalRecordsTitle}>SAVED RECORDS</Text>
-        <Text style={styles.personalRecordsSyncText}>
-          Last synced 2 mins ago
-        </Text>
-      </View>
-
-      <View style={styles.personalRecordsList}>
-        {personalIdentityRecords.map(record => (
-          <Pressable
-            key={record.id}
-            style={({pressed}) => [
-              styles.personalRecordCard,
-              pressed ? styles.pressed : null,
-            ]}
-            onPress={() => openPlaceholder(record.name)}>
-            <View style={styles.personalRecordTopRow}>
-              <View style={styles.personalRecordAvatar}>
-                <ProfileSvg width={20} height={20} />
-              </View>
-
-              <View style={styles.personalRecordIdentityBlock}>
-                <Text style={styles.personalRecordName}>{record.name}</Text>
-
-                <View style={styles.personalRecordDobRow}>
-                  <BirthdaySvg width={11} height={12} />
-                  <Text style={styles.personalRecordDobText}>
-                    DOB: {record.dateOfBirth}
-                  </Text>
-                </View>
-              </View>
-            </View>
-
-            <View style={styles.personalRecordBottomRow}>
-              <View style={styles.personalRecordMetaContent}>
-                <View style={styles.personalRecordMetaLabels}>
-                  <View style={styles.personalRecordMetaColumn}>
-                    <Text style={styles.personalRecordMetaLabel}>
-                      NI NUMBER
-                    </Text>
-                  </View>
-
-                  <View
-                    style={[
-                      styles.personalRecordMetaColumn,
-                      styles.personalRecordStatusColumn,
-                    ]}>
-                    <Text style={styles.personalRecordMetaLabel}>STATUS</Text>
-                  </View>
-                </View>
-
-                <View style={styles.personalRecordMetaValues}>
-                  <View style={styles.personalRecordMetaColumn}>
-                    <View style={styles.personalRecordNumberRow}>
-                      <Text style={styles.personalRecordNumberText}>
-                        {record.identifierPrefix}
-                      </Text>
-                      <RecordNumberDots count={5} />
-                      <Text style={styles.personalRecordNumberText}>
-                        {record.identifierSuffix}
-                      </Text>
-                    </View>
-                  </View>
-
-                  <View
-                    style={[
-                      styles.personalRecordMetaColumn,
-                      styles.personalRecordStatusColumn,
-                    ]}>
-                    <View style={styles.personalRecordStatusChip}>
-                      <DotSvg width={6} height={6} />
-                      <Text style={styles.personalRecordStatusText}>
-                        {record.status}
-                      </Text>
-                    </View>
-                  </View>
-                </View>
-
-                <View style={styles.personalRecordActionsRow}>
-                  <View style={styles.personalRecordActionIcon}>
-                    <EyeSvg width={32} height={36} />
-                  </View>
-                  <View style={styles.personalRecordActionIcon}>
-                    <EditSvg width={28} height={28} />
-                  </View>
-                </View>
-              </View>
-            </View>
-          </Pressable>
-        ))}
-      </View>
-
-      <Pressable
-        style={({pressed}) => [
-          styles.personalVaultCard,
-          pressed ? styles.pressed : null,
-        ]}
-        onPress={() => openPlaceholder('Secure Vault')}>
-        <VaultBackgroundSvg
-          width="100%"
-          height="100%"
-          preserveAspectRatio="xMidYMid slice"
-          style={styles.personalVaultPattern}
-        />
-
-        <View style={styles.personalVaultContent}>
-          <Text style={styles.personalVaultTitle}>Secure Vault</Text>
-          <Text style={styles.personalVaultBody}>
-            {
-              'All your identification cards, digital keys, and personal credentials in one encrypted place.'
-            }
-          </Text>
-        </View>
-      </Pressable>
-    </>
+    <PersonalIdentityContent
+      styles={styles}
+      personalProfileName={personalProfileName}
+      personalProfileCardName={personalProfileCardName}
+      openPlaceholder={openPlaceholder}
+    />
   );
 
   const personalIdentityAddContent = (
-    <>
-      <View style={styles.personalFormSectionCard}>
-        <View style={styles.personalFormSectionHeader}>
-          <ProfileCardPrimarySvg width={20} height={20} />
-          <Text style={styles.personalFormSectionTitle}>Personal Identity</Text>
-        </View>
-
-        <View style={styles.personalFormFieldsGroup}>
-          <View style={styles.personalFormField}>
-            <Text style={styles.personalFormFieldLabel}>Full Name</Text>
-            <View style={styles.personalFormInputShell}>
-              <TextInput
-                style={styles.personalFormInput}
-                value={identityDraftFullName}
-                onChangeText={setIdentityDraftFullName}
-                placeholder="Enter full name"
-                placeholderTextColor="#98A2B3"
-                autoCapitalize="words"
-                autoCorrect={false}
-                selectionColor="#0A5688"
-              />
-            </View>
-          </View>
-
-          <View style={styles.personalFormField}>
-            <Text style={styles.personalFormFieldLabel}>Date of Birth</Text>
-            <View style={styles.personalFormInputShell}>
-              <TextInput
-                style={styles.personalFormInput}
-                value={identityDraftDateOfBirth}
-                onChangeText={setIdentityDraftDateOfBirth}
-                placeholder="mm/dd/yyyy"
-                placeholderTextColor="#98A2B3"
-                autoCapitalize="none"
-                autoCorrect={false}
-                selectionColor="#0A5688"
-              />
-            </View>
-          </View>
-
-          <View style={styles.personalFormField}>
-            <Text style={styles.personalFormFieldLabel}>NI Number</Text>
-            <View style={styles.personalFormInputShell}>
-              <TextInput
-                style={styles.personalFormInput}
-                value={identityDraftNiNumber}
-                onChangeText={setIdentityDraftNiNumber}
-                placeholder="QQ 12 34 56 C"
-                placeholderTextColor="#98A2B3"
-                autoCapitalize="characters"
-                autoCorrect={false}
-                selectionColor="#0A5688"
-              />
-            </View>
-          </View>
-
-          <Pressable
-            style={({pressed}) => [
-              styles.personalReminderCard,
-              pressed ? styles.pressed : null,
-            ]}
-            onPress={() =>
-              setIdentityDraftRenewalReminder(currentValue => !currentValue)
-            }>
-            <View style={styles.personalReminderTextBlock}>
-              <Text style={styles.personalReminderTitle}>Renewal Reminder</Text>
-              <Text style={styles.personalReminderSubtitle}>
-                Notify before expiration
-              </Text>
-            </View>
-
-            <View
-              style={[
-                styles.personalReminderToggle,
-                identityDraftRenewalReminder
-                  ? styles.personalReminderToggleActive
-                  : null,
-              ]}>
-              <View style={styles.personalReminderToggleThumb} />
-            </View>
-          </Pressable>
-        </View>
-      </View>
-
-      <View style={styles.personalFormSectionCard}>
-        <View style={styles.personalFormSectionHeader}>
-          <UploadDocumentSvg width={16} height={20} />
-          <Text style={styles.personalFormSectionTitle}>Document Upload</Text>
-        </View>
-
-        <View style={styles.personalUploadArea}>
-          <UploadSvg width={44} height={40} />
-          <Text style={styles.personalUploadTitle}>
-            Drag and drop files here
-          </Text>
-          <Text style={styles.personalUploadSubtitle}>
-            PDF, JPG, or PNG (Max 10MB)
-          </Text>
-
-          <Pressable
-            style={({pressed}) => [
-              styles.personalUploadButton,
-              pressed ? styles.pressed : null,
-            ]}
-            onPress={handleBrowseIdentityDocument}>
-            <Text style={styles.personalUploadButtonText}>Browse Files</Text>
-          </Pressable>
-        </View>
-
-        {hasUploadedIdentityDocument ? (
-          <View style={styles.personalUploadFileCard}>
-            <View style={styles.personalUploadFileInfo}>
-              <DocSvg width={16} height={20} />
-              <View style={styles.personalUploadFileTextWrap}>
-                <Text style={styles.personalUploadFileName}>
-                  Passport_Copy_2024.pdf
-                </Text>
-                <Text style={styles.personalUploadFileMeta}>2.4 MB</Text>
-              </View>
-            </View>
-
-            <Pressable
-              style={({pressed}) => [
-                styles.personalUploadTrashButton,
-                pressed ? styles.pressed : null,
-              ]}
-              onPress={handleDeleteIdentityDocument}>
-              <TrashSvg width={32} height={34} />
-            </Pressable>
-          </View>
-        ) : null}
-      </View>
-
-      <View style={styles.personalFormSectionCard}>
-        <View style={styles.personalFormSectionHeader}>
-          <NotesSvg width={18} height={12} />
-          <Text style={styles.personalFormSectionTitle}>Notes</Text>
-        </View>
-
-        <View style={styles.personalNotesInputShell}>
-          <TextInput
-            style={styles.personalNotesInput}
-            value={identityDraftNotes}
-            onChangeText={setIdentityDraftNotes}
-            placeholder="Add any additional details or secure notes here..."
-            placeholderTextColor="#6B7280"
-            multiline
-            textAlignVertical="top"
-            autoCorrect={false}
-            selectionColor="#0A5688"
-          />
-        </View>
-      </View>
-
-      <Pressable
-        style={({pressed}) => [
-          styles.personalDeleteEntryButton,
-          pressed ? styles.pressed : null,
-        ]}
-        onPress={handleDeleteIdentityEntry}>
-        <TrashCompactSvg width={16} height={18} />
-        <Text style={styles.personalDeleteEntryButtonText}>
-          Delete This Entry
-        </Text>
-      </Pressable>
-    </>
+    <PersonalIdentityAddContent
+      styles={styles}
+      identityDraftFullName={identityDraftFullName}
+      setIdentityDraftFullName={setIdentityDraftFullName}
+      identityDraftDateOfBirth={identityDraftDateOfBirth}
+      setIdentityDraftDateOfBirth={setIdentityDraftDateOfBirth}
+      identityDraftNiNumber={identityDraftNiNumber}
+      setIdentityDraftNiNumber={setIdentityDraftNiNumber}
+      identityDraftRenewalReminder={identityDraftRenewalReminder}
+      setIdentityDraftRenewalReminder={setIdentityDraftRenewalReminder}
+      hasUploadedIdentityDocument={hasUploadedIdentityDocument}
+      handleBrowseIdentityDocument={handleBrowseIdentityDocument}
+      handleDeleteIdentityDocument={handleDeleteIdentityDocument}
+      identityDraftNotes={identityDraftNotes}
+      setIdentityDraftNotes={setIdentityDraftNotes}
+      handleDeleteIdentityEntry={handleDeleteIdentityEntry}
+    />
   );
 
   const bankingAddContent = (
-    <>
-      <View style={styles.bankingAddCard}>
-        <View style={styles.bankingAddCardGlowLeft}>
-          <Glow1Svg width={128} height={128} />
-        </View>
-        <View style={styles.bankingAddCardGlowRight}>
-          <Glow2Svg width={128} height={128} />
-        </View>
-
-        <Text style={styles.bankingAddCardBankName}>
-          {bankingDraftDisplayName}
-        </Text>
-
-        <View style={styles.bankingAddCardTapWrap}>
-          <TapSvg width={20} height={20} />
-        </View>
-
-        <View style={styles.bankingAddCardFooter}>
-          <View style={styles.bankingAddCardDigitsRow}>
-            {Array.from({length: 3}).map((_, groupIndex) => (
-              <View
-                key={`card-dots-group-${groupIndex}`}
-                style={styles.bankingAddCardDotsGroup}>
-                {Array.from({length: 4}).map((__, dotIndex) => (
-                  <View
-                    key={`card-dot-${groupIndex}-${dotIndex}`}
-                    style={styles.bankingAddCardDot}
-                  />
-                ))}
-              </View>
-            ))}
-            <Text style={styles.bankingAddCardLastDigits}>
-              {bankingDraftLastFourDisplay}
-            </Text>
-          </View>
-
-          <Text style={styles.bankingAddCardAccountType}>
-            {bankingDraftCardLabel}
-          </Text>
-        </View>
-      </View>
-
-      <View style={styles.bankingAddBalanceCard}>
-        <Text style={styles.bankingAddBalanceLabel}>Active Balance</Text>
-        <Text style={styles.bankingAddBalanceValue}>$12,450.00</Text>
-      </View>
-
-      <View style={styles.bankingAddFieldCard}>
-        <Text style={styles.bankingAddFieldLabel}>Bank Name</Text>
-        <View style={styles.bankingAddInputShell}>
-          <TextInput
-            style={styles.bankingAddInput}
-            value={bankingDraftBankName}
-            onChangeText={handleBankingBankNameChange}
-            onFocus={closeBankingAccountTypeDropdown}
-            placeholder="Enter bank name"
-            placeholderTextColor="#98A2B3"
-            autoCapitalize="words"
-            autoCorrect={false}
-            selectionColor="#0A5688"
-          />
-        </View>
-      </View>
-
-      <View style={styles.bankingAddFieldCard}>
-        <Text style={styles.bankingAddFieldLabel}>Account Type</Text>
-        <Pressable
-          style={({pressed}) => [
-            styles.bankingAddSelectShell,
-            pressed ? styles.pressed : null,
-          ]}
-          onPress={handleToggleBankingAccountType}>
-          <Text style={styles.bankingAddSelectValue}>
-            {bankingDraftAccountType}
-          </Text>
-          <View
-            style={[
-              styles.bankingAddSelectIcon,
-              isBankingAccountTypeDropdownOpen
-                ? styles.bankingAddSelectIconOpen
-                : null,
-            ]}>
-            <ArrowSvg width={8} height={12} />
-          </View>
-        </Pressable>
-
-        {isBankingAccountTypeDropdownOpen ? (
-          <View style={styles.bankingAddSelectDropdown}>
-            {bankingAccountTypeOptions.map(accountType => (
-              <Pressable
-                key={accountType}
-                style={({pressed}) => [
-                  styles.bankingAddSelectOption,
-                  bankingDraftAccountType === accountType
-                    ? styles.bankingAddSelectOptionActive
-                    : null,
-                  pressed ? styles.pressed : null,
-                ]}
-                onPress={() => handleSelectBankingAccountType(accountType)}>
-                <Text
-                  style={[
-                    styles.bankingAddSelectOptionText,
-                    bankingDraftAccountType === accountType
-                      ? styles.bankingAddSelectOptionTextActive
-                      : null,
-                  ]}>
-                  {accountType}
-                </Text>
-              </Pressable>
-            ))}
-          </View>
-        ) : null}
-      </View>
-
-      <View style={styles.bankingAddFieldCard}>
-        <Text style={styles.bankingAddFieldLabel}>Last 4 Digits</Text>
-        <View style={styles.bankingAddInputShell}>
-          <TextInput
-            style={styles.bankingAddInput}
-            value={bankingDraftLast4Digits}
-            onChangeText={handleBankingLast4DigitsChange}
-            onFocus={closeBankingAccountTypeDropdown}
-            placeholder="4821"
-            placeholderTextColor="#98A2B3"
-            autoCapitalize="none"
-            autoCorrect={false}
-            keyboardType="number-pad"
-            maxLength={4}
-            selectionColor="#0A5688"
-          />
-        </View>
-      </View>
-
-      <View style={styles.bankingAddFieldCard}>
-        <Text style={styles.bankingAddFieldLabel}>
-          Document Upload for Statements
-        </Text>
-
-        <View style={styles.bankingAddUploadArea}>
-          <UploadSvg width={44} height={40} />
-          <Text style={styles.bankingAddUploadTitle}>
-            Drag and drop or
-            <Text style={styles.bankingAddUploadTitleHighlight}>
-              {' '}
-              browse files
-            </Text>
-          </Text>
-          <Text style={styles.bankingAddUploadSubtitle}>
-            PDF, JPG or PNG up to 10MB
-          </Text>
-        </View>
-
-        {hasUploadedBankingDocument ? (
-          <View style={styles.bankingAddUploadFileCard}>
-            <View style={styles.bankingAddUploadFileInfo}>
-              <DocSvg width={16} height={20} />
-              <Text style={styles.bankingAddUploadFileName}>
-                statement_june_2023.pdf
-              </Text>
-            </View>
-
-            <Pressable
-              style={({pressed}) => [
-                styles.bankingAddUploadFileDeleteButton,
-                pressed ? styles.pressed : null,
-              ]}
-              onPress={handleDeleteBankingDocument}>
-              <WrongSvg width={14} height={14} />
-            </Pressable>
-          </View>
-        ) : (
-          <Pressable
-            style={({pressed}) => [
-              styles.personalUploadButton,
-              styles.bankingAddUploadButton,
-              pressed ? styles.pressed : null,
-            ]}
-            onPress={handleBrowseBankingDocument}>
-            <Text style={styles.personalUploadButtonText}>Browse Files</Text>
-          </Pressable>
-        )}
-      </View>
-
-      <Pressable
-        style={({pressed}) => [
-          styles.bankingAddReminderCard,
-          pressed ? styles.pressed : null,
-        ]}
-        onPress={handleToggleBankingInterestReviewReminder}>
-        <View style={styles.bankingAddReminderLeft}>
-          <WarningAlarmSvg width={32} height={36} />
-
-          <View style={styles.bankingAddReminderTextBlock}>
-            <Text style={styles.bankingAddReminderTitle}>
-              Interest Review Reminder
-            </Text>
-            <Text style={styles.bankingAddReminderSubtitle}>
-              Set for 12 months after opening
-            </Text>
-          </View>
-        </View>
-
-        <View
-          style={[
-            styles.bankingAddReminderToggle,
-            bankingDraftInterestReviewReminder
-              ? styles.bankingAddReminderToggleActive
-              : null,
-          ]}>
-          <View style={styles.bankingAddReminderToggleThumb} />
-        </View>
-      </Pressable>
-
-      <View style={styles.bankingAddFieldCard}>
-        <Text style={styles.bankingAddFieldLabel}>Notes Area</Text>
-        <View style={styles.bankingAddNotesInputShell}>
-          <TextInput
-            style={styles.bankingAddNotesInput}
-            value={bankingDraftNotes}
-            onChangeText={handleBankingNotesChange}
-            onFocus={closeBankingAccountTypeDropdown}
-            placeholder="Add any additional details or context..."
-            placeholderTextColor="#6B7280"
-            multiline
-            textAlignVertical="top"
-            autoCorrect={false}
-            selectionColor="#0A5688"
-          />
-        </View>
-      </View>
-
-      <Pressable
-        style={({pressed}) => [
-          styles.personalDeleteEntryButton,
-          pressed ? styles.pressed : null,
-        ]}
-        onPress={handleDeleteBankingEntry}>
-        <TrashCompactSvg width={16} height={18} />
-        <Text style={styles.personalDeleteEntryButtonText}>
-          Delete This Entry
-        </Text>
-      </Pressable>
-    </>
+    <BankingCardsAddContent
+      styles={styles}
+      bankingDraftDisplayName={bankingDraftDisplayName}
+      bankingDraftLastFourDisplay={bankingDraftLastFourDisplay}
+      bankingDraftCardLabel={bankingDraftCardLabel}
+      bankingDraftBankName={bankingDraftBankName}
+      bankingDraftAccountType={bankingDraftAccountType}
+      bankingDraftLast4Digits={bankingDraftLast4Digits}
+      isBankingAccountTypeDropdownOpen={isBankingAccountTypeDropdownOpen}
+      bankingAccountTypeOptions={bankingAccountTypeOptions}
+      handleBankingBankNameChange={handleBankingBankNameChange}
+      closeBankingAccountTypeDropdown={closeBankingAccountTypeDropdown}
+      handleToggleBankingAccountType={handleToggleBankingAccountType}
+      handleSelectBankingAccountType={handleSelectBankingAccountType}
+      handleBankingLast4DigitsChange={handleBankingLast4DigitsChange}
+      hasUploadedBankingDocument={hasUploadedBankingDocument}
+      handleDeleteBankingDocument={handleDeleteBankingDocument}
+      handleBrowseBankingDocument={handleBrowseBankingDocument}
+      bankingDraftInterestReviewReminder={bankingDraftInterestReviewReminder}
+      handleToggleBankingInterestReviewReminder={
+        handleToggleBankingInterestReviewReminder
+      }
+      bankingDraftNotes={bankingDraftNotes}
+      handleBankingNotesChange={handleBankingNotesChange}
+      handleDeleteBankingEntry={handleDeleteBankingEntry}
+    />
   );
 
   const bankingContent = (
-    <>
-      <View style={styles.bankingPortfolioHeader}>
-        <Text style={styles.bankingPortfolioEyebrow}>Financial Portfolio</Text>
-        <Text style={styles.bankingLiquidityTitle}>Total Liquidity</Text>
-      </View>
-
-      <View style={styles.bankingSummaryCard}>
-        <Text style={styles.bankingSummaryLabel}>Aggregated Balance</Text>
-        <Text style={styles.bankingSummaryValue}>$14,550.00</Text>
-      </View>
-
-      <View style={styles.bankingAccountsList}>
-        {bankingAccounts.map(account => (
-          <BankingAccountCard
-            key={account.id}
-            {...account}
-            onPress={() => openPlaceholder(account.title)}
-          />
-        ))}
-      </View>
-
-      <View style={styles.bankingAllocationCard}>
-        <Text style={styles.bankingAllocationTitle}>Asset Allocation</Text>
-        <Text style={styles.bankingAllocationBody}>
-          Distribution across your registered accounts and credit lines.
-        </Text>
-
-        <View style={styles.bankingAllocationMetricBlock}>
-          <View style={styles.bankingAllocationMetricRow}>
-            <Text style={styles.bankingAllocationMetricLabel}>Savings</Text>
-            <Text style={styles.bankingAllocationMetricValue}>83%</Text>
-          </View>
-          <View style={styles.bankingAllocationTrack}>
-            <View
-              style={[
-                styles.bankingAllocationFill,
-                styles.bankingAllocationFillSavings,
-                styles.bankingAllocationFillSavingsWidth,
-              ]}
-            />
-          </View>
-        </View>
-
-        <View style={styles.bankingAllocationMetricBlock}>
-          <View style={styles.bankingAllocationMetricRow}>
-            <Text style={styles.bankingAllocationMetricLabel}>Current</Text>
-            <Text style={styles.bankingAllocationMetricValue}>17%</Text>
-          </View>
-          <View style={styles.bankingAllocationTrack}>
-            <View
-              style={[
-                styles.bankingAllocationFill,
-                styles.bankingAllocationFillCurrent,
-                styles.bankingAllocationFillCurrentWidth,
-              ]}
-            />
-          </View>
-        </View>
-
-        <View style={styles.bankingAllocationDivider} />
-
-        <Pressable
-          style={({pressed}) => [
-            styles.bankingAllocationButton,
-            pressed ? styles.pressed : null,
-          ]}
-          onPress={() => openPlaceholder('View Full Report')}>
-          <Text style={styles.bankingAllocationButtonText}>
-            View Full Report
-          </Text>
-        </Pressable>
-      </View>
-
-      <View style={styles.bankingProtectionCard}>
-        <View style={styles.bankingProtectionIconPill}>
-          <ActiveSvg width={16} height={20} />
-        </View>
-
-        <View style={styles.bankingProtectionTextBlock}>
-          <Text style={styles.bankingProtectionTitle}>
-            Encrypted Protection
-          </Text>
-          <Text style={styles.bankingProtectionBody}>
-            {
-              'Your financial data is secured with\nAES-256 encryption. We never\nstore full account numbers or\nsensitive PINs.'
-            }
-          </Text>
-        </View>
-      </View>
-
-      <View style={styles.bankingReminderHeader}>
-        <Text style={styles.bankingReminderTitle}>Recent Reminders</Text>
-        <Pressable onPress={() => openPlaceholder('View Calendar')}>
-          <Text style={styles.bankingReminderLink}>View Calendar</Text>
-        </Pressable>
-      </View>
-
-      <View style={styles.bankingReminderListCard}>
-        {bankingReminders.map((reminder, index) => (
-          <React.Fragment key={reminder.id}>
-            <BankingReminderRow
-              {...reminder}
-              onPress={() => openPlaceholder(reminder.title)}
-            />
-            {index < bankingReminders.length - 1 ? (
-              <View style={styles.bankingReminderDivider} />
-            ) : null}
-          </React.Fragment>
-        ))}
-      </View>
-    </>
+    <BankingCardsContent styles={styles} openPlaceholder={openPlaceholder} />
   );
 
   const recurringPaymentsAddContent = (
-    <>
-      <View style={styles.recurringAddServiceCard}>
-        <View style={styles.recurringAddServiceArtworkWrap}>
-          <NetflixOneSvg width={63} height={80} />
-        </View>
-
-        <View style={styles.recurringAddServiceContent}>
-          <Text style={styles.recurringAddServiceLabel}>Service Name</Text>
-          <Text style={styles.recurringAddServiceName}>Netflix</Text>
-        </View>
-      </View>
-
-      <View style={styles.recurringAddSectionCard}>
-        <View style={styles.recurringAddSectionHeader}>
-          <MoneySvg width={22} height={16} />
-          <Text style={styles.recurringAddSectionTitle}>Financials</Text>
-        </View>
-
-        <View style={styles.recurringAddFieldsGroup}>
-          <View style={styles.recurringAddField}>
-            <Text style={styles.recurringAddFieldLabel}>Amount</Text>
-            <View style={styles.recurringAddInputShell}>
-              <TextInput
-                style={styles.recurringAddInput}
-                value={recurringDraftAmount}
-                onChangeText={handleRecurringAmountChange}
-                onFocus={closeRecurringDropdowns}
-                placeholder="$15.99"
-                placeholderTextColor="#98A2B3"
-                keyboardType="decimal-pad"
-                autoCapitalize="none"
-                autoCorrect={false}
-                selectionColor="#0A5688"
-              />
-            </View>
-          </View>
-
-          <View style={styles.recurringAddField}>
-            <Text style={styles.recurringAddFieldLabel}>Payment Method</Text>
-            <Pressable
-              style={({pressed}) => [
-                styles.recurringAddSelectShell,
-                pressed ? styles.pressed : null,
-              ]}
-              onPress={handleToggleRecurringPaymentMethod}>
-              <View style={styles.recurringAddSelectValueRow}>
-                <CardTwoPrimarySvg width={15} height={12} />
-                <Text
-                  style={[
-                    styles.recurringAddSelectValue,
-                    styles.recurringAddSelectValueWithIcon,
-                  ]}>
-                  {recurringDraftPaymentMethod}
-                </Text>
-              </View>
-
-              <View
-                style={[
-                  styles.recurringAddSelectIcon,
-                  isRecurringPaymentMethodDropdownOpen
-                    ? styles.recurringAddSelectIconOpen
-                    : null,
-                ]}>
-                <ArrowSvg width={8} height={12} />
-              </View>
-            </Pressable>
-
-            {isRecurringPaymentMethodDropdownOpen ? (
-              <View style={styles.recurringAddSelectDropdown}>
-                {recurringPaymentMethodOptions.map(option => (
-                  <Pressable
-                    key={option}
-                    style={({pressed}) => [
-                      styles.recurringAddSelectOption,
-                      recurringDraftPaymentMethod === option
-                        ? styles.recurringAddSelectOptionActive
-                        : null,
-                      pressed ? styles.pressed : null,
-                    ]}
-                    onPress={() => handleSelectRecurringPaymentMethod(option)}>
-                    <Text
-                      style={[
-                        styles.recurringAddSelectOptionText,
-                        recurringDraftPaymentMethod === option
-                          ? styles.recurringAddSelectOptionTextActive
-                          : null,
-                      ]}>
-                      {option}
-                    </Text>
-                  </Pressable>
-                ))}
-              </View>
-            ) : null}
-          </View>
-        </View>
-      </View>
-
-      <View style={styles.recurringAddSectionCard}>
-        <View style={styles.recurringAddSectionHeader}>
-          <PlannerPrimarySvg width={18} height={20} />
-          <Text style={styles.recurringAddSectionTitle}>Schedule</Text>
-        </View>
-
-        <View style={styles.recurringAddFieldsGroup}>
-          <View style={styles.recurringAddField}>
-            <Text style={styles.recurringAddFieldLabel}>Frequency</Text>
-            <Pressable
-              style={({pressed}) => [
-                styles.recurringAddSelectShell,
-                pressed ? styles.pressed : null,
-              ]}
-              onPress={handleToggleRecurringFrequency}>
-              <Text style={styles.recurringAddSelectValue}>
-                {recurringDraftFrequency}
-              </Text>
-
-              <View
-                style={[
-                  styles.recurringAddSelectIcon,
-                  isRecurringFrequencyDropdownOpen
-                    ? styles.recurringAddSelectIconOpen
-                    : null,
-                ]}>
-                <ArrowSvg width={8} height={12} />
-              </View>
-            </Pressable>
-
-            {isRecurringFrequencyDropdownOpen ? (
-              <View style={styles.recurringAddSelectDropdown}>
-                {recurringFrequencyOptions.map(option => (
-                  <Pressable
-                    key={option}
-                    style={({pressed}) => [
-                      styles.recurringAddSelectOption,
-                      recurringDraftFrequency === option
-                        ? styles.recurringAddSelectOptionActive
-                        : null,
-                      pressed ? styles.pressed : null,
-                    ]}
-                    onPress={() => handleSelectRecurringFrequency(option)}>
-                    <Text
-                      style={[
-                        styles.recurringAddSelectOptionText,
-                        recurringDraftFrequency === option
-                          ? styles.recurringAddSelectOptionTextActive
-                          : null,
-                      ]}>
-                      {option}
-                    </Text>
-                  </Pressable>
-                ))}
-              </View>
-            ) : null}
-          </View>
-
-          <View style={styles.recurringAddField}>
-            <Text style={styles.recurringAddFieldLabel}>Next Due Date</Text>
-            <View style={styles.recurringAddInputShell}>
-              <TextInput
-                style={styles.recurringAddInput}
-                value={recurringDraftNextDueDate}
-                onChangeText={handleRecurringNextDueDateChange}
-                onFocus={closeRecurringDropdowns}
-                placeholder="11/28/2023"
-                placeholderTextColor="#98A2B3"
-                autoCapitalize="none"
-                autoCorrect={false}
-                selectionColor="#0A5688"
-              />
-            </View>
-          </View>
-        </View>
-      </View>
-
-      <View style={styles.recurringAddSectionCard}>
-        <Pressable
-          style={({pressed}) => [
-            styles.recurringAddReminderRow,
-            pressed ? styles.pressed : null,
-          ]}
-          onPress={handleToggleRecurringSmartReminder}>
-          <View style={styles.recurringAddReminderTextRow}>
-            <RingBellSvg width={20} height={21} />
-            <View style={styles.recurringAddReminderTextBlock}>
-              <Text style={styles.recurringAddReminderTitle}>
-                Smart Reminder
-              </Text>
-              <Text style={styles.recurringAddReminderSubtitle}>
-                Get notified 2 days before due date
-              </Text>
-            </View>
-          </View>
-
-          <View
-            style={[
-              styles.recurringAddReminderToggle,
-              recurringDraftSmartReminder
-                ? styles.recurringAddReminderToggleActive
-                : null,
-            ]}>
-            <View style={styles.recurringAddReminderToggleThumb} />
-          </View>
-        </Pressable>
-
-        <View style={styles.recurringAddNotesBlock}>
-          <Text style={styles.recurringAddFieldLabel}>Notes</Text>
-          <View style={styles.recurringAddNotesInputShell}>
-            <TextInput
-              style={styles.recurringAddNotesInput}
-              value={recurringDraftNotes}
-              onChangeText={handleRecurringNotesChange}
-              onFocus={closeRecurringDropdowns}
-              placeholder="Add notes for this recurring payment..."
-              placeholderTextColor="#98A2B3"
-              multiline
-              textAlignVertical="top"
-              autoCorrect={false}
-              selectionColor="#0A5688"
-            />
-          </View>
-        </View>
-      </View>
-
-      <Pressable
-        style={({pressed}) => [
-          styles.personalDeleteEntryButton,
-          styles.recurringAddDeleteButton,
-          pressed ? styles.pressed : null,
-        ]}
-        onPress={handleDeleteRecurringEntry}>
-        <TrashCompactSvg width={16} height={18} />
-        <Text style={styles.personalDeleteEntryButtonText}>
-          Delete This Entry
-        </Text>
-      </Pressable>
-    </>
+    <RecurringPaymentsAddContent
+      styles={styles}
+      recurringDraftAmount={recurringDraftAmount}
+      recurringDraftPaymentMethod={recurringDraftPaymentMethod}
+      isRecurringPaymentMethodDropdownOpen={
+        isRecurringPaymentMethodDropdownOpen
+      }
+      recurringPaymentMethodOptions={recurringPaymentMethodOptions}
+      recurringDraftFrequency={recurringDraftFrequency}
+      isRecurringFrequencyDropdownOpen={isRecurringFrequencyDropdownOpen}
+      recurringFrequencyOptions={recurringFrequencyOptions}
+      recurringDraftNextDueDate={recurringDraftNextDueDate}
+      recurringDraftNotes={recurringDraftNotes}
+      recurringDraftSmartReminder={recurringDraftSmartReminder}
+      closeRecurringDropdowns={closeRecurringDropdowns}
+      handleRecurringAmountChange={handleRecurringAmountChange}
+      handleToggleRecurringPaymentMethod={handleToggleRecurringPaymentMethod}
+      handleSelectRecurringPaymentMethod={handleSelectRecurringPaymentMethod}
+      handleToggleRecurringFrequency={handleToggleRecurringFrequency}
+      handleSelectRecurringFrequency={handleSelectRecurringFrequency}
+      handleRecurringNextDueDateChange={handleRecurringNextDueDateChange}
+      handleToggleRecurringSmartReminder={handleToggleRecurringSmartReminder}
+      handleRecurringNotesChange={handleRecurringNotesChange}
+      handleDeleteRecurringEntry={handleDeleteRecurringEntry}
+    />
   );
 
   const recurringPaymentsContent = (
-    <>
-      <View style={styles.recurringHeroCard}>
-        <View style={styles.recurringHeroPatternWrap}>
-          <CardPatternSvg width={95} height={90} />
-        </View>
-
-        <Text style={styles.recurringHeroLabel}>Total Monthly Commitment</Text>
-        <Text style={styles.recurringHeroAmount}>
-          {formatCurrency(recurringMonthlyCommitment)}
-        </Text>
-
-        <View style={styles.recurringHeroInfoRow}>
-          <View style={styles.recurringHeroInfoChip}>
-            <Text style={styles.recurringHeroInfoLabel}>Next Payment</Text>
-            <Text style={styles.recurringHeroInfoValue}>
-              {recurringNextPayment}
-            </Text>
-          </View>
-
-          <View style={styles.recurringHeroInfoChip}>
-            <Text style={styles.recurringHeroInfoLabel}>Active Services</Text>
-            <Text style={styles.recurringHeroInfoValue}>
-              {recurringActiveServicesLabel}
-            </Text>
-          </View>
-        </View>
-      </View>
-
-      <View style={styles.recurringAnnualCard}>
-        <Text style={styles.recurringAnnualLabel}>Projected Annual Cost</Text>
-        <Text style={styles.recurringAnnualValue}>
-          {formatCurrency(recurringAnnualCost)}
-        </Text>
-
-        <View style={styles.recurringAnnualTrack}>
-          <View
-            style={[
-              styles.recurringAnnualFill,
-              {width: `${recurringBudgetUsagePercent}%`},
-            ]}
-          />
-        </View>
-
-        <Text style={styles.recurringAnnualHint}>
-          {recurringBudgetUsagePercent}% of lifestyle budget
-        </Text>
-      </View>
-
-      <Text style={styles.recurringSectionTitle}>Active Subscriptions</Text>
-
-      <View style={styles.recurringSubscriptionsList}>
-        {recurringSubscriptions.map(subscription => (
-          <RecurringSubscriptionCard
-            key={subscription.id}
-            {...subscription}
-            onPress={() => openPlaceholder(subscription.name)}
-          />
-        ))}
-      </View>
-
-      <Text style={styles.recurringSectionTitle}>Insights</Text>
-
-      <View style={styles.recurringInsightsList}>
-        {recurringInsights.map(insight => (
-          <RecurringInsightCard key={insight.id} {...insight} />
-        ))}
-      </View>
-    </>
+    <RecurringPaymentsContent
+      styles={styles}
+      openPlaceholder={openPlaceholder}
+    />
   );
 
   const vehicleMaintenanceContent = (
-    <>
-      <View style={styles.vehicleHeroCard}>
-        <View style={styles.vehicleHeroImageWrap}>
-          <VehicleHeroSvg
-            width="100%"
-            height="100%"
-            preserveAspectRatio="xMidYMid slice"
-          />
-        </View>
-
-        <View style={styles.vehicleHeroBody}>
-          <View style={styles.vehicleHeroHeaderRow}>
-            <View>
-              <Text style={styles.vehicleHeroEyebrow}>PRIMARY RECORD</Text>
-            </View>
-
-            <View style={styles.vehicleHeroStatusChip}>
-              <Text style={styles.vehicleHeroStatusText}>Active</Text>
-            </View>
-          </View>
-
-          <Text style={styles.vehicleHeroTitle}>{'Family SUV -\nToyota RAV4'}</Text>
-
-          <View style={styles.vehicleHeroMetaRow}>
-            <View style={styles.vehicleHeroMetaColumn}>
-              <Text style={styles.vehicleHeroMetaLabel}>Registration</Text>
-              <Text style={styles.vehicleHeroMetaValue}>LX71 ABC</Text>
-            </View>
-
-            <View style={styles.vehicleHeroMetaColumn}>
-              <Text style={styles.vehicleHeroMetaLabel}>Last Service</Text>
-              <Text style={styles.vehicleHeroMetaValue}>15 Jan 2024</Text>
-            </View>
-          </View>
-
-          <View style={styles.vehicleMotUrgentCard}>
-            <View style={styles.vehicleMotUrgentLeft}>
-              <WarningTwoSvg width={22} height={19} />
-
-              <View style={styles.vehicleMotUrgentTextWrap}>
-                <Text style={styles.vehicleMotUrgentTitle}>MOT URGENT</Text>
-                <Text style={styles.vehicleMotUrgentValue}>Due: 22 Aug 2025</Text>
-              </View>
-            </View>
-
-            <Pressable
-              style={({pressed}) => [
-                styles.vehicleMotUrgentButton,
-                pressed ? styles.pressed : null,
-              ]}
-              onPress={() => openPlaceholder('Book MOT')}>
-              <Text style={styles.vehicleMotUrgentButtonText}>Book Now</Text>
-            </Pressable>
-          </View>
-        </View>
-      </View>
-
-      <View style={styles.vehicleEfficiencyCard}>
-        <Text style={styles.vehicleEfficiencyLabel}>FUEL EFFICIENCY</Text>
-
-        <View style={styles.vehicleEfficiencyValueRow}>
-          <Text style={styles.vehicleEfficiencyValue}>42.5</Text>
-          <Text style={styles.vehicleEfficiencyUnit}>MPG</Text>
-        </View>
-
-        <View style={styles.vehicleEfficiencyTrack}>
-          <View style={styles.vehicleEfficiencyFill} />
-        </View>
-
-        <Text style={styles.vehicleEfficiencyTrend}>+2.1% from last month</Text>
-      </View>
-
-      <View style={styles.vehicleOdometerCard}>
-        <View>
-          <Text style={styles.vehicleOdometerLabel}>ODOMETER</Text>
-          <Text style={styles.vehicleOdometerValue}>
-            12,482<Text style={styles.vehicleOdometerUnit}>mi</Text>
-          </Text>
-        </View>
-
-        <View style={styles.vehicleOdometerIconWrap}>
-          <SpeedSvg width={27} height={22} />
-        </View>
-      </View>
-
-      <View style={styles.vehicleSectionHeaderRow}>
-        <Text style={styles.vehicleSectionTitle}>Recent Services</Text>
-        <Pressable onPress={() => openPlaceholder('All Recent Services')}>
-          <Text style={styles.vehicleSectionLink}>View All</Text>
-        </Pressable>
-      </View>
-
-      <View style={styles.vehicleRecentServicesCard}>
-        {vehicleRecentServices.map((service, index) => (
-          <React.Fragment key={service.id}>
-            <VehicleRecentServiceRow
-              {...service}
-              onPress={() => openPlaceholder(service.title)}
-            />
-            {index < vehicleRecentServices.length - 1 ? (
-              <View style={styles.vehicleRecentServiceDivider} />
-            ) : null}
-          </React.Fragment>
-        ))}
-      </View>
-
-      <View style={styles.vehicleSectionHeaderRow}>
-        <Text style={styles.vehicleSectionTitle}>Upcoming Maintenance</Text>
-        <Pressable onPress={() => openPlaceholder('Manage Maintenance')}>
-          <Text style={styles.vehicleSectionLink}>Manage</Text>
-        </Pressable>
-      </View>
-
-      <View style={styles.vehicleUpcomingList}>
-        {vehicleUpcomingMaintenance.map(item => (
-          <VehicleUpcomingMaintenanceCard
-            key={item.id}
-            {...item}
-            onPrimaryPress={() => openPlaceholder('Schedule Appointment')}
-            onSecondaryPress={() => openPlaceholder('Remind Me Later')}
-          />
-        ))}
-      </View>
-
-      <View style={styles.vehicleGloveboxCard}>
-        <Text style={styles.vehicleGloveboxTitle}>Digital Glovebox</Text>
-        <Text style={styles.vehicleGloveboxBody}>
-          All your insurance policies, breakdown cover details, and warranty
-          documents stored securely in one place.
-        </Text>
-
-        <View style={styles.vehicleGloveboxActionsRow}>
-          <Pressable
-            style={({pressed}) => [
-              styles.vehicleGloveboxSecondaryButton,
-              pressed ? styles.pressed : null,
-            ]}
-            onPress={() => openPlaceholder('View Docs')}>
-            <WhiteDocIcon />
-            <Text style={styles.vehicleGloveboxSecondaryButtonText}>
-              {'View\nDocs'}
-            </Text>
-          </Pressable>
-
-          <Pressable
-            style={({pressed}) => [
-              styles.vehicleGloveboxPrimaryButton,
-              pressed ? styles.pressed : null,
-            ]}
-            onPress={() => openPlaceholder('Add Files')}>
-            <AddActionSvg width={16} height={16} />
-            <Text style={styles.vehicleGloveboxPrimaryButtonText}>
-              {'Add\nFiles'}
-            </Text>
-          </Pressable>
-        </View>
-      </View>
-    </>
+    <VehicleMaintenanceContent
+      styles={styles}
+      openPlaceholder={openPlaceholder}
+    />
   );
 
   const vehicleMaintenanceAddContent = (
-    <>
-      <View style={styles.vehicleAddHeroCard}>
-        <View style={styles.vehicleAddHeroImageWrap}>
-          <CarTwoSvg
-            width="100%"
-            height="100%"
-            preserveAspectRatio="xMidYMid meet"
-          />
-        </View>
-
-        <View style={styles.vehicleAddHeroBadge}>
-          <Text style={styles.vehicleAddHeroBadgeText}>ACTIVE ASSET</Text>
-        </View>
-
-        <Text style={styles.vehicleAddHeroTitle}>
-          {vehicleDraftName || 'Family SUV'}
-        </Text>
-
-        <View style={styles.vehicleAddHeroMetaRow}>
-          <CarThreeSvg width={14} height={14} />
-          <Text style={styles.vehicleAddHeroMetaText}>
-            {(vehicleDraftMakeModel || 'Toyota RAV4').trim()}
-            {' \u2022 '}
-            {(vehicleDraftRegistration || 'LX71 ABC').trim()}
-          </Text>
-        </View>
-      </View>
-
-      <View style={styles.vehicleAddFieldCard}>
-        <Text style={styles.vehicleAddFieldLabel}>Vehicle Name</Text>
-        <View style={styles.vehicleAddInputShell}>
-          <TextInput
-            style={styles.vehicleAddInput}
-            value={vehicleDraftName}
-            onChangeText={setVehicleDraftName}
-            placeholder="Family SUV"
-            placeholderTextColor="#8A94A6"
-            autoCapitalize="words"
-            autoCorrect={false}
-            selectionColor="#0A5688"
-          />
-        </View>
-      </View>
-
-      <View style={styles.vehicleAddFieldCard}>
-        <Text style={styles.vehicleAddFieldLabel}>Make / Model</Text>
-        <View style={styles.vehicleAddInputShell}>
-          <TextInput
-            style={styles.vehicleAddInput}
-            value={vehicleDraftMakeModel}
-            onChangeText={setVehicleDraftMakeModel}
-            placeholder="Toyota RAV4"
-            placeholderTextColor="#8A94A6"
-            autoCapitalize="words"
-            autoCorrect={false}
-            selectionColor="#0A5688"
-          />
-        </View>
-      </View>
-
-      <View style={styles.vehicleAddFieldCard}>
-        <Text style={styles.vehicleAddFieldLabel}>Registration</Text>
-        <View style={styles.vehicleAddInputShell}>
-          <TextInput
-            style={styles.vehicleAddInput}
-            value={vehicleDraftRegistration}
-            onChangeText={setVehicleDraftRegistration}
-            placeholder="LX71 ABC"
-            placeholderTextColor="#8A94A6"
-            autoCapitalize="characters"
-            autoCorrect={false}
-            selectionColor="#0A5688"
-          />
-        </View>
-      </View>
-
-      <View style={styles.vehicleAddCard}>
-        <Text style={styles.vehicleAddSectionTitle}>Maintenance Deadlines</Text>
-        <View style={styles.vehicleAddSectionDivider} />
-
-        <View style={styles.vehicleAddField}>
-          <Text style={styles.vehicleAddFieldLabel}>Last Service Date</Text>
-          <View style={styles.vehicleAddInputShell}>
-            <TextInput
-              style={styles.vehicleAddInput}
-              value={vehicleDraftLastServiceDate}
-              onChangeText={setVehicleDraftLastServiceDate}
-              placeholder="03/15/2024"
-              placeholderTextColor="#8A94A6"
-              autoCapitalize="none"
-              autoCorrect={false}
-              selectionColor="#0A5688"
-            />
-          </View>
-        </View>
-
-        <View style={styles.vehicleAddFieldLast}>
-          <Text style={styles.vehicleAddFieldLabel}>MOT Due Date</Text>
-          <View style={styles.vehicleAddInputShell}>
-            <TextInput
-              style={[styles.vehicleAddInput, styles.vehicleAddInputAlert]}
-              value={vehicleDraftMotDueDate}
-              onChangeText={setVehicleDraftMotDueDate}
-              placeholder="08/22/2025"
-              placeholderTextColor="#D92D20"
-              autoCapitalize="none"
-              autoCorrect={false}
-              selectionColor="#0A5688"
-            />
-          </View>
-        </View>
-
-        <View style={styles.vehicleAddComplianceBlock}>
-          <View style={styles.vehicleAddComplianceTrack}>
-            <View style={styles.vehicleAddComplianceFill} />
-          </View>
-          <Text style={styles.vehicleAddComplianceHint}>
-            75% through current service interval. 143 days remaining.
-          </Text>
-        </View>
-      </View>
-
-      <View style={styles.vehicleAddCard}>
-        <Text style={styles.vehicleAddUploadSectionTitle}>
-          Document Upload (Logbook/V5C)
-        </Text>
-
-        <Pressable
-          style={({pressed}) => [
-            styles.vehicleAddUploadArea,
-            pressed ? styles.pressed : null,
-          ]}
-          onPress={handleBrowseVehicleDocument}>
-          <UploadDocumentSvg width={30} height={36} />
-          <Text style={styles.vehicleAddUploadTitle}>
-            {'Click to upload or drag\nand drop'}
-          </Text>
-          <Text style={styles.vehicleAddUploadSubtitle}>
-            PDF, JPG, or PNG up to 10MB
-          </Text>
-        </Pressable>
-
-        {hasUploadedVehicleDocument ? (
-          <View style={styles.vehicleAddUploadFileCard}>
-            <View style={styles.vehicleAddUploadFileInfo}>
-              <DocSvg width={16} height={20} />
-              <View style={styles.vehicleAddUploadFileTextWrap}>
-                <Text style={styles.vehicleAddUploadFileName}>
-                  v5c_logbook_final.pdf
-                </Text>
-                <Text style={styles.vehicleAddUploadFileMeta}>
-                  2.4 MB • Uploaded 12 May 2024
-                </Text>
-              </View>
-            </View>
-
-            <Pressable
-              style={({pressed}) => [
-                styles.vehicleAddUploadFileDeleteButton,
-                pressed ? styles.pressed : null,
-              ]}
-              onPress={handleDeleteVehicleDocument}>
-              <TrashSvg width={16} height={18} />
-            </Pressable>
-          </View>
-        ) : null}
-      </View>
-
-      <View style={styles.vehicleAddCard}>
-        <Text style={styles.vehicleAddFieldLabel}>Maintenance Notes</Text>
-        <View style={styles.vehicleAddNotesShell}>
-          <TextInput
-            style={styles.vehicleAddNotesInput}
-            value={vehicleDraftNotes}
-            onChangeText={setVehicleDraftNotes}
-            placeholder="Add maintenance history or service notes here..."
-            placeholderTextColor="#8A94A6"
-            multiline
-            textAlignVertical="top"
-            autoCorrect={false}
-            selectionColor="#0A5688"
-          />
-        </View>
-      </View>
-
-      <Pressable
-        style={({pressed}) => [
-          styles.vehicleAddDeleteButton,
-          pressed ? styles.pressed : null,
-        ]}
-        onPress={handleDeleteVehicleEntry}>
-        <TrashCompactSvg width={14} height={16} />
-        <Text style={styles.vehicleAddDeleteButtonText}>
-          Delete Vehicle Record
-        </Text>
-      </Pressable>
-    </>
+    <VehicleMaintenanceAddContent
+      styles={styles}
+      vehicleDraftName={vehicleDraftName}
+      setVehicleDraftName={setVehicleDraftName}
+      vehicleDraftMakeModel={vehicleDraftMakeModel}
+      setVehicleDraftMakeModel={setVehicleDraftMakeModel}
+      vehicleDraftRegistration={vehicleDraftRegistration}
+      setVehicleDraftRegistration={setVehicleDraftRegistration}
+      vehicleDraftLastServiceDate={vehicleDraftLastServiceDate}
+      setVehicleDraftLastServiceDate={setVehicleDraftLastServiceDate}
+      vehicleDraftMotDueDate={vehicleDraftMotDueDate}
+      setVehicleDraftMotDueDate={setVehicleDraftMotDueDate}
+      hasUploadedVehicleDocument={hasUploadedVehicleDocument}
+      handleBrowseVehicleDocument={handleBrowseVehicleDocument}
+      handleDeleteVehicleDocument={handleDeleteVehicleDocument}
+      vehicleDraftNotes={vehicleDraftNotes}
+      setVehicleDraftNotes={setVehicleDraftNotes}
+      handleDeleteVehicleEntry={handleDeleteVehicleEntry}
+    />
   );
 
   const insurancePoliciesContent = (
-    <>
-      <View style={styles.insurancePolicyCard}>
-        <View style={styles.insuranceHeroImageWrap}>
-          <ModernHomeExteriorSvg
-            width="100%"
-            height="100%"
-            preserveAspectRatio="xMidYMid slice"
-          />
-
-          <View style={styles.insuranceActiveChip}>
-            <Text style={styles.insuranceActiveChipText}>ACTIVE</Text>
-          </View>
-        </View>
-
-        <View style={styles.insurancePolicyBody}>
-          <View style={styles.insurancePolicyTitleRow}>
-            <Text style={styles.insurancePolicyTitle}>
-              {'Home &\nContents - AXA'}
-            </Text>
-
-            <Pressable
-              style={({pressed}) => [
-                styles.insuranceRenewChip,
-                pressed ? styles.pressed : null,
-              ]}
-              onPress={() => openPlaceholder('Renew Home Policy')}>
-              <RenewSvg width={14} height={15} />
-              <Text style={styles.insuranceRenewChipText}>
-                {'Renew\nSoon'}
-              </Text>
-            </Pressable>
-          </View>
-
-          <View style={styles.insurancePolicyNumberRow}>
-            <ShieldSvg width={11} height={14} />
-            <Text style={styles.insurancePolicyNumber}>
-              Policy #: HE-28491
-            </Text>
-          </View>
-
-          <View style={styles.insurancePolicyMetaRow}>
-            <View style={styles.insurancePolicyMetaCard}>
-              <Text style={styles.insurancePolicyMetaLabel}>Renewal Date</Text>
-              <Text style={styles.insurancePolicyMetaValue}>14 Mar 2026</Text>
-            </View>
-
-            <View style={styles.insurancePolicyMetaCard}>
-              <Text style={styles.insurancePolicyMetaLabel}>Annual Premium</Text>
-              <Text style={styles.insurancePolicyMetaValue}>$1,240.00</Text>
-            </View>
-          </View>
-
-          <View style={styles.insurancePolicyActionsRow}>
-            <Pressable
-              style={({pressed}) => [
-                styles.insurancePrimaryActionButton,
-                pressed ? styles.pressed : null,
-              ]}
-              onPress={() => openPlaceholder('Download Certificate')}>
-              <Text style={styles.insurancePrimaryActionText}>
-                Download Certificate
-              </Text>
-            </Pressable>
-
-            <Pressable
-              style={({pressed}) => [
-                styles.insuranceSecondaryActionButton,
-                pressed ? styles.pressed : null,
-              ]}
-              onPress={() => openPlaceholder('Manage Insurance Policy')}>
-              <Text style={styles.insuranceSecondaryActionText}>Manage</Text>
-            </Pressable>
-          </View>
-        </View>
-      </View>
-
-      <View style={styles.insuranceCoverageCard}>
-        <View style={styles.insuranceSectionHeaderRow}>
-          <CoverageSvg width={20} height={18} />
-          <Text style={styles.insuranceSectionTitle}>Coverage Highlights</Text>
-        </View>
-
-        <View style={styles.insuranceCoverageList}>
-          {insuranceCoverageItems.map(item => (
-            <InsuranceCoverageItem key={item.id} {...item} />
-          ))}
-        </View>
-      </View>
-
-      <View style={styles.insuranceAssociatedHeaderRow}>
-        <Text style={styles.insuranceAssociatedTitle}>Associated Policies</Text>
-        <Text style={styles.insuranceAssociatedCount}>3 Total Records</Text>
-      </View>
-
-      <View style={styles.insuranceAssociatedList}>
-        {insuranceAssociatedPolicies.map(policy => (
-          <InsuranceAssociatedPolicyCard
-            key={policy.id}
-            {...policy}
-            onPress={() => openPlaceholder(policy.title)}
-          />
-        ))}
-      </View>
-    </>
+    <InsurancePoliciesContent
+      styles={styles}
+      openPlaceholder={openPlaceholder}
+    />
   );
 
   const healthFitnessContent = (
-    <>
-      <Pressable
-        style={({pressed}) => [
-          styles.healthPrimaryCard,
-          pressed ? styles.pressed : null,
-        ]}
-        onPress={() => openPlaceholder('Primary Care')}>
-        <FadeSvg
-          width={148}
-          height={148}
-          style={styles.healthPrimaryBackgroundMark}
-        />
+    <HealthFitnessContent styles={styles} openPlaceholder={openPlaceholder} />
+  );
 
-        <View style={styles.healthPrimaryCardContent}>
-          <ShieldTwoSvg width={96} height={96} />
+  const importantDatesContent = (
+    <ImportantDatesContent openPlaceholder={openPlaceholder} />
+  );
 
-          <View style={styles.healthPrimaryTitleRow}>
-            <Text style={styles.healthPrimaryTitle}>Primary Care</Text>
-            <View style={styles.healthVerifiedChip}>
-              <Text style={styles.healthVerifiedChipText}>Verified</Text>
-            </View>
-          </View>
-
-          <View style={styles.healthPrimaryMetaRow}>
-            <NameSvg width={14} height={17} />
-            <Text style={styles.healthPrimaryMetaText}>Dr. H. Patel (GP)</Text>
-          </View>
-
-          <View style={styles.healthPrimaryMetaRow}>
-            <BloodSvg width={14} height={17} />
-            <Text style={styles.healthPrimaryMetaText}>Blood Type: O+</Text>
-          </View>
-        </View>
-      </Pressable>
-
-      <View style={styles.healthUtilityCard}>
-        <PillSvg width={42} height={42} />
-        <View style={styles.healthUtilityCopy}>
-          <Text style={styles.healthUtilityLabel}>Medications</Text>
-          <Text style={styles.healthMedicationValue}>
-            Atorvastatin 10mg daily
-          </Text>
-        </View>
-      </View>
-
-      <View style={styles.healthUtilityCard}>
-        <GymSvg width={44} height={44} />
-        <View style={styles.healthUtilityCopy}>
-          <Text style={styles.healthUtilityLabel}>Weekly Goal</Text>
-          <View style={styles.healthGoalRow}>
-            <View style={styles.healthGoalTrack}>
-              <View
-                style={[
-                  styles.healthGoalFill,
-                  {width: `${healthWeeklyGoalPercent}%`},
-                ]}
-              />
-            </View>
-            <Text style={styles.healthGoalPercent}>
-              {healthWeeklyGoalPercent}%
-            </Text>
-          </View>
-        </View>
-      </View>
-
-      <View style={styles.healthCheckupsCard}>
-        <View style={styles.healthSectionHeader}>
-          <Text style={styles.healthSectionTitle}>Recent Checkups</Text>
-          <Pressable onPress={() => openPlaceholder('All Recent Checkups')}>
-            <Text style={styles.healthSectionLink}>View All</Text>
-          </Pressable>
-        </View>
-
-        <View style={styles.healthCheckupsList}>
-          {healthCheckups.map((checkup, index) => (
-            <HealthCheckupRow
-              key={checkup.id}
-              {...checkup}
-              showDivider={index > 0}
-              onPress={() => openPlaceholder(checkup.title)}
-            />
-          ))}
-        </View>
-      </View>
-
-      <View style={styles.healthAnalysisCard}>
-        <ClinicalLabEquipmentSvg
-          width="100%"
-          height="100%"
-          preserveAspectRatio="xMidYMid slice"
-          style={styles.healthAnalysisArtwork}
-        />
-        <View style={styles.healthAnalysisTint} />
-        <HealthAnalysisGradient />
-
-        <View style={styles.healthAnalysisContent}>
-          <Text style={styles.healthAnalysisLabel}>LATEST ANALYSIS</Text>
-          <Text style={styles.healthAnalysisTitle}>Full Blood Count</Text>
-          <Text style={styles.healthAnalysisBody}>
-            {'Results uploaded 2 days ago. Stable\nacross all markers.'}
-          </Text>
-
-          <Pressable
-            style={({pressed}) => [
-              styles.healthAnalysisButton,
-              pressed ? styles.pressed : null,
-            ]}
-            onPress={() => openPlaceholder('Full Blood Count PDF')}>
-            <Text style={styles.healthAnalysisButtonText}>View PDF</Text>
-          </Pressable>
-        </View>
-      </View>
-
-      <View style={styles.healthHeartRateCard}>
-        <View style={styles.healthHeartRateTopRow}>
-          <WatchSvg width={14} height={20} />
-
-          <View style={styles.healthHeartRateSyncChip}>
-            <Text style={styles.healthHeartRateSyncText}>SYNCED</Text>
-          </View>
-        </View>
-
-        <Text style={styles.healthHeartRateLabel}>Resting Heart Rate</Text>
-
-        <View style={styles.healthHeartRateValueRow}>
-          <Text style={styles.healthHeartRateValue}>58</Text>
-          <Text style={styles.healthHeartRateUnit}>BPM</Text>
-        </View>
-
-        <View style={styles.healthHeartRateTrendRow}>
-          <ProgressSvg width={12} height={7} />
-          <Text style={styles.healthHeartRateTrendText}>
-            3% lower than last week
-          </Text>
-        </View>
-      </View>
-    </>
+  const importantDatesAddContent = (
+    <ImportantDatesAddContent
+      openPlaceholder={openPlaceholder}
+      handleDeleteImportantDateEntry={handleDeleteImportantDateEntry}
+    />
   );
 
   const healthFitnessAddContent = (
-    <>
-      <View style={styles.healthAddOverviewSection}>
-        <View style={styles.healthAddHeroCard}>
-          <View style={styles.healthAddHeroRow}>
-            <View style={styles.healthAddHeroIconWrap}>
-              <HealthProfileGlyph />
-            </View>
-
-            <View style={styles.healthAddHeroTextWrap}>
-              <Text style={styles.healthAddHeroTitle}>Health Profile</Text>
-              <Text style={styles.healthAddHeroBody}>
-                Update your medical record and wellness goals.
-              </Text>
-            </View>
-          </View>
-        </View>
-
-        <View style={styles.healthAddBasicInfoCard}>
-          <View style={styles.healthAddField}>
-            <Text style={styles.healthAddFieldLabel}>Provider/Topic</Text>
-            <View style={styles.healthAddInputShell}>
-              <TextInput
-                style={styles.healthAddInput}
-                value={healthDraftProviderTopic}
-                onChangeText={setHealthDraftProviderTopic}
-                placeholder="Primary Care"
-                placeholderTextColor="#8A94A6"
-                autoCapitalize="words"
-                autoCorrect={false}
-                selectionColor="#0A5688"
-              />
-            </View>
-          </View>
-
-          <View style={styles.healthAddFieldLast}>
-            <Text style={styles.healthAddFieldLabel}>Contact</Text>
-            <View style={styles.healthAddInputShell}>
-              <TextInput
-                style={styles.healthAddInput}
-                value={healthDraftContact}
-                onChangeText={setHealthDraftContact}
-                placeholder="Dr. H. Patel"
-                placeholderTextColor="#8A94A6"
-                autoCapitalize="words"
-                autoCorrect={false}
-                selectionColor="#0A5688"
-              />
-            </View>
-          </View>
-        </View>
-
-        <View style={styles.healthAddBloodCard}>
-          <Text style={styles.healthAddBloodLabel}>Blood Type</Text>
-
-        <View style={styles.healthAddBloodValueRow}>
-          <Text style={styles.healthAddBloodValue}>O+</Text>
-          <View style={styles.healthAddBloodIconWrap}>
-            <BloodTwoSvg width={13.33} height={16.67} />
-          </View>
-        </View>
-
-          <Text style={styles.healthAddBloodNote}>Universal Donor</Text>
-        </View>
-      </View>
-
-      <View style={styles.healthAddDetailsCard}>
-        <View style={styles.healthAddTextareaField}>
-          <Text style={styles.healthAddFieldLabel}>Medications</Text>
-          <View style={styles.healthAddTextareaShell}>
-            <TextInput
-              style={styles.healthAddTextareaInput}
-              value={healthDraftMedications}
-              onChangeText={setHealthDraftMedications}
-              placeholder="List medications"
-              placeholderTextColor="#8A94A6"
-              multiline
-              textAlignVertical="top"
-              autoCorrect={false}
-              selectionColor="#0A5688"
-            />
-          </View>
-        </View>
-
-        <View style={styles.healthAddGoalSection}>
-          <View style={styles.healthAddGoalHeader}>
-            <Text style={styles.healthAddGoalLabel}>Weekly Goal</Text>
-            <Text style={styles.healthAddGoalPercent}>
-              {healthDraftWeeklyGoalPercent}
-            </Text>
-          </View>
-
-          <View style={styles.healthAddGoalTrack}>
-            <View
-              style={[
-                styles.healthAddGoalFill,
-                {width: `${healthDraftWeeklyGoalProgress}%`},
-              ]}
-            />
-          </View>
-
-          <View style={styles.healthAddInputShell}>
-            <TextInput
-              style={styles.healthAddInput}
-              value={healthDraftWeeklyGoalText}
-              onChangeText={setHealthDraftWeeklyGoalText}
-              placeholder="150 mins cardio"
-              placeholderTextColor="#8A94A6"
-              autoCapitalize="sentences"
-              autoCorrect={false}
-              selectionColor="#0A5688"
-            />
-          </View>
-        </View>
-      </View>
-
-      <View style={styles.healthAddUploadCard}>
-        <Text style={styles.healthAddFieldLabel}>Medical Reports</Text>
-
-        <View style={styles.healthAddUploadRow}>
-          <Pressable
-            style={({pressed}) => [
-              styles.healthAddUploadAction,
-              pressed ? styles.pressed : null,
-            ]}
-            onPress={handleBrowseHealthReport}>
-            <UploadDocumentSvg width={20} height={25} />
-            <Text style={styles.healthAddUploadActionText}>Upload PDF</Text>
-          </Pressable>
-
-          <View style={styles.healthAddUploadPreviewCard}>
-            {hasUploadedHealthReport ? (
-              <EditBackgroundSvg
-                width="100%"
-                height="100%"
-                preserveAspectRatio="xMidYMid slice"
-              />
-            ) : (
-              <View style={styles.healthAddUploadPreviewEmpty} />
-            )}
-          </View>
-        </View>
-      </View>
-
-      <View style={styles.healthAddControlsCard}>
-        <View style={styles.healthAddReminderRow}>
-          <View style={styles.healthAddReminderCopy}>
-            <BellSvg width={20} height={21} />
-
-            <View style={styles.healthAddReminderTextWrap}>
-              <Text style={styles.healthAddReminderTitle}>Reminders</Text>
-              <Text style={styles.healthAddReminderBody}>
-                Daily medication alerts
-              </Text>
-            </View>
-          </View>
-
-          <Pressable
-            style={[
-              styles.healthAddReminderToggle,
-              healthDraftRemindersEnabled
-                ? styles.healthAddReminderToggleActive
-                : null,
-            ]}
-            onPress={handleToggleHealthReminders}>
-            <View
-              style={[
-                styles.healthAddReminderThumb,
-                healthDraftRemindersEnabled
-                  ? styles.healthAddReminderThumbActive
-                  : null,
-              ]}
-            />
-          </Pressable>
-        </View>
-
-        <View style={styles.healthAddDivider} />
-
-        <View style={styles.healthAddNotesSection}>
-          <Text style={styles.healthAddFieldLabel}>Notes</Text>
-
-          <View style={styles.healthAddNotesShell}>
-            <TextInput
-              style={styles.healthAddNotesInput}
-              value={healthDraftNotes}
-              onChangeText={setHealthDraftNotes}
-              placeholder="Add relevant health notes..."
-              placeholderTextColor="#8A94A6"
-              multiline
-              textAlignVertical="top"
-              autoCorrect={false}
-              selectionColor="#0A5688"
-            />
-          </View>
-        </View>
-      </View>
-
-      <View style={styles.healthAddDangerZone}>
-        <Pressable
-          style={({pressed}) => [
-            styles.healthAddDeleteButton,
-            pressed ? styles.pressed : null,
-          ]}
-          onPress={handleDeleteHealthEntry}>
-          <TrashCompactSvg width={16} height={18} />
-          <Text style={styles.healthAddDeleteButtonText}>Delete Entry</Text>
-        </Pressable>
-      </View>
-    </>
+    <HealthFitnessAddContent
+      styles={styles}
+      healthDraftProviderTopic={healthDraftProviderTopic}
+      setHealthDraftProviderTopic={setHealthDraftProviderTopic}
+      healthDraftContact={healthDraftContact}
+      setHealthDraftContact={setHealthDraftContact}
+      healthDraftMedications={healthDraftMedications}
+      setHealthDraftMedications={setHealthDraftMedications}
+      healthDraftWeeklyGoalPercent={healthDraftWeeklyGoalPercent}
+      healthDraftWeeklyGoalProgress={healthDraftWeeklyGoalProgress}
+      healthDraftWeeklyGoalText={healthDraftWeeklyGoalText}
+      setHealthDraftWeeklyGoalText={setHealthDraftWeeklyGoalText}
+      hasUploadedHealthReport={hasUploadedHealthReport}
+      handleBrowseHealthReport={handleBrowseHealthReport}
+      healthDraftRemindersEnabled={healthDraftRemindersEnabled}
+      handleToggleHealthReminders={handleToggleHealthReminders}
+      healthDraftNotes={healthDraftNotes}
+      setHealthDraftNotes={setHealthDraftNotes}
+      handleDeleteHealthEntry={handleDeleteHealthEntry}
+    />
   );
 
   const insurancePoliciesAddContent = (
-    <>
-      <View style={styles.insuranceAddIntro}>
-        <Text style={styles.insuranceAddEyebrow}>POLICY MANAGEMENT</Text>
-        <Text style={styles.insuranceAddTitle}>
-          {insuranceDraftPolicyName || 'Home & Contents'}
-        </Text>
-      </View>
-
-      <View style={styles.insuranceAddCard}>
-        <View style={styles.insuranceAddField}>
-          <Text style={styles.insuranceAddFieldLabel}>Policy Name</Text>
-          <View style={styles.insuranceAddInputShell}>
-            <TextInput
-              style={styles.insuranceAddInput}
-              value={insuranceDraftPolicyName}
-              onChangeText={setInsuranceDraftPolicyName}
-              placeholder="Home & Contents"
-              placeholderTextColor="#8A94A6"
-              autoCapitalize="words"
-              autoCorrect={false}
-              selectionColor="#0A5688"
-            />
-          </View>
-        </View>
-
-        <View style={styles.insuranceAddField}>
-          <Text style={styles.insuranceAddFieldLabel}>Provider</Text>
-          <View style={styles.insuranceAddInputShell}>
-            <TextInput
-              style={styles.insuranceAddInput}
-              value={insuranceDraftProvider}
-              onChangeText={setInsuranceDraftProvider}
-              placeholder="AXA"
-              placeholderTextColor="#8A94A6"
-              autoCapitalize="words"
-              autoCorrect={false}
-              selectionColor="#0A5688"
-            />
-          </View>
-        </View>
-
-        <View style={styles.insuranceAddField}>
-          <Text style={styles.insuranceAddFieldLabel}>Policy Number</Text>
-          <View style={styles.insuranceAddInputShell}>
-            <TextInput
-              style={styles.insuranceAddInput}
-              value={insuranceDraftPolicyNumber}
-              onChangeText={setInsuranceDraftPolicyNumber}
-              placeholder="e.g. AX-123456789"
-              placeholderTextColor="#8A94A6"
-              autoCapitalize="characters"
-              autoCorrect={false}
-              selectionColor="#0A5688"
-            />
-          </View>
-        </View>
-
-        <View style={styles.insuranceAddFieldLast}>
-          <Text style={styles.insuranceAddFieldLabel}>Renewal Date</Text>
-          <Pressable
-            style={({pressed}) => [
-              styles.insuranceAddDateInputShell,
-              pressed ? styles.pressed : null,
-            ]}
-            onPress={() => openPlaceholder('Select Renewal Date')}>
-            <Text style={styles.insuranceAddInput}>
-              {insuranceDraftRenewalDate}
-            </Text>
-            <PlannerSvg width={18} height={20} />
-          </Pressable>
-        </View>
-      </View>
-
-      <View style={styles.insuranceAddCard}>
-        <View style={styles.insuranceAddFieldLast}>
-          <Text style={styles.insuranceAddFieldLabel}>Annual Premium Amount</Text>
-          <View style={styles.insuranceAddInputShell}>
-            <TextInput
-              style={styles.insuranceAddInput}
-              value={insuranceDraftAnnualPremium}
-              onChangeText={setInsuranceDraftAnnualPremium}
-              placeholder="$0.00"
-              placeholderTextColor="#8A94A6"
-              autoCapitalize="none"
-              autoCorrect={false}
-              selectionColor="#0A5688"
-            />
-          </View>
-        </View>
-
-        <Pressable
-          style={({pressed}) => [
-            styles.insuranceAddReminderCard,
-            pressed ? styles.pressed : null,
-          ]}
-          onPress={handleToggleInsuranceRenewalReminder}>
-          <View style={styles.insuranceAddReminderTextWrap}>
-            <Text style={styles.insuranceAddReminderTitle}>Renewal Reminder</Text>
-            <Text style={styles.insuranceAddReminderSubtitle}>
-              Notify me 30 days before
-            </Text>
-          </View>
-
-          <View
-            style={[
-              styles.insuranceAddReminderToggle,
-              insuranceDraftRenewalReminder
-                ? styles.insuranceAddReminderToggleActive
-                : null,
-            ]}>
-            <View style={styles.insuranceAddReminderThumb} />
-          </View>
-        </Pressable>
-      </View>
-
-      <View style={styles.insuranceAddCard}>
-        <Text style={styles.insuranceAddSectionTitle}>Policy Documents</Text>
-
-        <Pressable
-          style={({pressed}) => [
-            styles.insuranceAddUploadArea,
-            pressed ? styles.pressed : null,
-          ]}
-          onPress={() => openPlaceholder('Upload Policy Certificate')}>
-          <CetificateSvg width={32} height={40} />
-          <Text style={styles.insuranceAddUploadTitle}>
-            Drop your certificate here
-          </Text>
-          <Text style={styles.insuranceAddUploadSubtitle}>
-            Supports PDF, PNG, JPG up to 10MB
-          </Text>
-        </Pressable>
-      </View>
-
-      <View style={styles.insuranceAddCard}>
-        <Text style={styles.insuranceAddNotesLabel}>Internal Notes</Text>
-
-        <View style={styles.insuranceAddNotesShell}>
-          <TextInput
-            style={styles.insuranceAddNotesInput}
-            value={insuranceDraftNotes}
-            onChangeText={setInsuranceDraftNotes}
-            placeholder="Add any specific details or claim history notes here..."
-            placeholderTextColor="#8A94A6"
-            multiline
-            textAlignVertical="top"
-            autoCorrect={false}
-            selectionColor="#0A5688"
-          />
-        </View>
-      </View>
-
-      <View style={styles.insuranceAddFooterDivider} />
-
-      <Pressable
-        style={({pressed}) => [
-          styles.insuranceAddDeleteButton,
-          pressed ? styles.pressed : null,
-        ]}
-        onPress={handleDeleteInsuranceEntry}>
-        <TrashCompactSvg width={16} height={18} />
-        <Text style={styles.insuranceAddDeleteButtonText}>
-          Delete Policy Entry
-        </Text>
-      </Pressable>
-    </>
+    <InsurancePoliciesAddContent
+      styles={styles}
+      insuranceDraftPolicyName={insuranceDraftPolicyName}
+      setInsuranceDraftPolicyName={setInsuranceDraftPolicyName}
+      insuranceDraftProvider={insuranceDraftProvider}
+      setInsuranceDraftProvider={setInsuranceDraftProvider}
+      insuranceDraftPolicyNumber={insuranceDraftPolicyNumber}
+      setInsuranceDraftPolicyNumber={setInsuranceDraftPolicyNumber}
+      insuranceDraftRenewalDate={insuranceDraftRenewalDate}
+      insuranceDraftAnnualPremium={insuranceDraftAnnualPremium}
+      setInsuranceDraftAnnualPremium={setInsuranceDraftAnnualPremium}
+      insuranceDraftRenewalReminder={insuranceDraftRenewalReminder}
+      handleToggleInsuranceRenewalReminder={
+        handleToggleInsuranceRenewalReminder
+      }
+      insuranceDraftNotes={insuranceDraftNotes}
+      setInsuranceDraftNotes={setInsuranceDraftNotes}
+      handleDeleteInsuranceEntry={handleDeleteInsuranceEntry}
+      openPlaceholder={openPlaceholder}
+    />
   );
 
   return (
@@ -4259,7 +1651,9 @@ function HomeScreen(): React.JSX.Element {
                 : isVehicleMaintenanceAddView
                 ? vehicleMaintenanceAddContent
                 : isHealthFitnessAddView
-                ? healthFitnessAddContent
+              ? healthFitnessAddContent
+                : isImportantDatesAddView
+                ? importantDatesAddContent
                 : isInsurancePoliciesAddView
                 ? insurancePoliciesAddContent
                 : isRecurringPaymentsView
@@ -4270,6 +1664,8 @@ function HomeScreen(): React.JSX.Element {
                 ? insurancePoliciesContent
                 : isHealthFitnessView
                 ? healthFitnessContent
+                : isImportantDatesView
+                ? importantDatesContent
                 : isBankingCardsView
                 ? bankingContent
                 : isPersonalIdentityView
