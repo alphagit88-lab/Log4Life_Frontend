@@ -1,26 +1,39 @@
 import React, {useState} from 'react';
 import {
   Alert,
+  Image,
   Pressable,
   ScrollView,
+  Share,
   StyleSheet,
   Text,
   useWindowDimensions,
   View,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import Svg, {Path} from 'react-native-svg';
 import {useAuth} from '../context/AuthContext';
 import ArrowSvg from '../images/arrow.svg';
 import BackSvg from '../images/back.svg';
+import BellSvg from '../images/bell.svg';
 import BackgroundSvg from '../images/background.svg';
 import ButtonSvg from '../images/Button.svg';
 import BucketSvg from '../images/bucket.svg';
 import CarSvg from '../images/car.svg';
+import CabinSvg from '../images/cabin.svg';
+import CategorySvg from '../images/category.svg';
 import CollectionSvg from '../images/collection.svg';
+import Clock2Svg from '../images/clock_2.svg';
+import ClockSvg from '../images/clock.svg';
+import DateCriticalSvg from '../images/date_critical.svg';
 import DateSvg from '../images/date.svg';
+import Date2Svg from '../images/date_2.svg';
+import Date3Svg from '../images/date_3.svg';
 import DatesSvg from '../images/dates.svg';
 import DefenceSvg from '../images/defence.svg';
 import FitnessSvg from '../images/fitness.svg';
+import GlobleSvg from '../images/globle.svg';
+import GraduationSvg from '../images/graduation.svg';
 import HealthSvg from '../images/health.svg';
 import HiSvg from '../images/HI.svg';
 import HomeNonSvg from '../images/home_non.svg';
@@ -28,6 +41,7 @@ import HomeSelectSvg from '../images/home_select.svg';
 import DividerSvg from '../images/Horizontal Divider.svg';
 import InsuranceSvg from '../images/insurance.svg';
 import JournelSvg from '../images/journel.svg';
+import KilimanjaroSvg from '../images/Kilimanjaro.svg';
 import LocationSvg from '../images/location.svg';
 import MaintainceSvg from '../images/maintaince.svg';
 import NotificationSvg from '../images/notification.svg';
@@ -36,22 +50,37 @@ import PersonalSvg from '../images/personal.svg';
 import PetsSvg from '../images/pets.svg';
 import PhotoSvg from '../images/photo.svg';
 import PlanSvg from '../images/plan.svg';
+import PlannerActiveSvg from '../images/planner_active.svg';
 import PlannerSvg from '../images/planner.svg';
 import PlusSvg from '../images/plus.svg';
-import ProfileSvg from '../images/profile.svg';
+import ProgrammingSvg from '../images/programming.svg';
+import PremiumSvg from '../images/premium.svg';
+import Profile2Svg from '../images/profile_2.svg';
 import RecurringSvg from '../images/recurring.svg';
 import RecordsSvg from '../images/records.svg';
 import RecordsNonSvg from '../images/records_non.svg';
 import RecordsSelectedSvg from '../images/records_selected.svg';
 import ReminderSvg from '../images/reminder.svg';
+import ReminderActiveSvg from '../images/reminder_active.svg';
 import RemindersSvg from '../images/reminders.svg';
+import RightSvg from '../images/right.svg';
 import SavingsSvg from '../images/savings.svg';
 import SearchGraySvg from '../images/search_gray.svg';
 import SearchSvg from '../images/search.svg';
+import SarahJohnsonSvg from '../images/Sarah Johnson.svg';
+import Security1Svg from '../images/security_1.svg';
+import SignOutSvg from '../images/sign_out.svg';
 import StatementSvg from '../images/statement.svg';
+import SubscriptionSvg from '../images/subscription.svg';
+import SupportSvg from '../images/support.svg';
+import TrashPlannerSvg from '../images/trash_planner.svg';
 import VehicleSvg from '../images/vehicle.svg';
+import VisitSvg from '../images/visit.svg';
 import WarningSvg from '../images/warning.svg';
 import WalletSvg from '../images/wallert.svg';
+import AboutSvg from '../images/about.svg';
+import AppearanceSvg from '../images/appearance.svg';
+import DataSvg from '../images/data.svg';
 import {
   BankingCardsAddContent,
   BankingCardsContent,
@@ -80,6 +109,8 @@ import {
   RecurringPaymentsAddContent,
   RecurringPaymentsContent,
 } from './home/RecurringPaymentsSection';
+import {PlannerCalendarContent} from './home/PlannerCalendarContent';
+import {RemindersContent} from './home/RemindersContent';
 import {
   VehicleMaintenanceAddContent,
   VehicleMaintenanceContent,
@@ -88,6 +119,7 @@ import type {HomeMaintenanceDocument} from './home/types';
 import {fonts} from '../theme/fonts';
 
 type BottomTabKey = 'home' | 'records' | 'reminders' | 'planner' | 'profile';
+type PlannerViewKey = 'eisenhower' | 'bucket' | 'calendar';
 type RecordsView =
   | 'browser'
   | 'personal-identity'
@@ -143,6 +175,247 @@ interface BottomNavItemProps {
   onPress: () => void;
 }
 
+interface ProfileMenuItemData {
+  id: string;
+  title: string;
+  description: string;
+  icon: React.JSX.Element;
+  onPress: () => void;
+}
+
+interface PlannerSegmentOption {
+  key: PlannerViewKey;
+  label: string;
+}
+
+type PlannerSectionTone = 'critical' | 'focused' | 'delegated' | 'backlog';
+type PlannerMetaIconKey =
+  | 'clock'
+  | 'date-critical'
+  | 'date-2'
+  | 'date-3'
+  | 'clock-2'
+  | 'trash';
+
+interface PlannerTaskData {
+  id: string;
+  title: string;
+  metaLabel: string;
+  metaIcon: PlannerMetaIconKey;
+}
+
+interface PlannerSectionData {
+  id: string;
+  title: string;
+  tone: PlannerSectionTone;
+  minHeight: number;
+  tasks: PlannerTaskData[];
+}
+
+type BucketGoalStatus = 'dream' | 'in-progress' | 'achieved';
+type BucketGoalFilter = 'all' | BucketGoalStatus;
+
+interface BucketFilterOption {
+  key: BucketGoalFilter;
+  label: string;
+}
+
+interface BucketProgressData {
+  achievedCount: number;
+  totalCount: number;
+  progressPercent: number;
+  title: string;
+  subtitle: string;
+}
+
+interface BucketGoalBase {
+  id: string;
+  title: string;
+  status: BucketGoalStatus;
+  icon: React.JSX.Element;
+}
+
+interface BucketCompactGoalData extends BucketGoalBase {
+  layout: 'compact';
+  metaText: string;
+}
+
+interface BucketFeaturedGoalData extends BucketGoalBase {
+  layout: 'featured';
+  description: string;
+  statusDetail: string;
+  targetDetail: string;
+  image: React.JSX.Element;
+}
+
+type BucketGoalData = BucketCompactGoalData | BucketFeaturedGoalData;
+
+const plannerSegments: PlannerSegmentOption[] = [
+  {
+    key: 'eisenhower',
+    label: 'Eisenhower\nMatrix',
+  },
+  {
+    key: 'bucket',
+    label: 'Bucket List',
+  },
+  {
+    key: 'calendar',
+    label: 'Calendar',
+  },
+];
+
+const plannerSections: PlannerSectionData[] = [
+  {
+    id: 'q1',
+    title: 'Urgent & Important',
+    tone: 'critical',
+    minHeight: 285,
+    tasks: [
+      {
+        id: 'tax-audit-report',
+        title: 'Finalize Q3 Tax Audit Report',
+        metaLabel: 'Today, 4:00 PM',
+        metaIcon: 'clock',
+      },
+      {
+        id: 'server-logs',
+        title: 'Review Emergency Server Logs',
+        metaLabel: 'ASAP',
+        metaIcon: 'date-critical',
+      },
+    ],
+  },
+  {
+    id: 'q2',
+    title: 'Not Urgent but Important',
+    tone: 'focused',
+    minHeight: 285,
+    tasks: [
+      {
+        id: 'portfolio-rebalancing',
+        title: 'Annual Portfolio Rebalancing',
+        metaLabel: 'Oct 15, 2024',
+        metaIcon: 'date-2',
+      },
+      {
+        id: 'life-review',
+        title: 'Quarterly Life Review & Goals',
+        metaLabel: 'Next Sunday',
+        metaIcon: 'date-3',
+      },
+    ],
+  },
+  {
+    id: 'q3',
+    title: 'Urgent but Not Important',
+    tone: 'delegated',
+    minHeight: 215,
+    tasks: [
+      {
+        id: 'slack-mentions',
+        title: 'Respond to low-priority Slack mentions',
+        metaLabel: '2h remaining',
+        metaIcon: 'clock-2',
+      },
+    ],
+  },
+  {
+    id: 'q4',
+    title: 'Not Urgent & Not Important',
+    tone: 'backlog',
+    minHeight: 191,
+    tasks: [
+      {
+        id: 'desktop-shortcuts',
+        title: 'Re-organize desktop shortcuts',
+        metaLabel: 'Consider deleting',
+        metaIcon: 'trash',
+      },
+    ],
+  },
+];
+
+const bucketFilters: BucketFilterOption[] = [
+  {
+    key: 'all',
+    label: 'All',
+  },
+  {
+    key: 'dream',
+    label: 'Dream',
+  },
+  {
+    key: 'in-progress',
+    label: 'In Progress',
+  },
+  {
+    key: 'achieved',
+    label: 'Achieved',
+  },
+];
+
+const bucketProgress: BucketProgressData = {
+  achievedCount: 6,
+  totalCount: 18,
+  progressPercent: 33,
+  title: 'Life Ambitions Progress',
+  subtitle: "You've unlocked 33% of your primary goals this year.",
+};
+
+const bucketGoals: BucketGoalData[] = [
+  {
+    id: 'visit-tokyo',
+    layout: 'compact',
+    title: 'Visit Tokyo, Japan',
+    status: 'achieved',
+    metaText: 'calendar_today Completed Apr 2024',
+    icon: <VisitSvg width={48} height={48} />,
+  },
+  {
+    id: 'master-rust',
+    layout: 'compact',
+    title: 'Master Rust Programming',
+    status: 'in-progress',
+    metaText: 'event Target: Dec 2024',
+    icon: <ProgrammingSvg width={48} height={48} />,
+  },
+  {
+    id: 'buy-lakefront-cabin',
+    layout: 'compact',
+    title: 'Buy a Lakefront Cabin',
+    status: 'dream',
+    metaText: 'schedule Long-term Vision',
+    icon: <CabinSvg width={48} height={48} />,
+  },
+  {
+    id: 'climb-kilimanjaro',
+    layout: 'featured',
+    title: 'Climb Kilimanjaro',
+    status: 'in-progress',
+    description:
+      'A journey of self-discovery and physical endurance to the highest peak in Africa.',
+    statusDetail: 'Planning Phase',
+    targetDetail: 'Oct 2025',
+    icon: <GlobleSvg width={48} height={48} />,
+    image: (
+      <KilimanjaroSvg
+        width="100%"
+        height="100%"
+        preserveAspectRatio="xMidYMid slice"
+      />
+    ),
+  },
+  {
+    id: 'mba-graduation',
+    layout: 'compact',
+    title: 'MBA Graduation',
+    status: 'achieved',
+    metaText: 'calendar_today Completed May 2023',
+    icon: <GraduationSvg width={48} height={48} />,
+  },
+];
+
 function createHomeMaintenanceDraftDocuments(): HomeMaintenanceDocument[] {
   return [
     {
@@ -184,6 +457,16 @@ function getCompactProfileName(name: string | null | undefined): string {
   }
 
   return `${parts[0]} ${parts[parts.length - 1][0]}.`;
+}
+
+function getMemberSinceYear(createdAt: string | null | undefined): string {
+  const parsedDate = createdAt ? new Date(createdAt) : null;
+
+  if (!parsedDate || Number.isNaN(parsedDate.getTime())) {
+    return '2022';
+  }
+
+  return String(parsedDate.getFullYear());
 }
 
 function getBankDisplayName(name: string): string {
@@ -351,21 +634,409 @@ function BottomNavItem({
   onPress,
 }: BottomNavItemProps): React.JSX.Element {
   return (
+    <View style={styles.bottomNavItemSlot}>
+      <Pressable
+        style={({pressed}) => [
+          styles.bottomNavItem,
+          active ? styles.bottomNavItemActive : null,
+          pressed ? styles.pressed : null,
+        ]}
+        onPress={onPress}>
+        {icon}
+        <Text
+          style={[
+            styles.bottomNavLabel,
+            active ? styles.bottomNavLabelActive : null,
+          ]}>
+          {label}
+        </Text>
+      </Pressable>
+    </View>
+  );
+}
+
+function ProfileNavGlyph({
+  fill,
+  width = 16,
+  height = 16,
+}: {
+  fill: string;
+  width?: number;
+  height?: number;
+}): React.JSX.Element {
+  return (
+    <Svg width={width} height={height} viewBox="0 0 16 16" fill="none">
+      <Path
+        d="M8 8C6.9 8 5.95833 7.60833 5.175 6.825C4.39167 6.04167 4 5.1 4 4C4 2.9 4.39167 1.95833 5.175 1.175C5.95833 0.391667 6.9 0 8 0C9.1 0 10.0417 0.391667 10.825 1.175C11.6083 1.95833 12 2.9 12 4C12 5.1 11.6083 6.04167 10.825 6.825C10.0417 7.60833 9.1 8 8 8ZM0 16V13.2C0 12.6333 0.145833 12.1125 0.4375 11.6375C0.729167 11.1625 1.11667 10.8 1.6 10.55C2.63333 10.0333 3.68333 9.64583 4.75 9.3875C5.81667 9.12917 6.9 9 8 9C9.1 9 10.1833 9.12917 11.25 9.3875C12.3167 9.64583 13.3667 10.0333 14.4 10.55C14.8833 10.8 15.2708 11.1625 15.5625 11.6375C15.8542 12.1125 16 12.6333 16 13.2V16H0ZM2 14H14V13.2C14 13.0167 13.9542 12.85 13.8625 12.7C13.7708 12.55 13.65 12.4333 13.5 12.35C12.6 11.9 11.6917 11.5625 10.775 11.3375C9.85833 11.1125 8.93333 11 8 11C7.06667 11 6.14167 11.1125 5.225 11.3375C4.30833 11.5625 3.4 11.9 2.5 12.35C2.35 12.4333 2.22917 12.55 2.1375 12.7C2.04583 12.85 2 13.0167 2 13.2V14ZM8 6C8.55 6 9.02083 5.80417 9.4125 5.4125C9.80417 5.02083 10 4.55 10 4C10 3.45 9.80417 2.97917 9.4125 2.5875C9.02083 2.19583 8.55 2 8 2C7.45 2 6.97917 2.19583 6.5875 2.5875C6.19583 2.97917 6 3.45 6 4C6 4.55 6.19583 5.02083 6.5875 5.4125C6.97917 5.80417 7.45 6 8 6Z"
+        fill={fill}
+      />
+    </Svg>
+  );
+}
+
+function FamilySettingsGlyph({
+  fill = '#094771',
+}: {
+  fill?: string;
+}): React.JSX.Element {
+  return (
+    <Svg width={21} height={20} viewBox="0 0 21 20" fill="none">
+      <Path
+        d="M15 4C14.45 4 13.9792 3.80417 13.5875 3.4125C13.1958 3.02083 13 2.55 13 2C13 1.45 13.1958 0.979167 13.5875 0.5875C13.9792 0.195833 14.45 0 15 0C15.55 0 16.0208 0.195833 16.4125 0.5875C16.8042 0.979167 17 1.45 17 2C17 2.55 16.8042 3.02083 16.4125 3.4125C16.0208 3.80417 15.55 4 15 4ZM14 20V12C14 11.3333 13.8292 10.7333 13.4875 10.2C13.1458 9.66667 12.7083 9.25 12.175 8.95L13.05 6.375C13.1833 5.95833 13.4292 5.625 13.7875 5.375C14.1458 5.125 14.55 5 15 5C15.45 5 15.8542 5.125 16.2125 5.375C16.5708 5.625 16.8167 5.95833 16.95 6.375L19.5 14H17V20H14ZM9.5 9.5C9.08333 9.5 8.72917 9.35417 8.4375 9.0625C8.14583 8.77083 8 8.41667 8 8C8 7.58333 8.14583 7.22917 8.4375 6.9375C8.72917 6.64583 9.08333 6.5 9.5 6.5C9.91667 6.5 10.2708 6.64583 10.5625 6.9375C10.8542 7.22917 11 7.58333 11 8C11 8.41667 10.8542 8.77083 10.5625 9.0625C10.2708 9.35417 9.91667 9.5 9.5 9.5ZM2.5 4C1.95 4 1.47917 3.80417 1.0875 3.4125C0.695833 3.02083 0.5 2.55 0.5 2C0.5 1.45 0.695833 0.979167 1.0875 0.5875C1.47917 0.195833 1.95 0 2.5 0C3.05 0 3.52083 0.195833 3.9125 0.5875C4.30417 0.979167 4.5 1.45 4.5 2C4.5 2.55 4.30417 3.02083 3.9125 3.4125C3.52083 3.80417 3.05 4 2.5 4ZM0.5 20V13H0V7C0 6.45 0.195833 5.97917 0.5875 5.5875C0.979167 5.19583 1.45 5 2 5H5C5.55 5 6.02083 5.19583 6.4125 5.5875C6.80417 5.97917 7 6.45 7 7V13H5.5V20H1.5V13H0.5ZM8 20V16H7V12C7 11.5833 7.14583 11.2292 7.4375 10.9375C7.72917 10.6458 8.08333 10.5 8.5 10.5H10.5C10.9167 10.5 11.2708 10.6458 11.5625 10.9375C11.8542 11.2292 12 11.5833 12 12V16H11V20H8Z"
+        fill={fill}
+      />
+    </Svg>
+  );
+}
+
+function ProfileStatItem({
+  value,
+  label,
+}: {
+  value: string;
+  label: string;
+}): React.JSX.Element {
+  return (
+    <View style={styles.profileStatsMetric}>
+      <Text style={styles.profileStatsMetricValue}>{value}</Text>
+      <Text style={styles.profileStatsMetricLabel}>{label}</Text>
+    </View>
+  );
+}
+
+function ProfileMenuRow({
+  item,
+  showBorder = false,
+}: {
+  item: ProfileMenuItemData;
+  showBorder?: boolean;
+}): React.JSX.Element {
+  return (
     <Pressable
       style={({pressed}) => [
-        styles.bottomNavItem,
-        active ? styles.bottomNavItemActive : null,
+        styles.profileMenuRow,
+        showBorder ? styles.profileMenuRowBorder : null,
         pressed ? styles.pressed : null,
       ]}
-      onPress={onPress}>
-      {icon}
+      onPress={item.onPress}>
+      <View style={styles.profileMenuRowContent}>
+        {item.icon}
+
+        <View style={styles.profileMenuTextWrap}>
+          <Text style={styles.profileMenuTitle}>{item.title}</Text>
+          <Text style={styles.profileMenuDescription}>{item.description}</Text>
+        </View>
+      </View>
+
+      <ArrowSvg width={8} height={12} />
+    </Pressable>
+  );
+}
+
+function ProfileMenuCard({
+  title,
+  items,
+}: {
+  title: string;
+  items: ProfileMenuItemData[];
+}): React.JSX.Element {
+  return (
+    <View style={styles.profileMenuCard}>
+      <View style={styles.profileMenuCardHeader}>
+        <Text style={styles.profileMenuCardHeaderText}>{title}</Text>
+      </View>
+
+      <View style={styles.profileMenuCardBody}>
+        {items.map((item, index) => (
+          <ProfileMenuRow
+            key={item.id}
+            item={item}
+            showBorder={index > 0}
+          />
+        ))}
+      </View>
+    </View>
+  );
+}
+
+function PlannerMetaIcon({
+  iconKey,
+}: {
+  iconKey: PlannerMetaIconKey;
+}): React.JSX.Element {
+  if (iconKey === 'clock') {
+    return <ClockSvg width={12} height={12} />;
+  }
+
+  if (iconKey === 'date-critical') {
+    return <DateCriticalSvg width={14} height={15} />;
+  }
+
+  if (iconKey === 'date-2') {
+    return <Date2Svg width={11} height={12} />;
+  }
+
+  if (iconKey === 'date-3') {
+    return <Date3Svg width={11} height={12} />;
+  }
+
+  if (iconKey === 'clock-2') {
+    return <Clock2Svg width={11} height={11} />;
+  }
+
+  return <TrashPlannerSvg width={20.5} height={20.75} />;
+}
+
+function PlannerTaskCard({
+  task,
+  tone,
+}: {
+  task: PlannerTaskData;
+  tone: PlannerSectionTone;
+}): React.JSX.Element {
+  const isBacklog = tone === 'backlog';
+
+  return (
+    <View
+      style={[
+        styles.plannerTaskCard,
+        isBacklog ? styles.plannerTaskCardBacklog : null,
+      ]}>
+      <CategorySvg width={16} height={6} />
+
+      <View style={styles.plannerTaskTextWrap}>
+        <Text
+          style={[
+            styles.plannerTaskTitle,
+            isBacklog ? styles.plannerTaskTitleBacklog : null,
+          ]}>
+          {task.title}
+        </Text>
+
+        <View
+          style={[
+            styles.plannerTaskMetaChip,
+            tone === 'critical'
+              ? styles.plannerTaskMetaChipCritical
+              : tone === 'focused'
+              ? styles.plannerTaskMetaChipFocused
+              : tone === 'delegated'
+              ? styles.plannerTaskMetaChipDelegated
+              : styles.plannerTaskMetaChipBacklog,
+          ]}>
+          <PlannerMetaIcon iconKey={task.metaIcon} />
+          <Text
+            style={[
+              styles.plannerTaskMetaText,
+              tone === 'critical'
+                ? styles.plannerTaskMetaTextCritical
+                : tone === 'focused'
+                ? styles.plannerTaskMetaTextFocused
+                : tone === 'delegated'
+                ? styles.plannerTaskMetaTextDelegated
+                : styles.plannerTaskMetaTextBacklog,
+            ]}>
+            {task.metaLabel}
+          </Text>
+        </View>
+      </View>
+    </View>
+  );
+}
+
+function PlannerSectionCard({
+  section,
+  onAddPress,
+}: {
+  section: PlannerSectionData;
+  onAddPress: (title: string) => void;
+}): React.JSX.Element {
+  return (
+    <View style={[styles.plannerSectionCard, {minHeight: section.minHeight}]}>
+      <View
+        style={[
+          styles.plannerSectionHeader,
+          section.tone === 'critical'
+            ? styles.plannerSectionHeaderCritical
+            : section.tone === 'focused'
+            ? styles.plannerSectionHeaderFocused
+            : section.tone === 'delegated'
+            ? styles.plannerSectionHeaderDelegated
+            : styles.plannerSectionHeaderBacklog,
+        ]}>
+        <Text style={styles.plannerSectionTitle}>{section.title}</Text>
+
+        <Pressable
+          style={({pressed}) => [
+            styles.plannerSectionAddButton,
+            pressed ? styles.pressed : null,
+          ]}
+          onPress={() => onAddPress(section.title)}>
+          <PlusSvg width={12} height={12} />
+        </Pressable>
+      </View>
+
+      <View style={styles.plannerSectionBody}>
+        {section.tasks.map(task => (
+          <PlannerTaskCard key={task.id} task={task} tone={section.tone} />
+        ))}
+      </View>
+    </View>
+  );
+}
+
+function BucketStatusChip({
+  status,
+}: {
+  status: BucketGoalStatus;
+}): React.JSX.Element {
+  const isDream = status === 'dream';
+  const isAchieved = status === 'achieved';
+  const label = isDream ? 'Dream' : isAchieved ? 'Achieved' : 'In Progress';
+
+  return (
+    <View
+      style={[
+        styles.bucketStatusChip,
+        isDream
+          ? styles.bucketStatusChipDream
+          : isAchieved
+          ? styles.bucketStatusChipAchieved
+          : styles.bucketStatusChipInProgress,
+      ]}>
+      <View
+        style={[
+          styles.bucketStatusDot,
+          isDream
+            ? styles.bucketStatusDotDream
+            : isAchieved
+            ? styles.bucketStatusDotAchieved
+            : styles.bucketStatusDotInProgress,
+        ]}
+      />
       <Text
         style={[
-          styles.bottomNavLabel,
-          active ? styles.bottomNavLabelActive : null,
+          styles.bucketStatusText,
+          isDream
+            ? styles.bucketStatusTextDream
+            : isAchieved
+            ? styles.bucketStatusTextAchieved
+            : styles.bucketStatusTextInProgress,
         ]}>
         {label}
       </Text>
+    </View>
+  );
+}
+
+function BucketProgressCard(): React.JSX.Element {
+  return (
+    <View style={styles.bucketProgressCard}>
+      <View style={styles.bucketProgressHeader}>
+        <View style={styles.bucketProgressTextBlock}>
+          <Text style={styles.bucketProgressTitle}>{bucketProgress.title}</Text>
+          <Text style={styles.bucketProgressSubtitle}>
+            {bucketProgress.subtitle}
+          </Text>
+        </View>
+
+        <View style={styles.bucketProgressMetricBlock}>
+          <View style={styles.bucketProgressMetricRow}>
+            <Text style={styles.bucketProgressMetricValue}>
+              {bucketProgress.achievedCount}
+            </Text>
+            <Text style={styles.bucketProgressMetricTotal}>
+              {' '}
+              of {bucketProgress.totalCount}
+            </Text>
+          </View>
+          <Text style={styles.bucketProgressMetricLabel}>achieved</Text>
+        </View>
+      </View>
+
+      <View style={styles.bucketProgressTrack}>
+        <View
+          style={[
+            styles.bucketProgressFill,
+            {width: `${bucketProgress.progressPercent}%`},
+          ]}
+        />
+      </View>
+    </View>
+  );
+}
+
+function BucketCompactCard({
+  goal,
+  onPress,
+}: {
+  goal: BucketCompactGoalData;
+  onPress: () => void;
+}): React.JSX.Element {
+  const isAchieved = goal.status === 'achieved';
+
+  return (
+    <Pressable
+      style={({pressed}) => [
+        styles.bucketCard,
+        pressed ? styles.pressed : null,
+      ]}
+      onPress={onPress}>
+      {isAchieved ? <View style={styles.bucketCardAchievedOverlay} /> : null}
+
+      {isAchieved ? (
+        <View style={styles.bucketCardCheckWrap}>
+          <RightSvg width={64} height={64} style={styles.bucketCardCheckIcon} />
+        </View>
+      ) : null}
+
+      <View style={styles.bucketCardContent}>
+        <View style={styles.bucketCardIconWrap}>{goal.icon}</View>
+        <Text style={styles.bucketCardTitle}>{goal.title}</Text>
+        <Text style={styles.bucketCardMeta}>{goal.metaText}</Text>
+        <BucketStatusChip status={goal.status} />
+      </View>
+    </Pressable>
+  );
+}
+
+function BucketFeaturedCard({
+  goal,
+  onPress,
+}: {
+  goal: BucketFeaturedGoalData;
+  onPress: () => void;
+}): React.JSX.Element {
+  return (
+    <Pressable
+      style={({pressed}) => [
+        styles.bucketFeaturedCard,
+        pressed ? styles.pressed : null,
+      ]}
+      onPress={onPress}>
+      <View style={styles.bucketFeaturedTextBlock}>
+        <View style={styles.bucketCardIconWrap}>{goal.icon}</View>
+        <Text style={styles.bucketFeaturedTitle}>{goal.title}</Text>
+        <Text style={styles.bucketFeaturedDescription}>{goal.description}</Text>
+
+        <View style={styles.bucketFeaturedMetricsRow}>
+          <View style={styles.bucketFeaturedMetricBlock}>
+            <Text style={styles.bucketFeaturedMetricLabel}>Status</Text>
+            <Text style={styles.bucketFeaturedMetricValue}>
+              {goal.statusDetail}
+            </Text>
+          </View>
+
+          <View style={styles.bucketFeaturedMetricBlock}>
+            <Text style={styles.bucketFeaturedMetricLabel}>Target</Text>
+            <Text style={styles.bucketFeaturedMetricValue}>
+              {goal.targetDetail}
+            </Text>
+          </View>
+        </View>
+      </View>
+
+      <View style={styles.bucketFeaturedImageFrame}>{goal.image}</View>
     </Pressable>
   );
 }
@@ -375,6 +1046,8 @@ function HomeScreen(): React.JSX.Element {
   const {user, logout, refreshProfile} = useAuth();
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [activeTab, setActiveTab] = useState<BottomTabKey>('home');
+  const [plannerView, setPlannerView] = useState<PlannerViewKey>('eisenhower');
+  const [bucketFilter, setBucketFilter] = useState<BucketGoalFilter>('all');
   const [recordsView, setRecordsView] = useState<RecordsView>('browser');
   const [identityDraftFullName, setIdentityDraftFullName] = useState(
     () => user?.name?.trim() || 'Sarah Johnson',
@@ -412,8 +1085,10 @@ function HomeScreen(): React.JSX.Element {
   ] = useState(false);
   const [recurringDraftFrequency, setRecurringDraftFrequency] =
     useState('Monthly');
-  const [isRecurringFrequencyDropdownOpen, setIsRecurringFrequencyDropdownOpen] =
-    useState(false);
+  const [
+    isRecurringFrequencyDropdownOpen,
+    setIsRecurringFrequencyDropdownOpen,
+  ] = useState(false);
   const [recurringDraftNextDueDate, setRecurringDraftNextDueDate] =
     useState('11/28/2023');
   const [recurringDraftNotes, setRecurringDraftNotes] = useState(
@@ -421,9 +1096,8 @@ function HomeScreen(): React.JSX.Element {
   );
   const [recurringDraftSmartReminder, setRecurringDraftSmartReminder] =
     useState(true);
-  const [insuranceDraftPolicyName, setInsuranceDraftPolicyName] = useState(
-    'Home & Contents',
-  );
+  const [insuranceDraftPolicyName, setInsuranceDraftPolicyName] =
+    useState('Home & Contents');
   const [insuranceDraftProvider, setInsuranceDraftProvider] = useState('AXA');
   const [insuranceDraftPolicyNumber, setInsuranceDraftPolicyNumber] =
     useState('');
@@ -456,9 +1130,8 @@ function HomeScreen(): React.JSX.Element {
   );
   const [healthDraftWeeklyGoalPercent, setHealthDraftWeeklyGoalPercent] =
     useState('75%');
-  const [healthDraftWeeklyGoalText, setHealthDraftWeeklyGoalText] = useState(
-    '150 mins cardio',
-  );
+  const [healthDraftWeeklyGoalText, setHealthDraftWeeklyGoalText] =
+    useState('150 mins cardio');
   const [healthDraftRemindersEnabled, setHealthDraftRemindersEnabled] =
     useState(true);
   const [healthDraftNotes, setHealthDraftNotes] = useState(
@@ -482,10 +1155,8 @@ function HomeScreen(): React.JSX.Element {
   ] = useState(true);
   const [homeMaintenanceDraftNotes, setHomeMaintenanceDraftNotes] =
     useState('');
-  const [
-    homeMaintenanceDraftDocuments,
-    setHomeMaintenanceDraftDocuments,
-  ] = useState<HomeMaintenanceDocument[]>(createHomeMaintenanceDraftDocuments);
+  const [homeMaintenanceDraftDocuments, setHomeMaintenanceDraftDocuments] =
+    useState<HomeMaintenanceDocument[]>(createHomeMaintenanceDraftDocuments);
 
   const contentWidth = Math.min(width - 32, 402);
   const dueCardWidth = Math.min(Math.max(width * 0.72, 252), 284);
@@ -493,6 +1164,8 @@ function HomeScreen(): React.JSX.Element {
   const firstName = getFirstName(user?.name);
   const personalProfileName = user?.name?.trim() || 'Sarah Johnson';
   const personalProfileCardName = getCompactProfileName(user?.name);
+  const profileEmail = user?.email?.trim() || 'sarah.j@example.com';
+  const profileMemberSinceYear = getMemberSinceYear(user?.createdAt);
   const hasUnreadNotifications = !isRefreshing;
   const isRecordsTab = activeTab === 'records';
   const isPersonalIdentityView =
@@ -514,6 +1187,10 @@ function HomeScreen(): React.JSX.Element {
     isRecordsTab && recordsView === 'insurance-policies';
   const isInsurancePoliciesAddView =
     isRecordsTab && recordsView === 'insurance-policies-add';
+  const visibleBucketGoals =
+    bucketFilter === 'all'
+      ? bucketGoals
+      : bucketGoals.filter(goal => goal.status === bucketFilter);
   const isHealthFitnessView = isRecordsTab && recordsView === 'health-fitness';
   const isHealthFitnessAddView =
     isRecordsTab && recordsView === 'health-fitness-add';
@@ -521,7 +1198,8 @@ function HomeScreen(): React.JSX.Element {
     isRecordsTab && recordsView === 'home-maintenance';
   const isHomeMaintenanceAddView =
     isRecordsTab && recordsView === 'home-maintenance-add';
-  const isImportantDatesView = isRecordsTab && recordsView === 'important-dates';
+  const isImportantDatesView =
+    isRecordsTab && recordsView === 'important-dates';
   const isImportantDatesAddView =
     isRecordsTab && recordsView === 'important-dates-add';
   const isRecordsDetailView = isRecordsTab && recordsView !== 'browser';
@@ -782,6 +1460,51 @@ function HomeScreen(): React.JSX.Element {
 
   const openPlaceholder = (label: string) => {
     Alert.alert('Coming Soon', `${label} will be connected in the next step.`);
+  };
+
+  const openAccountSettings = () => {
+    setActiveTab('records');
+    setRecordsView('personal-identity');
+  };
+
+  const handleShareProfile = async () => {
+    try {
+      await Share.share({
+        message: `View ${personalProfileName}'s Log4Life profile: https://log4life.app/u/${
+          user?.id ?? 'sarah-johnson'
+        }`,
+      });
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : 'Unable to open the share sheet right now.';
+      Alert.alert('Share Unavailable', message);
+    }
+  };
+
+  const handleProfileLogout = () => {
+    Alert.alert('Sign Out', 'Do you want to sign out of Log4Life?', [
+      {
+        text: 'Cancel',
+        style: 'cancel',
+      },
+      {
+        text: 'Sign Out',
+        style: 'destructive',
+        onPress: async () => {
+          try {
+            await logout();
+          } catch (error) {
+            const message =
+              error instanceof Error
+                ? error.message
+                : 'Unable to log out right now.';
+            Alert.alert('Logout Failed', message);
+          }
+        },
+      },
+    ]);
   };
 
   const openRecordCategory = (title: string, count: string) => {
@@ -1148,24 +1871,20 @@ function HomeScreen(): React.JSX.Element {
   };
 
   const handleDeleteRecurringEntry = () => {
-    Alert.alert(
-      'Delete This Entry',
-      'Remove this recurring payment draft?',
-      [
-        {
-          text: 'Cancel',
-          style: 'cancel',
+    Alert.alert('Delete This Entry', 'Remove this recurring payment draft?', [
+      {
+        text: 'Cancel',
+        style: 'cancel',
+      },
+      {
+        text: 'Delete',
+        style: 'destructive',
+        onPress: () => {
+          resetRecurringDraft();
+          setRecordsView('recurring-payments');
         },
-        {
-          text: 'Delete',
-          style: 'destructive',
-          onPress: () => {
-            resetRecurringDraft();
-            setRecordsView('recurring-payments');
-          },
-        },
-      ],
-    );
+      },
+    ]);
   };
 
   const handleToggleInsuranceRenewalReminder = () => {
@@ -1173,24 +1892,20 @@ function HomeScreen(): React.JSX.Element {
   };
 
   const handleDeleteInsuranceEntry = () => {
-    Alert.alert(
-      'Delete Policy Entry',
-      'Remove this insurance policy draft?',
-      [
-        {
-          text: 'Cancel',
-          style: 'cancel',
+    Alert.alert('Delete Policy Entry', 'Remove this insurance policy draft?', [
+      {
+        text: 'Cancel',
+        style: 'cancel',
+      },
+      {
+        text: 'Delete',
+        style: 'destructive',
+        onPress: () => {
+          resetInsuranceDraft();
+          setRecordsView('insurance-policies');
         },
-        {
-          text: 'Delete',
-          style: 'destructive',
-          onPress: () => {
-            resetInsuranceDraft();
-            setRecordsView('insurance-policies');
-          },
-        },
-      ],
-    );
+      },
+    ]);
   };
 
   const handleBrowseVehicleDocument = () => {
@@ -1275,24 +1990,20 @@ function HomeScreen(): React.JSX.Element {
   };
 
   const handleDeleteHomeMaintenanceEntry = () => {
-    Alert.alert(
-      'Delete Entry',
-      'Remove this home maintenance draft?',
-      [
-        {
-          text: 'Cancel',
-          style: 'cancel',
+    Alert.alert('Delete Entry', 'Remove this home maintenance draft?', [
+      {
+        text: 'Cancel',
+        style: 'cancel',
+      },
+      {
+        text: 'Delete',
+        style: 'destructive',
+        onPress: () => {
+          resetHomeMaintenanceDraft();
+          setRecordsView('home-maintenance');
         },
-        {
-          text: 'Delete',
-          style: 'destructive',
-          onPress: () => {
-            resetHomeMaintenanceDraft();
-            setRecordsView('home-maintenance');
-          },
-        },
-      ],
-    );
+      },
+    ]);
   };
 
   const handleRecordsBack = () => {
@@ -1344,13 +2055,9 @@ function HomeScreen(): React.JSX.Element {
     setActiveTab('home');
   };
 
-  const handleTabPress = (tab: BottomTabKey, label: string) => {
+  const handleTabPress = (tab: BottomTabKey) => {
     setActiveTab(tab);
     setRecordsView('browser');
-
-    if (tab !== 'home' && tab !== 'records') {
-      openPlaceholder(label);
-    }
   };
 
   const notificationIcon = hasUnreadNotifications ? (
@@ -1628,10 +2335,7 @@ function HomeScreen(): React.JSX.Element {
   );
 
   const homeMaintenanceContent = (
-    <HomeMaintenanceContent
-      styles={styles}
-      openPlaceholder={openPlaceholder}
-    />
+    <HomeMaintenanceContent styles={styles} openPlaceholder={openPlaceholder} />
   );
 
   const homeMaintenanceAddContent = (
@@ -1649,9 +2353,7 @@ function HomeScreen(): React.JSX.Element {
       setHomeMaintenanceDraftNextDueDate={setHomeMaintenanceDraftNextDueDate}
       homeMaintenanceDraftDocuments={homeMaintenanceDraftDocuments}
       handleBrowseHomeMaintenanceDocument={handleBrowseHomeMaintenanceDocument}
-      handleDeleteHomeMaintenanceDocument={
-        handleDeleteHomeMaintenanceDocument
-      }
+      handleDeleteHomeMaintenanceDocument={handleDeleteHomeMaintenanceDocument}
       homeMaintenanceDraftReminderEnabled={homeMaintenanceDraftReminderEnabled}
       handleToggleHomeMaintenanceReminder={handleToggleHomeMaintenanceReminder}
       homeMaintenanceDraftNotes={homeMaintenanceDraftNotes}
@@ -1669,6 +2371,323 @@ function HomeScreen(): React.JSX.Element {
       openPlaceholder={openPlaceholder}
       handleDeleteImportantDateEntry={handleDeleteImportantDateEntry}
     />
+  );
+
+  const remindersContent = (
+    <RemindersContent openPlaceholder={openPlaceholder} />
+  );
+
+  const profileGeneralSettings: ProfileMenuItemData[] = [
+    {
+      id: 'account',
+      title: 'Account',
+      description: 'Personal info and account preferences',
+      icon: (
+        <View style={styles.profileMenuGlyphCircle}>
+          <ProfileNavGlyph fill="#094771" />
+        </View>
+      ),
+      onPress: openAccountSettings,
+    },
+    {
+      id: 'security',
+      title: 'Security',
+      description: 'Password, 2FA, and login history',
+      icon: <Security1Svg width={40} height={40} />,
+      onPress: () => openPlaceholder('Security'),
+    },
+    {
+      id: 'data-backup',
+      title: 'Data & Backup',
+      description: 'Sync settings and cloud storage',
+      icon: <DataSvg width={40} height={40} />,
+      onPress: () => openPlaceholder('Data & Backup'),
+    },
+    {
+      id: 'family-sharing',
+      title: 'Family Sharing',
+      description: 'Manage shared folders and members',
+      icon: (
+        <View style={styles.profileMenuGlyphCircle}>
+          <FamilySettingsGlyph />
+        </View>
+      ),
+      onPress: () => openPlaceholder('Family Sharing'),
+    },
+  ];
+
+  const profilePreferenceSettings: ProfileMenuItemData[] = [
+    {
+      id: 'appearance',
+      title: 'Appearance',
+      description: 'Theme, colors, and layout',
+      icon: <AppearanceSvg width={40} height={40} />,
+      onPress: () => openPlaceholder('Appearance'),
+    },
+    {
+      id: 'notifications',
+      title: 'Notifications',
+      description: 'App alerts and email preferences',
+      icon: (
+        <View style={styles.profileMenuGlyphCircle}>
+          <BellSvg width={20} height={21} />
+        </View>
+      ),
+      onPress: () => openPlaceholder('Notifications'),
+    },
+  ];
+
+  const profileSupportSettings: ProfileMenuItemData[] = [
+    {
+      id: 'support',
+      title: 'Support',
+      description: 'Help center and ticket history',
+      icon: <SupportSvg width={40} height={40} />,
+      onPress: () => openPlaceholder('Support'),
+    },
+    {
+      id: 'about',
+      title: 'About',
+      description: 'Version 4.2.1 • Privacy & Terms',
+      icon: <AboutSvg width={40} height={40} />,
+      onPress: () => openPlaceholder('About'),
+    },
+  ];
+
+  const profileContent = (
+    <View style={styles.profileScreen}>
+      <View style={styles.profileHeaderStack}>
+        <View style={styles.profileHeroCard}>
+          <View style={styles.profileAvatarWrap}>
+            {user?.profileImage ? (
+              <Image
+                source={{uri: user.profileImage}}
+                style={styles.profileAvatarImage}
+              />
+            ) : (
+              <SarahJohnsonSvg width={128} height={128} />
+            )}
+
+            <View style={styles.profileAvatarBadge}>
+              <Profile2Svg width={27} height={26} />
+            </View>
+          </View>
+
+          <View style={styles.profileHeroTextWrap}>
+            <Text style={styles.profileHeroTitle}>{personalProfileName}</Text>
+            <Text style={styles.profileHeroSubtitle}>
+              Premium Life Planner {'\u2022'} Member since{' '}
+              {profileMemberSinceYear}
+            </Text>
+
+            <View style={styles.profileHeroChipsRow}>
+              <View style={styles.profilePremiumChip}>
+                <PremiumSvg width={10} height={13} />
+                <Text style={styles.profilePremiumChipText}>Premium</Text>
+              </View>
+
+              <View style={styles.profileEmailChip}>
+                <Text numberOfLines={1} style={styles.profileEmailChipText}>
+                  {profileEmail}
+                </Text>
+              </View>
+            </View>
+          </View>
+
+          <View style={styles.profileHeroButtons}>
+            <Pressable
+              style={({pressed}) => [
+                styles.profilePrimaryButton,
+                pressed ? styles.pressed : null,
+              ]}
+              onPress={openAccountSettings}>
+              <Text style={styles.profilePrimaryButtonText}>Edit Profile</Text>
+            </Pressable>
+
+            <Pressable
+              style={({pressed}) => [
+                styles.profileSecondaryButton,
+                pressed ? styles.pressed : null,
+              ]}
+              onPress={handleShareProfile}>
+              <Text style={styles.profileSecondaryButtonText}>Share Link</Text>
+            </Pressable>
+          </View>
+        </View>
+
+        <View style={styles.profileStatsCard}>
+          <Text style={styles.profileStatsEyebrow}>Storage Used</Text>
+          <Text style={styles.profileStatsValue}>12.4 GB / 50 GB</Text>
+
+          <View style={styles.profileStatsTrack}>
+            <View style={styles.profileStatsTrackFill} />
+          </View>
+
+          <Text style={styles.profileStatsCaption}>
+            24% of your total capacity
+          </Text>
+
+          <View style={styles.profileStatsDivider} />
+
+          <View style={styles.profileStatsRow}>
+            <ProfileStatItem value="142" label="Records" />
+            <ProfileStatItem value="86" label="Shared" />
+            <ProfileStatItem value="12" label="Groups" />
+          </View>
+        </View>
+      </View>
+
+      <View style={styles.profileSettingsStack}>
+        <ProfileMenuCard
+          title="GENERAL SETTINGS"
+          items={profileGeneralSettings}
+        />
+        <ProfileMenuCard
+          title="PREFERENCES"
+          items={profilePreferenceSettings}
+        />
+
+        <View style={styles.profileSubscriptionCard}>
+          <View style={styles.profileSubscriptionHeader}>
+            <View style={styles.profileSubscriptionTitleBlock}>
+              <View style={styles.profileSubscriptionPlanChip}>
+                <Text style={styles.profileSubscriptionPlanChipText}>
+                  PRO PLAN
+                </Text>
+              </View>
+              <Text style={styles.profileSubscriptionTitle}>Subscription</Text>
+            </View>
+
+            <SubscriptionSvg width={20} height={16} />
+          </View>
+
+          <Text style={styles.profileSubscriptionText}>
+            Your next billing date is December 12, 2024 for $14.99/mo.
+          </Text>
+
+          <Pressable
+            style={({pressed}) => [
+              styles.profileSubscriptionButton,
+              pressed ? styles.pressed : null,
+            ]}
+            onPress={() => openPlaceholder('Manage Subscription')}>
+            <Text style={styles.profileSubscriptionButtonText}>
+              Manage Subscription
+            </Text>
+          </Pressable>
+        </View>
+
+        <ProfileMenuCard title="HELP & ABOUT" items={profileSupportSettings} />
+
+        <Pressable
+          style={({pressed}) => [
+            styles.profileLogoutButton,
+            pressed ? styles.pressed : null,
+          ]}
+          onPress={handleProfileLogout}>
+          <SignOutSvg width={18} height={18} />
+          <Text style={styles.profileLogoutText}>Sign Out</Text>
+        </Pressable>
+      </View>
+    </View>
+  );
+
+  const bucketContent = (
+    <View style={styles.bucketBoard}>
+      <BucketProgressCard />
+
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.bucketFilterRow}
+        style={styles.bucketFilterScroll}>
+        {bucketFilters.map(filter => {
+          const isActive = bucketFilter === filter.key;
+
+          return (
+            <Pressable
+              key={filter.key}
+              style={({pressed}) => [
+                styles.bucketFilterChip,
+                isActive ? styles.bucketFilterChipActive : null,
+                pressed ? styles.pressed : null,
+              ]}
+              onPress={() => setBucketFilter(filter.key)}>
+              <Text
+                style={[
+                  styles.bucketFilterChipText,
+                  isActive ? styles.bucketFilterChipTextActive : null,
+                ]}>
+                {filter.label}
+              </Text>
+            </Pressable>
+          );
+        })}
+      </ScrollView>
+
+      <View style={styles.bucketGoalsList}>
+        {visibleBucketGoals.map(goal =>
+          goal.layout === 'featured' ? (
+            <BucketFeaturedCard
+              key={goal.id}
+              goal={goal}
+              onPress={() => openPlaceholder(goal.title)}
+            />
+          ) : (
+            <BucketCompactCard
+              key={goal.id}
+              goal={goal}
+              onPress={() => openPlaceholder(goal.title)}
+            />
+          ),
+        )}
+      </View>
+    </View>
+  );
+
+  const plannerContent = (
+    <>
+      <View style={styles.plannerTabsShell}>
+        {plannerSegments.map(segment => {
+          const isActive = plannerView === segment.key;
+
+          return (
+            <Pressable
+              key={segment.key}
+              style={({pressed}) => [
+                styles.plannerTabButton,
+                isActive ? styles.plannerTabButtonActive : null,
+                pressed ? styles.pressed : null,
+              ]}
+              onPress={() => setPlannerView(segment.key)}>
+              <Text
+                style={[
+                  styles.plannerTabLabel,
+                  isActive ? styles.plannerTabLabelActive : null,
+                ]}>
+                {segment.label}
+              </Text>
+            </Pressable>
+          );
+        })}
+      </View>
+
+      {plannerView === 'eisenhower' ? (
+        <View style={styles.plannerMatrix}>
+          {plannerSections.map(section => (
+            <PlannerSectionCard
+              key={section.id}
+              section={section}
+              onAddPress={title => openPlaceholder(`Add to ${title}`)}
+            />
+          ))}
+        </View>
+      ) : plannerView === 'bucket' ? (
+        bucketContent
+      ) : (
+        <PlannerCalendarContent />
+      )}
+    </>
   );
 
   const healthFitnessAddContent = (
@@ -1840,6 +2859,12 @@ function HomeScreen(): React.JSX.Element {
                 : isPersonalIdentityView
                 ? personalIdentityContent
                 : recordsContent
+              : activeTab === 'reminders'
+              ? remindersContent
+              : activeTab === 'planner'
+              ? plannerContent
+              : activeTab === 'profile'
+              ? profileContent
               : homeContent}
           </View>
         </ScrollView>
@@ -1856,7 +2881,7 @@ function HomeScreen(): React.JSX.Element {
                   <HomeNonSvg width={22} height={22} />
                 )
               }
-              onPress={() => handleTabPress('home', 'Home')}
+              onPress={() => handleTabPress('home')}
             />
             <BottomNavItem
               active={activeTab === 'records'}
@@ -1868,25 +2893,43 @@ function HomeScreen(): React.JSX.Element {
                   <RecordsNonSvg width={22} height={22} />
                 )
               }
-              onPress={() => handleTabPress('records', 'Records')}
+              onPress={() => handleTabPress('records')}
             />
             <BottomNavItem
               active={activeTab === 'reminders'}
               label="Reminders"
-              icon={<RemindersSvg width={22} height={22} />}
-              onPress={() => handleTabPress('reminders', 'Reminders')}
+              icon={
+                activeTab === 'reminders' ? (
+                  <ReminderActiveSvg width={22} height={22} />
+                ) : (
+                  <RemindersSvg width={22} height={22} />
+                )
+              }
+              onPress={() => handleTabPress('reminders')}
             />
             <BottomNavItem
               active={activeTab === 'planner'}
               label="Planner"
-              icon={<PlannerSvg width={22} height={22} />}
-              onPress={() => handleTabPress('planner', 'Planner')}
+              icon={
+                activeTab === 'planner' ? (
+                  <PlannerActiveSvg width={22} height={22} />
+                ) : (
+                  <PlannerSvg width={22} height={22} />
+                )
+              }
+              onPress={() => handleTabPress('planner')}
             />
             <BottomNavItem
               active={activeTab === 'profile'}
               label="Profile"
-              icon={<ProfileSvg width={22} height={22} />}
-              onPress={() => handleTabPress('profile', 'Profile')}
+              icon={
+                <ProfileNavGlyph
+                  fill={activeTab === 'profile' ? '#FFFFFF' : '#42474E'}
+                  width={22}
+                  height={22}
+                />
+              }
+              onPress={() => handleTabPress('profile')}
             />
           </View>
         </View>
@@ -7115,44 +8158,1020 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     textAlign: 'center',
   },
+  plannerTabsShell: {
+    width: '100%',
+    minHeight: 74,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: 'rgba(194, 199, 207, 0.3)',
+    backgroundColor: '#DCF1FD',
+    padding: 4,
+    flexDirection: 'row',
+    alignItems: 'stretch',
+    justifyContent: 'space-between',
+    gap: 4,
+    shadowColor: '#000000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    elevation: 1,
+  },
+  plannerTabButton: {
+    flex: 1,
+    minHeight: 64,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 10,
+    paddingVertical: 16,
+  },
+  plannerTabButtonActive: {
+    borderWidth: 1,
+    borderColor: 'rgba(194, 199, 207, 0.2)',
+    backgroundColor: '#FFFFFF',
+    shadowColor: '#000000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    elevation: 1,
+  },
+  plannerTabLabel: {
+    color: '#42474E',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+    textAlign: 'center',
+  },
+  plannerTabLabelActive: {
+    color: '#42474E',
+  },
+  plannerMatrix: {
+    width: '100%',
+    marginTop: 24,
+    gap: 20,
+  },
+  plannerSectionCard: {
+    width: '100%',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#C2C7CF',
+    backgroundColor: '#FFFFFF',
+    overflow: 'hidden',
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    elevation: 3,
+  },
+  plannerSectionHeader: {
+    minHeight: 40,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  plannerSectionHeaderCritical: {
+    backgroundColor: '#BA1A1A',
+  },
+  plannerSectionHeaderFocused: {
+    backgroundColor: '#094771',
+  },
+  plannerSectionHeaderDelegated: {
+    backgroundColor: '#815500',
+  },
+  plannerSectionHeaderBacklog: {
+    backgroundColor: '#72777F',
+  },
+  plannerSectionTitle: {
+    flex: 1,
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontFamily: fonts.semiBold,
+    lineHeight: 24,
+    paddingRight: 12,
+  },
+  plannerSectionAddButton: {
+    width: 20,
+    height: 20,
+    borderRadius: 8,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  plannerSectionBody: {
+    paddingHorizontal: 16,
+    paddingTop: 16,
+    paddingBottom: 22,
+    gap: 8,
+  },
+  plannerTaskCard: {
+    minHeight: 86,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#C2C7CF',
+    backgroundColor: '#F4FAFF',
+    padding: 16,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+  },
+  plannerTaskCardBacklog: {
+    opacity: 0.7,
+  },
+  plannerTaskTextWrap: {
+    flex: 1,
+    minWidth: 0,
+    marginLeft: 8,
+  },
+  plannerTaskTitle: {
+    color: '#091E27',
+    fontSize: 16,
+    fontFamily: fonts.regular,
+    lineHeight: 24,
+  },
+  plannerTaskTitleBacklog: {
+    color: '#091E27',
+  },
+  plannerTaskMetaChip: {
+    alignSelf: 'flex-start',
+    marginTop: 8,
+    borderRadius: 999,
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  plannerTaskMetaChipCritical: {
+    backgroundColor: '#FFDAD6',
+  },
+  plannerTaskMetaChipFocused: {
+    backgroundColor: '#D1E6F2',
+  },
+  plannerTaskMetaChipDelegated: {
+    backgroundColor: '#FFDDB2',
+  },
+  plannerTaskMetaChipBacklog: {
+    backgroundColor: '#C2C7CF',
+  },
+  plannerTaskMetaText: {
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+  },
+  plannerTaskMetaTextCritical: {
+    color: '#93000A',
+  },
+  plannerTaskMetaTextFocused: {
+    color: '#094771',
+  },
+  plannerTaskMetaTextDelegated: {
+    color: '#291800',
+  },
+  plannerTaskMetaTextBacklog: {
+    color: '#42474E',
+  },
+  plannerMetaNeutralIcon: {
+    width: 10,
+    height: 10,
+    borderRadius: 2,
+    borderWidth: 1,
+    borderColor: '#42474E',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    paddingTop: 2,
+  },
+  plannerMetaNeutralIconLine: {
+    width: 4,
+    height: 1,
+    backgroundColor: '#42474E',
+  },
+  plannerPlaceholderCard: {
+    width: '100%',
+    minHeight: 240,
+    marginTop: 24,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: '#D7E5F0',
+    backgroundColor: '#F7FBFF',
+    paddingHorizontal: 24,
+    paddingVertical: 28,
+    justifyContent: 'center',
+  },
+  plannerPlaceholderEyebrow: {
+    color: '#72777F',
+    fontSize: 12,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.24,
+    textTransform: 'uppercase',
+  },
+  plannerPlaceholderTitle: {
+    marginTop: 10,
+    color: '#094771',
+    fontSize: 24,
+    fontFamily: fonts.bold,
+    lineHeight: 30,
+  },
+  plannerPlaceholderBody: {
+    marginTop: 10,
+    color: '#42474E',
+    fontSize: 15,
+    fontFamily: fonts.regular,
+    lineHeight: 24,
+  },
+  bucketBoard: {
+    width: '100%',
+    marginTop: 24,
+    gap: 24,
+  },
+  bucketProgressCard: {
+    width: '100%',
+    minHeight: 170,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: 'rgba(194, 199, 207, 0.2)',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 24,
+    paddingTop: 32,
+    paddingBottom: 24,
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    elevation: 3,
+  },
+  bucketProgressHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+  },
+  bucketProgressTextBlock: {
+    flex: 1,
+    minWidth: 0,
+    paddingRight: 16,
+  },
+  bucketProgressTitle: {
+    maxWidth: 176,
+    color: '#094771',
+    fontSize: 18,
+    fontFamily: fonts.semiBold,
+    lineHeight: 24,
+  },
+  bucketProgressSubtitle: {
+    marginTop: 4,
+    maxWidth: 176,
+    color: '#42474E',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+  },
+  bucketProgressMetricBlock: {
+    alignItems: 'flex-end',
+  },
+  bucketProgressMetricRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+  },
+  bucketProgressMetricValue: {
+    color: '#2E7D52',
+    fontSize: 28,
+    fontFamily: fonts.bold,
+    lineHeight: 36,
+    letterSpacing: -0.56,
+  },
+  bucketProgressMetricTotal: {
+    color: '#72777F',
+    fontSize: 18,
+    fontFamily: fonts.semiBold,
+    lineHeight: 24,
+    paddingBottom: 4,
+  },
+  bucketProgressMetricLabel: {
+    marginTop: -1,
+    color: '#72777F',
+    fontSize: 18,
+    fontFamily: fonts.semiBold,
+    lineHeight: 24,
+  },
+  bucketProgressTrack: {
+    width: '100%',
+    height: 12,
+    marginTop: 16,
+    borderRadius: 9999,
+    backgroundColor: '#D1E6F2',
+    overflow: 'hidden',
+  },
+  bucketProgressFill: {
+    height: '100%',
+    borderRadius: 9999,
+    backgroundColor: '#2E7D52',
+    shadowColor: '#2E7D52',
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 12,
+    elevation: 1,
+  },
+  bucketFilterScroll: {
+    width: '100%',
+  },
+  bucketFilterRow: {
+    paddingRight: 8,
+    gap: 8,
+  },
+  bucketFilterChip: {
+    minHeight: 34,
+    borderRadius: 9999,
+    borderWidth: 1,
+    borderColor: '#C2C7CF',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 24,
+    paddingVertical: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  bucketFilterChipActive: {
+    borderColor: '#094771',
+    backgroundColor: '#094771',
+    shadowColor: '#000000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 2,
+  },
+  bucketFilterChipText: {
+    color: '#42474E',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+    textAlign: 'center',
+  },
+  bucketFilterChipTextActive: {
+    color: '#FFFFFF',
+  },
+  bucketGoalsList: {
+    width: '100%',
+    gap: 16,
+  },
+  bucketCard: {
+    width: '100%',
+    minHeight: 206,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: 'rgba(194, 199, 207, 0.2)',
+    backgroundColor: '#FFFFFF',
+    padding: 24,
+    overflow: 'hidden',
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    elevation: 3,
+  },
+  bucketCardAchievedOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(46, 125, 82, 0.05)',
+  },
+  bucketCardContent: {
+    flex: 1,
+    zIndex: 1,
+  },
+  bucketCardIconWrap: {
+    width: 48,
+    height: 48,
+  },
+  bucketCardTitle: {
+    marginTop: 12,
+    color: '#091E27',
+    fontSize: 18,
+    fontFamily: fonts.semiBold,
+    lineHeight: 24,
+  },
+  bucketCardMeta: {
+    marginTop: 4,
+    color: '#42474E',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+  },
+  bucketStatusChip: {
+    alignSelf: 'flex-start',
+    marginTop: 24,
+    minHeight: 24,
+    borderRadius: 9999,
+    paddingHorizontal: 16,
+    paddingVertical: 4,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  bucketStatusChipDream: {
+    backgroundColor: '#D1E6F2',
+  },
+  bucketStatusChipInProgress: {
+    backgroundColor: 'rgba(232, 160, 32, 0.1)',
+  },
+  bucketStatusChipAchieved: {
+    backgroundColor: 'rgba(46, 125, 82, 0.1)',
+  },
+  bucketStatusDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 999,
+    marginRight: 4,
+  },
+  bucketStatusDotDream: {
+    backgroundColor: '#094771',
+  },
+  bucketStatusDotInProgress: {
+    backgroundColor: '#E8A020',
+  },
+  bucketStatusDotAchieved: {
+    backgroundColor: '#2E7D52',
+  },
+  bucketStatusText: {
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+  },
+  bucketStatusTextDream: {
+    color: '#094771',
+  },
+  bucketStatusTextInProgress: {
+    color: '#E8A020',
+  },
+  bucketStatusTextAchieved: {
+    color: '#2E7D52',
+  },
+  bucketCardCheckWrap: {
+    position: 'absolute',
+    top: 12,
+    right: 12,
+    width: 40,
+    height: 40,
+    zIndex: 2,
+  },
+  bucketCardCheckIcon: {
+    position: 'absolute',
+    top: -2,
+    left: -12,
+  },
+  bucketFeaturedCard: {
+    width: '100%',
+    borderRadius: 16,
+    backgroundColor: '#094771',
+    padding: 24,
+    gap: 24,
+    shadowColor: '#094771',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 20,
+    elevation: 4,
+  },
+  bucketFeaturedTextBlock: {
+    width: '100%',
+  },
+  bucketFeaturedTitle: {
+    marginTop: 8,
+    color: '#FFFFFF',
+    fontSize: 28,
+    fontFamily: fonts.bold,
+    lineHeight: 36,
+    letterSpacing: -0.56,
+  },
+  bucketFeaturedDescription: {
+    marginTop: 8,
+    color: '#B3D8FF',
+    fontSize: 15,
+    fontFamily: fonts.regular,
+    lineHeight: 22,
+  },
+  bucketFeaturedMetricsRow: {
+    marginTop: 16,
+    flexDirection: 'row',
+    gap: 24,
+  },
+  bucketFeaturedMetricBlock: {
+    flex: 1,
+  },
+  bucketFeaturedMetricLabel: {
+    color: 'rgba(255, 255, 255, 0.6)',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+  },
+  bucketFeaturedMetricValue: {
+    marginTop: 4,
+    color: '#FFFFFF',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+  },
+  bucketFeaturedImageFrame: {
+    width: '100%',
+    height: 261,
+    minHeight: 180,
+    borderRadius: 12,
+    overflow: 'hidden',
+  },
+  profileScreen: {
+    width: '100%',
+    paddingHorizontal: 16,
+    gap: 16,
+  },
+  profileHeaderStack: {
+    gap: 20,
+  },
+  profileHeroCard: {
+    width: '100%',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: 'rgba(194, 199, 207, 0.3)',
+    backgroundColor: '#FFFFFF',
+    padding: 24,
+    alignItems: 'center',
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    elevation: 3,
+  },
+  profileAvatarWrap: {
+    width: 128,
+    height: 128,
+    position: 'relative',
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'visible',
+  },
+  profileAvatarImage: {
+    width: 128,
+    height: 128,
+    borderRadius: 64,
+    borderWidth: 4,
+    borderColor: '#CFE5FF',
+  },
+  profileAvatarBadge: {
+    position: 'absolute',
+    right: 0,
+    bottom: 0,
+  },
+  profileHeroTextWrap: {
+    width: '100%',
+    marginTop: 24,
+    alignItems: 'center',
+  },
+  profileHeroTitle: {
+    color: '#091E27',
+    fontSize: 28,
+    fontFamily: fonts.bold,
+    lineHeight: 36,
+    letterSpacing: -0.56,
+    textAlign: 'center',
+  },
+  profileHeroSubtitle: {
+    marginTop: 8,
+    color: '#42474E',
+    fontSize: 15,
+    fontFamily: fonts.regular,
+    lineHeight: 22,
+    textAlign: 'center',
+  },
+  profileHeroChipsRow: {
+    width: '100%',
+    marginTop: 16,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    gap: 8,
+  },
+  profilePremiumChip: {
+    minHeight: 24,
+    borderRadius: 9999,
+    backgroundColor: '#2C5F8A',
+    paddingHorizontal: 16,
+    paddingVertical: 4,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  profilePremiumChipText: {
+    color: '#FFFFFF',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+  },
+  profileEmailChip: {
+    minHeight: 24,
+    maxWidth: '100%',
+    borderRadius: 9999,
+    backgroundColor: '#D6EBF8',
+    paddingHorizontal: 16,
+    paddingVertical: 4,
+    justifyContent: 'center',
+  },
+  profileEmailChipText: {
+    color: '#094771',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+  },
+  profileHeroButtons: {
+    width: '100%',
+    marginTop: 24,
+    gap: 8,
+  },
+  profilePrimaryButton: {
+    width: '100%',
+    minHeight: 48,
+    borderRadius: 8,
+    backgroundColor: '#094771',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 24,
+    paddingVertical: 16,
+  },
+  profilePrimaryButtonText: {
+    color: '#FFFFFF',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+  },
+  profileSecondaryButton: {
+    width: '100%',
+    minHeight: 50,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#C2C7CF',
+    backgroundColor: '#F4FAFF',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 24,
+    paddingVertical: 16,
+  },
+  profileSecondaryButtonText: {
+    color: '#094771',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+  },
+  profileStatsCard: {
+    width: '100%',
+    borderRadius: 12,
+    backgroundColor: '#2C5F8A',
+    padding: 24,
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    elevation: 3,
+  },
+  profileStatsEyebrow: {
+    color: 'rgba(255, 255, 255, 0.8)',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+  },
+  profileStatsValue: {
+    marginTop: 8,
+    color: '#FFFFFF',
+    fontSize: 22,
+    fontFamily: fonts.semiBold,
+    lineHeight: 28,
+    letterSpacing: -0.22,
+  },
+  profileStatsTrack: {
+    width: '100%',
+    height: 8,
+    marginTop: 16,
+    borderRadius: 9999,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    overflow: 'hidden',
+  },
+  profileStatsTrackFill: {
+    width: '24%',
+    height: '100%',
+    borderRadius: 9999,
+    backgroundColor: '#FEB234',
+  },
+  profileStatsCaption: {
+    marginTop: 12,
+    color: 'rgba(255, 255, 255, 0.8)',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+  },
+  profileStatsDivider: {
+    width: '100%',
+    height: 1,
+    marginTop: 24,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+  },
+  profileStatsRow: {
+    width: '100%',
+    marginTop: 24,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 12,
+  },
+  profileStatsMetric: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  profileStatsMetricValue: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontFamily: fonts.semiBold,
+    lineHeight: 24,
+    textAlign: 'center',
+  },
+  profileStatsMetricLabel: {
+    marginTop: 4,
+    color: 'rgba(255, 255, 255, 0.8)',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+    textAlign: 'center',
+  },
+  profileSettingsStack: {
+    gap: 16,
+  },
+  profileMenuCard: {
+    width: '100%',
+    borderRadius: 12,
+    backgroundColor: '#FFFFFF',
+    overflow: 'hidden',
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    elevation: 3,
+  },
+  profileMenuCardHeader: {
+    minHeight: 49,
+    paddingHorizontal: 24,
+    paddingVertical: 16,
+    backgroundColor: '#E7F6FF',
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(194, 199, 207, 0.3)',
+    justifyContent: 'center',
+  },
+  profileMenuCardHeaderText: {
+    color: '#094771',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.65,
+    textTransform: 'uppercase',
+  },
+  profileMenuCardBody: {
+    width: '100%',
+  },
+  profileMenuRow: {
+    minHeight: 88,
+    paddingHorizontal: 24,
+    paddingVertical: 24,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#FFFFFF',
+  },
+  profileMenuRowBorder: {
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(194, 199, 207, 0.3)',
+  },
+  profileMenuRowContent: {
+    flex: 1,
+    minWidth: 0,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingRight: 16,
+  },
+  profileMenuGlyphCircle: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#CFE5FF',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  profileMenuTextWrap: {
+    flex: 1,
+    minWidth: 0,
+    marginLeft: 16,
+  },
+  profileMenuTitle: {
+    color: '#091E27',
+    fontSize: 18,
+    fontFamily: fonts.semiBold,
+    lineHeight: 24,
+  },
+  profileMenuDescription: {
+    marginTop: 2,
+    color: '#42474E',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+  },
+  profileSubscriptionCard: {
+    width: '100%',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: 'rgba(98, 64, 0, 0.1)',
+    backgroundColor: '#FFDDB2',
+    padding: 24,
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    elevation: 3,
+  },
+  profileSubscriptionHeader: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+  },
+  profileSubscriptionTitleBlock: {
+    flex: 1,
+    minWidth: 0,
+    paddingRight: 16,
+  },
+  profileSubscriptionPlanChip: {
+    alignSelf: 'flex-start',
+    minHeight: 15,
+    borderRadius: 4,
+    backgroundColor: '#624000',
+    paddingHorizontal: 4,
+    justifyContent: 'center',
+  },
+  profileSubscriptionPlanChipText: {
+    color: '#FFDDB2',
+    fontSize: 10,
+    fontFamily: fonts.bold,
+    lineHeight: 15,
+    letterSpacing: 1,
+  },
+  profileSubscriptionTitle: {
+    marginTop: 8,
+    color: '#291800',
+    fontSize: 22,
+    fontFamily: fonts.semiBold,
+    lineHeight: 28,
+    letterSpacing: -0.22,
+  },
+  profileSubscriptionText: {
+    marginTop: 16,
+    color: '#624000',
+    fontSize: 15,
+    fontFamily: fonts.regular,
+    lineHeight: 22,
+  },
+  profileSubscriptionButton: {
+    width: '100%',
+    minHeight: 48,
+    marginTop: 16,
+    borderRadius: 8,
+    backgroundColor: '#624000',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 24,
+    paddingVertical: 16,
+  },
+  profileSubscriptionButtonText: {
+    color: '#FFDDB2',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+  },
+  profileLogoutButton: {
+    width: '100%',
+    minHeight: 50,
+    borderRadius: 12,
+    backgroundColor: '#FFDAD6',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    paddingHorizontal: 24,
+    paddingVertical: 16,
+  },
+  profileLogoutText: {
+    color: '#93000A',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+  },
   bottomNavShell: {
     position: 'absolute',
     left: 0,
     right: 0,
     bottom: 0,
+    height: 98,
     borderTopLeftRadius: 18,
     borderTopRightRadius: 18,
     borderWidth: 1,
-    borderColor: '#D7E8F4',
+    borderColor: 'rgba(0, 0, 0, 0.06)',
     backgroundColor: '#EEF8FF',
+    overflow: 'visible',
   },
   bottomNav: {
-    minHeight: 98,
+    height: 98,
     flexDirection: 'row',
+    alignItems: 'flex-end',
+    paddingHorizontal: 6,
+    paddingTop: 12,
+    paddingBottom: 10,
+  },
+  bottomNavItemSlot: {
+    flex: 1,
     alignItems: 'center',
-    justifyContent: 'space-around',
-    paddingHorizontal: 8,
-    paddingVertical: 12,
+    justifyContent: 'flex-end',
   },
   bottomNavItem: {
-    minWidth: 60,
+    minWidth: 56,
+    minHeight: 48,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 6,
-    paddingHorizontal: 6,
+    paddingVertical: 4,
+    paddingHorizontal: 4,
     borderRadius: 999,
   },
   bottomNavItemActive: {
-    width: 68,
-    height: 68,
+    width: 64,
+    height: 64,
     backgroundColor: '#094771',
+    marginTop: -24,
+    shadowColor: '#094771',
+    shadowOffset: {
+      width: 0,
+      height: 8,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 12,
+    elevation: 8,
+    paddingTop: 10,
+    paddingBottom: 8,
   },
   bottomNavLabel: {
-    marginTop: 6,
+    marginTop: 4,
     color: '#42474E',
     fontSize: 10,
     fontFamily: fonts.regular,
-    lineHeight: 12,
+    lineHeight: 15,
     textAlign: 'center',
   },
   bottomNavLabelActive: {
