@@ -61,6 +61,10 @@ import {
   HealthFitnessContent,
 } from './home/HealthFitnessSection';
 import {
+  HomeMaintenanceAddContent,
+  HomeMaintenanceContent,
+} from './home/HomeMaintenanceSection';
+import {
   ImportantDatesAddContent,
   ImportantDatesContent,
 } from './home/ImportantDatesSection';
@@ -80,6 +84,7 @@ import {
   VehicleMaintenanceAddContent,
   VehicleMaintenanceContent,
 } from './home/VehicleMaintenanceSection';
+import type {HomeMaintenanceDocument} from './home/types';
 import {fonts} from '../theme/fonts';
 
 type BottomTabKey = 'home' | 'records' | 'reminders' | 'planner' | 'profile';
@@ -93,6 +98,8 @@ type RecordsView =
   | 'banking-cards-add'
   | 'health-fitness'
   | 'health-fitness-add'
+  | 'home-maintenance'
+  | 'home-maintenance-add'
   | 'recurring-payments'
   | 'recurring-payments-add'
   | 'vehicle-maintenance'
@@ -134,6 +141,23 @@ interface BottomNavItemProps {
   label: string;
   icon: React.JSX.Element;
   onPress: () => void;
+}
+
+function createHomeMaintenanceDraftDocuments(): HomeMaintenanceDocument[] {
+  return [
+    {
+      id: 'warranty-cert',
+      name: 'warranty_cert.pdf',
+      size: '2.4 MB',
+      kind: 'pdf',
+    },
+    {
+      id: 'service-receipt-2024',
+      name: 'service_receipt_2024.jpg',
+      size: '1.1 MB',
+      kind: 'image',
+    },
+  ];
 }
 
 function getFirstName(name: string | null | undefined): string {
@@ -441,6 +465,27 @@ function HomeScreen(): React.JSX.Element {
     'Last physical exam was clear. Follow-up scheduled for October for blood work. Keep tracking sodium intake.',
   );
   const [hasUploadedHealthReport, setHasUploadedHealthReport] = useState(true);
+  const [homeMaintenanceDraftName, setHomeMaintenanceDraftName] = useState(
+    'Boiler - Worcester Bosch',
+  );
+  const [homeMaintenanceDraftModelSerial, setHomeMaintenanceDraftModelSerial] =
+    useState('');
+  const [
+    homeMaintenanceDraftLastServiceDate,
+    setHomeMaintenanceDraftLastServiceDate,
+  ] = useState('10 Feb 2024');
+  const [homeMaintenanceDraftNextDueDate, setHomeMaintenanceDraftNextDueDate] =
+    useState('Feb 2025');
+  const [
+    homeMaintenanceDraftReminderEnabled,
+    setHomeMaintenanceDraftReminderEnabled,
+  ] = useState(true);
+  const [homeMaintenanceDraftNotes, setHomeMaintenanceDraftNotes] =
+    useState('');
+  const [
+    homeMaintenanceDraftDocuments,
+    setHomeMaintenanceDraftDocuments,
+  ] = useState<HomeMaintenanceDocument[]>(createHomeMaintenanceDraftDocuments);
 
   const contentWidth = Math.min(width - 32, 402);
   const dueCardWidth = Math.min(Math.max(width * 0.72, 252), 284);
@@ -472,6 +517,10 @@ function HomeScreen(): React.JSX.Element {
   const isHealthFitnessView = isRecordsTab && recordsView === 'health-fitness';
   const isHealthFitnessAddView =
     isRecordsTab && recordsView === 'health-fitness-add';
+  const isHomeMaintenanceView =
+    isRecordsTab && recordsView === 'home-maintenance';
+  const isHomeMaintenanceAddView =
+    isRecordsTab && recordsView === 'home-maintenance-add';
   const isImportantDatesView = isRecordsTab && recordsView === 'important-dates';
   const isImportantDatesAddView =
     isRecordsTab && recordsView === 'important-dates-add';
@@ -484,6 +533,10 @@ function HomeScreen(): React.JSX.Element {
     ? 'Insurance Policies'
     : isHealthFitnessAddView
     ? 'Health & Fitness'
+    : isHomeMaintenanceAddView
+    ? 'Home Maintenance'
+    : isHomeMaintenanceView
+    ? 'Home Maintenance'
     : isVehicleMaintenanceView
     ? 'Vehicle Maintenance'
     : isRecurringPaymentsView
@@ -503,6 +556,7 @@ function HomeScreen(): React.JSX.Element {
     isPersonalIdentityView ||
     isBankingCardsView ||
     isRecurringPaymentsView ||
+    isHomeMaintenanceView ||
     isVehicleMaintenanceView ||
     isInsurancePoliciesView ||
     isHealthFitnessView ||
@@ -802,6 +856,16 @@ function HomeScreen(): React.JSX.Element {
     setHasUploadedHealthReport(true);
   };
 
+  const resetHomeMaintenanceDraft = () => {
+    setHomeMaintenanceDraftName('Boiler - Worcester Bosch');
+    setHomeMaintenanceDraftModelSerial('');
+    setHomeMaintenanceDraftLastServiceDate('10 Feb 2024');
+    setHomeMaintenanceDraftNextDueDate('Feb 2025');
+    setHomeMaintenanceDraftReminderEnabled(true);
+    setHomeMaintenanceDraftNotes('');
+    setHomeMaintenanceDraftDocuments(createHomeMaintenanceDraftDocuments());
+  };
+
   const handleRecordCategoryPress = (category: RecordCategoryData) => {
     if (category.id === 'personal-identity') {
       setRecordsView('personal-identity');
@@ -830,6 +894,11 @@ function HomeScreen(): React.JSX.Element {
 
     if (category.id === 'health-fitness') {
       setRecordsView('health-fitness');
+      return;
+    }
+
+    if (category.id === 'home-maintenance') {
+      setRecordsView('home-maintenance');
       return;
     }
 
@@ -871,6 +940,11 @@ function HomeScreen(): React.JSX.Element {
     setRecordsView('health-fitness-add');
   };
 
+  const openAddHomeMaintenanceRecord = () => {
+    resetHomeMaintenanceDraft();
+    setRecordsView('home-maintenance-add');
+  };
+
   const openAddImportantDateRecord = () => {
     setRecordsView('important-dates-add');
   };
@@ -903,6 +977,11 @@ function HomeScreen(): React.JSX.Element {
 
     if (isHealthFitnessView) {
       openAddHealthFitnessRecord();
+      return;
+    }
+
+    if (isHomeMaintenanceView) {
+      openAddHomeMaintenanceRecord();
       return;
     }
 
@@ -1168,6 +1247,54 @@ function HomeScreen(): React.JSX.Element {
     ]);
   };
 
+  const handleBrowseHomeMaintenanceDocument = () => {
+    setHomeMaintenanceDraftDocuments(currentDocuments => {
+      const nextDocument: HomeMaintenanceDocument = {
+        id: 'boiler-service-log-2025',
+        name: 'boiler_service_log_2025.pdf',
+        size: '0.8 MB',
+        kind: 'pdf',
+      };
+
+      if (currentDocuments.some(document => document.id === nextDocument.id)) {
+        return currentDocuments;
+      }
+
+      return [...currentDocuments, nextDocument];
+    });
+  };
+
+  const handleDeleteHomeMaintenanceDocument = (documentId: string) => {
+    setHomeMaintenanceDraftDocuments(currentDocuments =>
+      currentDocuments.filter(document => document.id !== documentId),
+    );
+  };
+
+  const handleToggleHomeMaintenanceReminder = () => {
+    setHomeMaintenanceDraftReminderEnabled(currentValue => !currentValue);
+  };
+
+  const handleDeleteHomeMaintenanceEntry = () => {
+    Alert.alert(
+      'Delete Entry',
+      'Remove this home maintenance draft?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: () => {
+            resetHomeMaintenanceDraft();
+            setRecordsView('home-maintenance');
+          },
+        },
+      ],
+    );
+  };
+
   const handleRecordsBack = () => {
     if (recordsView === 'personal-identity-add') {
       setRecordsView('personal-identity');
@@ -1196,6 +1323,11 @@ function HomeScreen(): React.JSX.Element {
 
     if (recordsView === 'health-fitness-add') {
       setRecordsView('health-fitness');
+      return;
+    }
+
+    if (recordsView === 'home-maintenance-add') {
+      setRecordsView('home-maintenance');
       return;
     }
 
@@ -1495,6 +1627,39 @@ function HomeScreen(): React.JSX.Element {
     <HealthFitnessContent styles={styles} openPlaceholder={openPlaceholder} />
   );
 
+  const homeMaintenanceContent = (
+    <HomeMaintenanceContent
+      styles={styles}
+      openPlaceholder={openPlaceholder}
+    />
+  );
+
+  const homeMaintenanceAddContent = (
+    <HomeMaintenanceAddContent
+      styles={styles}
+      homeMaintenanceDraftName={homeMaintenanceDraftName}
+      setHomeMaintenanceDraftName={setHomeMaintenanceDraftName}
+      homeMaintenanceDraftModelSerial={homeMaintenanceDraftModelSerial}
+      setHomeMaintenanceDraftModelSerial={setHomeMaintenanceDraftModelSerial}
+      homeMaintenanceDraftLastServiceDate={homeMaintenanceDraftLastServiceDate}
+      setHomeMaintenanceDraftLastServiceDate={
+        setHomeMaintenanceDraftLastServiceDate
+      }
+      homeMaintenanceDraftNextDueDate={homeMaintenanceDraftNextDueDate}
+      setHomeMaintenanceDraftNextDueDate={setHomeMaintenanceDraftNextDueDate}
+      homeMaintenanceDraftDocuments={homeMaintenanceDraftDocuments}
+      handleBrowseHomeMaintenanceDocument={handleBrowseHomeMaintenanceDocument}
+      handleDeleteHomeMaintenanceDocument={
+        handleDeleteHomeMaintenanceDocument
+      }
+      homeMaintenanceDraftReminderEnabled={homeMaintenanceDraftReminderEnabled}
+      handleToggleHomeMaintenanceReminder={handleToggleHomeMaintenanceReminder}
+      homeMaintenanceDraftNotes={homeMaintenanceDraftNotes}
+      setHomeMaintenanceDraftNotes={setHomeMaintenanceDraftNotes}
+      handleDeleteHomeMaintenanceEntry={handleDeleteHomeMaintenanceEntry}
+    />
+  );
+
   const importantDatesContent = (
     <ImportantDatesContent openPlaceholder={openPlaceholder} />
   );
@@ -1650,8 +1815,10 @@ function HomeScreen(): React.JSX.Element {
                 ? recurringPaymentsAddContent
                 : isVehicleMaintenanceAddView
                 ? vehicleMaintenanceAddContent
+                : isHomeMaintenanceAddView
+                ? homeMaintenanceAddContent
                 : isHealthFitnessAddView
-              ? healthFitnessAddContent
+                ? healthFitnessAddContent
                 : isImportantDatesAddView
                 ? importantDatesAddContent
                 : isInsurancePoliciesAddView
@@ -1664,6 +1831,8 @@ function HomeScreen(): React.JSX.Element {
                 ? insurancePoliciesContent
                 : isHealthFitnessView
                 ? healthFitnessContent
+                : isHomeMaintenanceView
+                ? homeMaintenanceContent
                 : isImportantDatesView
                 ? importantDatesContent
                 : isBankingCardsView
@@ -6214,6 +6383,731 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   healthAddDeleteButtonText: {
+    marginLeft: 8,
+    color: '#BA1A1A',
+    fontSize: 16,
+    fontFamily: fonts.regular,
+    lineHeight: 24,
+    textAlign: 'center',
+  },
+  homeMaintenanceHeroCard: {
+    width: '100%',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#DDE5EE',
+    backgroundColor: '#FFFFFF',
+    padding: 24,
+    overflow: 'hidden',
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    elevation: 2,
+  },
+  homeMaintenanceHeroGlow: {
+    position: 'absolute',
+    top: -64,
+    right: -64,
+    width: 128,
+    height: 128,
+    borderRadius: 64,
+    backgroundColor: 'rgba(44, 95, 138, 0.1)',
+  },
+  homeMaintenanceHeroTopRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+  },
+  homeMaintenanceHeroTextColumn: {
+    flex: 1,
+    minWidth: 0,
+    marginLeft: 16,
+  },
+  homeMaintenanceHeroTitle: {
+    color: '#094771',
+    fontSize: 22,
+    fontFamily: fonts.semiBold,
+    lineHeight: 28,
+    letterSpacing: -0.22,
+  },
+  homeMaintenanceHeroSubtitle: {
+    marginTop: 8,
+    color: '#42474E',
+    fontSize: 15,
+    fontFamily: fonts.regular,
+    lineHeight: 22,
+  },
+  homeMaintenanceHeroChips: {
+    marginTop: 16,
+  },
+  homeMaintenanceHeroChip: {
+    alignSelf: 'flex-start',
+    minHeight: 24,
+    borderRadius: 9999,
+    paddingHorizontal: 16,
+    paddingVertical: 4,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  homeMaintenanceHeroChipWarranty: {
+    backgroundColor: '#D6EBF8',
+  },
+  homeMaintenanceHeroChipManaged: {
+    marginTop: 8,
+    backgroundColor: '#FFDDAE',
+  },
+  homeMaintenanceHeroChipText: {
+    marginLeft: 6,
+    color: '#094771',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+  },
+  homeMaintenanceHeroChipTextManaged: {
+    color: '#281800',
+  },
+  homeMaintenanceHeroMetricsRow: {
+    marginTop: 24,
+    flexDirection: 'row',
+  },
+  homeMaintenanceHeroMetricCard: {
+    flex: 1,
+    minHeight: 78,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#DDE5EE',
+    backgroundColor: '#F4FAFF',
+    padding: 16,
+  },
+  homeMaintenanceHeroMetricCardDue: {
+    marginLeft: 16,
+    backgroundColor: 'rgba(44, 95, 138, 0.05)',
+    borderColor: 'rgba(9, 71, 113, 0.2)',
+  },
+  homeMaintenanceHeroMetricLabel: {
+    color: '#42474E',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.6,
+    textTransform: 'uppercase',
+  },
+  homeMaintenanceHeroMetricLabelDue: {
+    color: '#815500',
+  },
+  homeMaintenanceHeroMetricValue: {
+    marginTop: 4,
+    color: '#094771',
+    fontSize: 18,
+    fontFamily: fonts.semiBold,
+    lineHeight: 24,
+  },
+  homeMaintenanceHeroMetricValueDue: {
+    color: '#815500',
+  },
+  homeMaintenanceHeroProgressBlock: {
+    marginTop: 24,
+  },
+  homeMaintenanceHeroProgressHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  homeMaintenanceHeroProgressLabel: {
+    color: '#42474E',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+  },
+  homeMaintenanceHeroProgressValue: {
+    color: '#094771',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+  },
+  homeMaintenanceHeroProgressTrack: {
+    width: '100%',
+    height: 8,
+    marginTop: 8,
+    borderRadius: 9999,
+    backgroundColor: '#DCF1FD',
+    overflow: 'hidden',
+  },
+  homeMaintenanceHeroProgressFill: {
+    height: '100%',
+    borderRadius: 9999,
+    backgroundColor: '#094771',
+  },
+  homeMaintenanceSectionHeader: {
+    width: '100%',
+    marginTop: 24,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  homeMaintenanceSectionTitle: {
+    color: '#091E27',
+    fontSize: 18,
+    fontFamily: fonts.semiBold,
+    lineHeight: 24,
+  },
+  homeMaintenanceSectionLink: {
+    color: '#094771',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+  },
+  homeMaintenanceApplianceCard: {
+    width: '100%',
+    marginTop: 20,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#DDE5EE',
+    backgroundColor: '#FFFFFF',
+    padding: 24,
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    elevation: 2,
+  },
+  homeMaintenanceApplianceCardSpaced: {
+    marginTop: 20,
+  },
+  homeMaintenanceApplianceHeader: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+  },
+  homeMaintenanceApplianceTitle: {
+    marginTop: 16,
+    color: '#091E27',
+    fontSize: 18,
+    fontFamily: fonts.semiBold,
+    lineHeight: 24,
+  },
+  homeMaintenanceApplianceSubtitle: {
+    marginTop: 2,
+    color: '#42474E',
+    fontSize: 15,
+    fontFamily: fonts.regular,
+    lineHeight: 22,
+  },
+  homeMaintenanceStatusBadge: {
+    minHeight: 24,
+    borderRadius: 9999,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  homeMaintenanceStatusBadgeWarning: {
+    backgroundColor: '#FFDAD6',
+  },
+  homeMaintenanceStatusBadgeHealthy: {
+    backgroundColor: '#D6EBF8',
+  },
+  homeMaintenanceStatusBadgeText: {
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+  },
+  homeMaintenanceStatusBadgeTextWarning: {
+    color: '#93000A',
+  },
+  homeMaintenanceStatusBadgeTextHealthy: {
+    color: '#42474E',
+  },
+  homeMaintenanceApplianceDetails: {
+    marginTop: 24,
+  },
+  homeMaintenanceApplianceDetailRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: 8,
+  },
+  homeMaintenanceApplianceDetailLabel: {
+    color: '#42474E',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+  },
+  homeMaintenanceApplianceDetailValue: {
+    color: '#091E27',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+    textAlign: 'right',
+  },
+  homeMaintenanceApplianceDetailValueWarning: {
+    color: '#815500',
+    fontFamily: fonts.bold,
+  },
+  homeMaintenanceApplianceMediaWrap: {
+    width: '100%',
+    height: 128,
+    marginTop: 16,
+    borderRadius: 8,
+    overflow: 'hidden',
+    backgroundColor: '#EAF4FB',
+  },
+  homeMaintenanceApplianceFooter: {
+    marginTop: 16,
+    color: '#42474E',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+  },
+  homeMaintenanceWashingMachineIcon: {
+    width: 32,
+    height: 36,
+    borderRadius: 8,
+  },
+  homeMaintenanceApplianceProgressBlock: {
+    marginTop: 24,
+  },
+  homeMaintenanceApplianceProgressMeta: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  homeMaintenanceApplianceProgressTrack: {
+    width: '100%',
+    height: 4,
+    marginTop: 8,
+    borderRadius: 9999,
+    backgroundColor: '#DCF1FD',
+    overflow: 'hidden',
+  },
+  homeMaintenanceApplianceProgressFill: {
+    height: '100%',
+    borderRadius: 9999,
+    backgroundColor: '#094771',
+  },
+  homeMaintenanceApplianceProgressCaption: {
+    marginTop: 8,
+    color: '#42474E',
+    fontSize: 10,
+    fontFamily: fonts.regular,
+    lineHeight: 15,
+    textAlign: 'right',
+  },
+  homeMaintenanceHistoryCard: {
+    width: '100%',
+    marginTop: 24,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#DDE5EE',
+    backgroundColor: '#FFFFFF',
+    overflow: 'hidden',
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    elevation: 2,
+  },
+  homeMaintenanceHistoryHeader: {
+    minHeight: 57,
+    backgroundColor: '#F4FAFF',
+    borderBottomWidth: 1,
+    borderBottomColor: '#DDE5EE',
+    paddingHorizontal: 24,
+    paddingVertical: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  homeMaintenanceHistoryTitle: {
+    color: '#094771',
+    fontSize: 18,
+    fontFamily: fonts.semiBold,
+    lineHeight: 24,
+  },
+  homeMaintenanceHistoryFilterButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 4,
+  },
+  homeMaintenanceHistoryRow: {
+    minHeight: 128,
+    paddingHorizontal: 24,
+    paddingVertical: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  homeMaintenanceHistoryRowDivider: {
+    height: 1,
+    marginLeft: 24,
+    backgroundColor: '#DDE5EE',
+  },
+  homeMaintenanceHistoryLeft: {
+    flex: 1,
+    minWidth: 0,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingRight: 12,
+  },
+  homeMaintenanceHistoryTextBlock: {
+    flex: 1,
+    minWidth: 0,
+    marginLeft: 16,
+  },
+  homeMaintenanceHistoryItemTitle: {
+    color: '#091E27',
+    fontSize: 18,
+    fontFamily: fonts.semiBold,
+    lineHeight: 24,
+  },
+  homeMaintenanceHistoryItemMeta: {
+    marginTop: 2,
+    color: '#42474E',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+  },
+  homeMaintenanceHistoryRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 12,
+  },
+  homeMaintenanceHistoryStatusChip: {
+    minWidth: 108,
+    minHeight: 24,
+    borderRadius: 9999,
+    paddingHorizontal: 16,
+    paddingVertical: 4,
+    backgroundColor: '#D6EBF8',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  homeMaintenanceHistoryStatusText: {
+    color: '#094771',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+  },
+  homeMaintenanceHistoryArrow: {
+    marginLeft: 16,
+  },
+  homeMaintenanceHistoryFooter: {
+    minHeight: 48,
+    paddingHorizontal: 24,
+    paddingVertical: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  homeMaintenanceHistoryFooterText: {
+    color: '#094771',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+    textAlign: 'center',
+  },
+  homeMaintenanceAddSectionCard: {
+    width: '100%',
+    marginTop: 24,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: 'rgba(194, 199, 207, 0.3)',
+    backgroundColor: '#FFFFFF',
+    padding: 24,
+    shadowColor: '#2C5F8A',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    elevation: 2,
+  },
+  homeMaintenanceAddSectionCardFirst: {
+    marginTop: 0,
+  },
+  homeMaintenanceAddSectionTitle: {
+    color: '#094771',
+    fontSize: 18,
+    fontFamily: fonts.semiBold,
+    lineHeight: 24,
+  },
+  homeMaintenanceAddFieldsStack: {
+    width: '100%',
+  },
+  homeMaintenanceAddField: {
+    marginTop: 24,
+  },
+  homeMaintenanceAddFieldLast: {
+    marginTop: 24,
+  },
+  homeMaintenanceAddFieldLabel: {
+    marginBottom: 8,
+    marginLeft: 4,
+    color: '#42474E',
+    fontSize: 13,
+    fontFamily: fonts.semiBold,
+    lineHeight: 16,
+    letterSpacing: 0.26,
+  },
+  homeMaintenanceAddInputShell: {
+    minHeight: 48,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#C2C7CF',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 16,
+    justifyContent: 'center',
+  },
+  homeMaintenanceAddInputShellWithIcon: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  homeMaintenanceAddInput: {
+    paddingVertical: 0,
+    color: '#091E27',
+    fontSize: 16,
+    fontFamily: fonts.regular,
+    lineHeight: 24,
+  },
+  homeMaintenanceAddInputWithIcon: {
+    flex: 1,
+    marginRight: 12,
+    paddingVertical: 0,
+    color: '#091E27',
+    fontSize: 16,
+    fontFamily: fonts.regular,
+    lineHeight: 24,
+  },
+  homeMaintenanceAddDocumentationHeader: {
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  homeMaintenanceAddDocumentationBadge: {
+    minHeight: 24,
+    borderRadius: 9999,
+    backgroundColor: '#D6EBF8',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  homeMaintenanceAddDocumentationBadgeText: {
+    color: '#42474E',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+  },
+  homeMaintenanceAddDocumentsList: {
+    width: '100%',
+    marginTop: 16,
+  },
+  homeMaintenanceAddDocumentRow: {
+    minHeight: 74,
+    marginTop: 16,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: 'rgba(194, 199, 207, 0.2)',
+    backgroundColor: '#E7F6FF',
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  homeMaintenanceAddDocumentCopy: {
+    flex: 1,
+    minWidth: 0,
+    marginLeft: 16,
+    marginRight: 12,
+  },
+  homeMaintenanceAddDocumentName: {
+    color: '#091E27',
+    fontSize: 16,
+    fontFamily: fonts.regular,
+    lineHeight: 24,
+  },
+  homeMaintenanceAddDocumentSize: {
+    marginTop: 2,
+    color: '#42474E',
+    fontSize: 12,
+    fontFamily: fonts.regular,
+    lineHeight: 16,
+    letterSpacing: 0.12,
+  },
+  homeMaintenanceAddDocumentDeleteButton: {
+    width: 22,
+    height: 22,
+    borderRadius: 9999,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  homeMaintenanceAddUploadArea: {
+    width: '100%',
+    minHeight: 169,
+    marginTop: 24,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderStyle: 'dashed',
+    borderColor: '#C2C7CF',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 24,
+    paddingVertical: 32,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  homeMaintenanceAddUploadTitle: {
+    marginTop: 12,
+    color: '#091E27',
+    fontSize: 16,
+    fontFamily: fonts.semiBold,
+    lineHeight: 24,
+    textAlign: 'center',
+  },
+  homeMaintenanceAddUploadSubtitle: {
+    marginTop: 4,
+    color: '#42474E',
+    fontSize: 16,
+    fontFamily: fonts.regular,
+    lineHeight: 24,
+    textAlign: 'center',
+  },
+  homeMaintenanceAddReminderHeader: {
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  homeMaintenanceAddReminderHeaderTitle: {
+    marginLeft: 16,
+  },
+  homeMaintenanceAddReminderCard: {
+    width: '100%',
+    minHeight: 104,
+    marginTop: 24,
+    borderRadius: 8,
+    backgroundColor: '#E7F6FF',
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  homeMaintenanceAddReminderCopy: {
+    flex: 1,
+    minWidth: 0,
+    paddingRight: 16,
+  },
+  homeMaintenanceAddReminderTitle: {
+    color: '#091E27',
+    fontSize: 16,
+    fontFamily: fonts.semiBold,
+    lineHeight: 24,
+  },
+  homeMaintenanceAddReminderBody: {
+    marginTop: 4,
+    color: '#42474E',
+    fontSize: 16,
+    fontFamily: fonts.regular,
+    lineHeight: 24,
+  },
+  homeMaintenanceAddReminderToggle: {
+    width: 44,
+    height: 24,
+    borderRadius: 9999,
+    backgroundColor: '#D1D5DB',
+    justifyContent: 'center',
+    paddingHorizontal: 2,
+  },
+  homeMaintenanceAddReminderToggleActive: {
+    backgroundColor: '#2C5F8A',
+  },
+  homeMaintenanceAddReminderThumb: {
+    width: 20,
+    height: 20,
+    borderRadius: 9999,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#D1D5DB',
+  },
+  homeMaintenanceAddReminderThumbActive: {
+    transform: [{translateX: 20}],
+  },
+  homeMaintenanceAddNotesShell: {
+    width: '100%',
+    height: 146,
+    marginTop: 24,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#C2C7CF',
+    backgroundColor: '#FFFFFF',
+    padding: 16,
+  },
+  homeMaintenanceAddNotesInput: {
+    flex: 1,
+    paddingTop: 0,
+    paddingBottom: 0,
+    color: '#091E27',
+    fontSize: 16,
+    fontFamily: fonts.regular,
+    lineHeight: 24,
+  },
+  homeMaintenanceAddAssetCard: {
+    width: '100%',
+    height: 160,
+    marginTop: 24,
+    borderRadius: 12,
+    overflow: 'hidden',
+    position: 'relative',
+  },
+  homeMaintenanceAddAssetGradient: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  homeMaintenanceAddAssetOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    padding: 16,
+    justifyContent: 'flex-end',
+  },
+  homeMaintenanceAddAssetText: {
+    maxWidth: 240,
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontFamily: fonts.regular,
+    lineHeight: 24,
+  },
+  homeMaintenanceAddDeleteButton: {
+    width: '100%',
+    minHeight: 74,
+    marginTop: 16,
+    marginBottom: 8,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: 'rgba(186, 26, 26, 0.2)',
+    backgroundColor: '#FFFFFF',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  homeMaintenanceAddDeleteButtonText: {
     marginLeft: 8,
     color: '#BA1A1A',
     fontSize: 16,

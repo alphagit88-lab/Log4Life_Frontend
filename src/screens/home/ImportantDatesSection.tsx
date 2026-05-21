@@ -13,7 +13,7 @@ import PlannerSvg from '../../images/planner.svg';
 import SearchGraySvg from '../../images/search_gray.svg';
 import SortSvg from '../../images/sort.svg';
 import ArrowSvg from '../../images/arrow.svg';
-import TrashCompactSvg from '../../images/trash_2.svg';
+import TrashSvg from '../../images/trash.svg';
 import {fonts} from '../../theme/fonts';
 import {OpenPlaceholder} from './types';
 
@@ -664,12 +664,9 @@ export function ImportantDatesAddContent({
 
       <View style={styles.addDeleteSection}>
         <Pressable
-          style={({pressed}) => [
-            styles.addDeleteButton,
-            pressed ? styles.pressed : null,
-          ]}
+          style={styles.addDeleteButton}
           onPress={handleDeleteImportantDateEntry}>
-          <TrashCompactSvg width={16} height={18} />
+          <TrashSvg width={20} height={22} />
           <Text style={styles.addDeleteButtonText}>Delete Entry</Text>
         </Pressable>
 
